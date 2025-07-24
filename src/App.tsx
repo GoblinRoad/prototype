@@ -1,9 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import Header from "./components/Header";
-import Hero from "./components/Hero";
-import Rankings from "./components/Rankings";
-import NewsSection from "./components/NewsSection";
 import EnvironmentalNews from "./components/EnvironmentalNews";
 import PloggingRanking from "./components/PloggingRanking";
 import WeatherInfo from "./components/WeatherInfo";
@@ -47,7 +44,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-gray-50 pb-20 max-w-md mx-auto">
       {currentPage === "home" && <Header />}
       <main className={`pb-20 ${currentPage !== "home" ? "pt-0" : ""}`}>
         {renderCurrentPage()}

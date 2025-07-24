@@ -1,299 +1,145 @@
 import React, { useState } from 'react';
-import { Award, Star, Download, Share2, Lock, CheckCircle, Target, Trophy } from 'lucide-react';
-import type { Achievement, Certificate } from '../types';
+import { ArrowLeft, MapPin, Play, Pause, Square, Camera, Clock, Target } from 'lucide-react';
 
 const CertificationPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'achievements' | 'certificates'>('achievements');
+  const [isTracking, setIsTracking] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [trackingData, setTrackingData] = useState({
+    duration: '00:00:00',
+    distance: '0.0',
+    currentLocation: '서울특별시 강남구'
+  });
 
-  const achievements: Achievement[] = [
-    {
-      id: '1',
-      title: 'First Steps',
-      description: 'Complete your first plogging session',
-      icon: 'Target',
-      progress: 1,
-      maxProgress: 1,
-      isCompleted: true,
-      points: 50
-    },
-    {
-      id: '2',
-      title: 'Distance Runner',
-      description: 'Run a total of 50km while plogging',
-      icon: 'Trophy',
-      progress: 45.2,
-      maxProgress: 50,
-      isCompleted: false,
-      points: 200
-    },
-    {
-      id: '3',
-      title: 'Cleanup Champion',
-      description: 'Collect 100 pieces of trash',
-      icon: 'Award',
-      progress: 87,
-      maxProgress: 100,
-      isCompleted: false,
-      points: 150
-    },
-    {
-      id: '4',
-      title: 'Weekly Warrior',
-      description: 'Complete 7 consecutive days of plogging',
-      icon: 'Star',
-      progress: 5,
-      maxProgress: 7,
-      isCompleted: false,
-      points: 100
-    },
-    {
-      id: '5',
-      title: 'Community Leader',
-      description: 'Invite 5 friends to join plogging',
-      icon: 'Trophy',
-      progress: 0,
-      maxProgress: 5,
-      isCompleted: false,
-      points: 300
-    },
-    {
-      id: '6',
-      title: 'Marathon Plogger',
-      description: 'Complete a 21km plogging session',
-      icon: 'Target',
-      progress: 0,
-      maxProgress: 1,
-      isCompleted: false,
-      points: 500
-    }
-  ];
-
-  const certificates: Certificate[] = [
-    {
-      id: '1',
-      title: 'Eco Warrior Bronze',
-      description: 'Completed 10 plogging sessions with environmental impact',
-      issueDate: '2024-01-15',
-      level: 'Bronze',
-      imageUrl: 'https://images.pexels.com/photos/3735218/pexels-photo-3735218.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop'
-    },
-    {
-      id: '2',
-      title: 'Community Champion Silver',
-      description: 'Led 5 community cleanup events and inspired others',
-      issueDate: '2024-02-20',
-      level: 'Silver',
-      imageUrl: 'https://images.pexels.com/photos/2422290/pexels-photo-2422290.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop'
-    }
-  ];
-
-  const getAchievementIcon = (iconName: string, isCompleted: boolean) => {
-    const className = `w-6 h-6 ${isCompleted ? 'text-emerald-600' : 'text-gray-400'}`;
-    
-    switch (iconName) {
-      case 'Target': return <Target className={className} />;
-      case 'Trophy': return <Trophy className={className} />;
-      case 'Award': return <Award className={className} />;
-      case 'Star': return <Star className={className} />;
-      default: return <Award className={className} />;
-    }
+  const handleStartPlogging = () => {
+    setIsTracking(true);
+    setIsPaused(false);
+    // GPS 추적 시작 로직 (추후 구현)
   };
 
-  const getCertificateColor = (level: string) => {
-    switch (level) {
-      case 'Bronze': return 'from-orange-400 to-orange-600';
-      case 'Silver': return 'from-gray-400 to-gray-600';
-      case 'Gold': return 'from-yellow-400 to-yellow-600';
-      case 'Platinum': return 'from-purple-400 to-purple-600';
-      default: return 'from-gray-400 to-gray-600';
-    }
+  const handlePausePlogging = () => {
+    setIsPaused(!isPaused);
+    // GPS 추적 일시정지 로직 (추후 구현)
+  };
+
+  const handleStopPlogging = () => {
+    setIsTracking(false);
+    setIsPaused(false);
+    // GPS 추적 종료 및 결과 저장 로직 (추후 구현)
+  };
+
+  const handleTakePhoto = () => {
+    // 사진 촬영 로직 (추후 구현)
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <div className="max-w-md mx-auto">
-        {/* Header */}
-        <div className="bg-white p-4 shadow-sm">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Achievements & Certificates</h1>
-          
-          <div className="bg-gray-100 rounded-lg p-1 flex">
-            <button
-              onClick={() => setActiveTab('achievements')}
-              className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                activeTab === 'achievements'
-                  ? 'bg-white text-emerald-600 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Achievements
+      <div className="bg-gray-50 max-w-md mx-auto">
+        {/* 헤더 */}
+        <div className="bg-white px-4 py-3 shadow-sm">
+          <div className="flex items-center space-x-3">
+            <button className="p-2 hover:bg-gray-100 rounded-lg">
+              <ArrowLeft className="w-5 h-5" />
             </button>
-            <button
-              onClick={() => setActiveTab('certificates')}
-              className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                activeTab === 'certificates'
-                  ? 'bg-white text-emerald-600 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Certificates
-            </button>
+            <h1 className="text-lg font-semibold text-gray-900">
+              {isTracking ? '플로깅 진행중' : '플로깅 시작'}
+            </h1>
           </div>
         </div>
 
-        {activeTab === 'achievements' ? (
-          <div className="p-4">
-            {/* Progress Overview */}
-            <div className="bg-gradient-to-br from-emerald-50 to-sky-50 rounded-2xl p-4 mb-6">
-              <h3 className="font-bold text-gray-900 mb-3">Your Progress</h3>
-              <div className="grid grid-cols-3 gap-4">
+        {/* 지도 영역 */}
+        <div className="relative">
+          <div className="h-64 sm:h-80 bg-gray-200 flex items-center justify-center">
+            {/* 카카오맵이 들어갈 자리 */}
+            <div className="text-center">
+              <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+              <p className="text-gray-500">카카오맵 영역</p>
+              <p className="text-sm text-gray-400 mt-1">현재 위치: {trackingData.currentLocation}</p>
+            </div>
+          </div>
+
+          {/* 현재 위치 버튼 */}
+          <button className="absolute bottom-4 right-4 bg-white p-3 rounded-full shadow-lg hover:shadow-xl transition-shadow">
+            <MapPin className="w-5 h-5 text-emerald-600" />
+          </button>
+        </div>
+
+        {/* 추적 정보 (진행 중일 때만 표시) */}
+        {isTracking && (
+            <div className="bg-white mx-4 mt-4 rounded-xl p-4 shadow-sm">
+              <div className="grid grid-cols-2 gap-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-emerald-600">
-                    {achievements.filter(a => a.isCompleted).length}
+                  <div className="flex items-center justify-center mb-1">
+                    <Clock className="w-4 h-4 text-blue-500 mr-1" />
+                    <span className="text-sm font-medium text-gray-600">시간</span>
                   </div>
-                  <div className="text-xs text-gray-600">Completed</div>
+                  <span className="text-2xl font-bold text-gray-900">{trackingData.duration}</span>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-sky-600">
-                    {achievements.reduce((sum, a) => sum + (a.isCompleted ? a.points : 0), 0)}
+                  <div className="flex items-center justify-center mb-1">
+                    <Target className="w-4 h-4 text-emerald-500 mr-1" />
+                    <span className="text-sm font-medium text-gray-600">거리</span>
                   </div>
-                  <div className="text-xs text-gray-600">Points Earned</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-orange-600">
-                    {achievements.filter(a => !a.isCompleted).length}
-                  </div>
-                  <div className="text-xs text-gray-600">In Progress</div>
+                  <span className="text-2xl font-bold text-gray-900">{trackingData.distance}<span className="text-sm text-gray-500 ml-1">km</span></span>
                 </div>
               </div>
             </div>
+        )}
 
-            {/* Achievements List */}
-            <div className="space-y-4">
-              {achievements.map((achievement) => (
-                <div 
-                  key={achievement.id} 
-                  className={`bg-white rounded-xl p-4 shadow-sm ${
-                    achievement.isCompleted ? 'ring-2 ring-emerald-200' : ''
-                  }`}
+        {/* 컨트롤 버튼 */}
+        <div className="fixed bottom-20 left-0 right-0 px-4">
+          <div className="max-w-md mx-auto">
+            {!isTracking ? (
+                /* 시작하기 버튼 */
+                <button
+                    onClick={handleStartPlogging}
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-4 rounded-2xl transition-colors flex items-center justify-center space-x-2"
                 >
-                  <div className="flex items-start space-x-3">
-                    <div className={`p-3 rounded-xl ${
-                      achievement.isCompleted ? 'bg-emerald-100' : 'bg-gray-100'
-                    }`}>
-                      {achievement.isCompleted ? (
-                        <CheckCircle className="w-6 h-6 text-emerald-600" />
-                      ) : (
-                        getAchievementIcon(achievement.icon, achievement.isCompleted)
-                      )}
-                    </div>
-                    
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <h3 className="font-semibold text-gray-900">{achievement.title}</h3>
-                        <span className="text-sm font-medium text-emerald-600">
-                          +{achievement.points} pts
-                        </span>
-                      </div>
-                      <p className="text-sm text-gray-600 mb-3">{achievement.description}</p>
-                      
-                      {!achievement.isCompleted && (
-                        <div>
-                          <div className="flex justify-between text-xs text-gray-500 mb-1">
-                            <span>Progress</span>
-                            <span>{achievement.progress}/{achievement.maxProgress}</span>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div 
-                              className="bg-emerald-600 h-2 rounded-full transition-all duration-300"
-                              style={{ width: `${(achievement.progress / achievement.maxProgress) * 100}%` }}
-                            ></div>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {achievement.isCompleted && (
-                        <div className="flex items-center text-sm text-emerald-600">
-                          <CheckCircle className="w-4 h-4 mr-1" />
-                          Completed!
-                        </div>
-                      )}
-                    </div>
+                  <Play className="w-6 h-6" />
+                  <span>플로깅 시작하기</span>
+                </button>
+            ) : (
+                /* 진행 중 컨트롤 */
+                <div className="space-y-3">
+                  {/* 사진 촬영 버튼 */}
+
+
+                  {/* 일시정지/재개 및 종료 버튼 */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                        onClick={handleTakePhoto}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center space-x-2"
+                    >
+                      <Camera className="w-5 h-5" />
+                      <span>인증 사진 촬영</span>
+                    </button>
+
+                    <button
+                        onClick={handleStopPlogging}
+                        className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center space-x-2"
+                    >
+                      <Square className="w-5 h-5" />
+                      <span>종료</span>
+                    </button>
                   </div>
                 </div>
-              ))}
-            </div>
+            )}
           </div>
-        ) : (
-          <div className="p-4">
-            {/* Certificates */}
-            <div className="space-y-4">
-              {certificates.map((certificate) => (
-                <div key={certificate.id} className="bg-white rounded-xl overflow-hidden shadow-sm">
-                  <div className={`h-32 bg-gradient-to-r ${getCertificateColor(certificate.level)} relative`}>
-                    <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <h3 className="font-bold text-lg">{certificate.title}</h3>
-                      <p className="text-sm opacity-90">{certificate.level} Level</p>
-                    </div>
-                    <div className="absolute top-4 right-4">
-                      <Award className="w-8 h-8 text-white" />
-                    </div>
-                  </div>
-                  
-                  <div className="p-4">
-                    <p className="text-gray-600 text-sm mb-3">{certificate.description}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-500">
-                        Issued: {new Date(certificate.issueDate).toLocaleDateString()}
-                      </span>
-                      <div className="flex space-x-2">
-                        <button className="p-2 text-gray-600 hover:text-emerald-600 transition-colors">
-                          <Download className="w-4 h-4" />
-                        </button>
-                        <button className="p-2 text-gray-600 hover:text-emerald-600 transition-colors">
-                          <Share2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+        </div>
 
-              {/* Locked Certificates */}
-              <div className="bg-white rounded-xl p-4 shadow-sm opacity-60">
-                <div className="flex items-center space-x-3">
-                  <div className="p-3 bg-gray-100 rounded-xl">
-                    <Lock className="w-6 h-6 text-gray-400" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900">Eco Warrior Gold</h3>
-                    <p className="text-sm text-gray-600">Complete 50 plogging sessions</p>
-                    <div className="text-xs text-gray-500 mt-1">
-                      Progress: 12/50 sessions
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-xl p-4 shadow-sm opacity-60">
-                <div className="flex items-center space-x-3">
-                  <div className="p-3 bg-gray-100 rounded-xl">
-                    <Lock className="w-6 h-6 text-gray-400" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900">Platinum Guardian</h3>
-                    <p className="text-sm text-gray-600">Achieve top 10 global ranking</p>
-                    <div className="text-xs text-gray-500 mt-1">
-                      Current rank: #12
-                    </div>
-                  </div>
-                </div>
+        {/* 안내 메시지 */}
+        {!isTracking && (
+            <div className="px-4 mt-6 mb-32">
+              <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+                <h3 className="font-semibold text-emerald-800 mb-2">플로깅 시작 전 안내</h3>
+                <ul className="text-sm text-emerald-700 space-y-1">
+                  <li>• GPS 위치 서비스를 켜주세요</li>
+                  <li>• 안전한 장소에서 플로깅을 시작하세요</li>
+                  <li>• 쓰레기 수거용 봉투를 준비해주세요</li>
+                  <li>• 운동화와 편안한 복장을 착용하세요</li>
+                </ul>
               </div>
             </div>
-          </div>
         )}
       </div>
-    </div>
   );
 };
 

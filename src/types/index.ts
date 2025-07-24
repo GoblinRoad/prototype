@@ -3,7 +3,7 @@ export interface Course {
   name: string;
   location: string;
   distance: string;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
+  difficulty: '쉬움' | '보통' | '어려움';
   estimatedTime: string;
   cleanupSpots: number;
   rating: number;
@@ -35,7 +35,7 @@ export interface WeatherData {
   condition: string;
   humidity: number;
   aqi: number;
-  aqiLevel: 'Good' | 'Moderate' | 'Poor' | 'Unhealthy';
+  aqiLevel: '좋음' | '보통' | '나쁨' | '매우나쁨';
 }
 
 export interface TabItem {
@@ -45,7 +45,19 @@ export interface TabItem {
   isActive?: boolean;
 }
 
+// 새로운 Achievement 타입 (업적 시스템용)
 export interface Achievement {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  isUnlocked: boolean;
+  unlockedAt?: string;
+  category: 'milestone' | 'distance' | 'cleanup' | 'region' | 'streak' | 'other';
+}
+
+// 기존 Achievement는 Certificate로 이름 변경
+export interface Certificate {
   id: string;
   title: string;
   description: string;
@@ -54,15 +66,9 @@ export interface Achievement {
   maxProgress: number;
   isCompleted: boolean;
   points: number;
-}
-
-export interface Certificate {
-  id: string;
-  title: string;
-  description: string;
-  issueDate: string;
-  level: 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
-  imageUrl: string;
+  issueDate?: string;
+  level?: 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
+  imageUrl?: string;
 }
 
 export interface UserProfile {

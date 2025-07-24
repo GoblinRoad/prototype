@@ -10,16 +10,16 @@ interface BottomNavigationProps {
 const BottomNavigation: React.FC<BottomNavigationProps> = ({ currentPage, onPageChange }) => {
 
   const tabs: TabItem[] = [
-    { id: 'courses', label: 'Courses', icon: 'MapPin' },
-    { id: 'rankings', label: 'Rankings', icon: 'Trophy' },
-    { id: 'home', label: 'Home', icon: 'Home' },
-    { id: 'certification', label: 'Certification', icon: 'Award' },
-    { id: 'profile', label: 'My Page', icon: 'User' }
+    { id: 'courses', label: '코스', icon: 'MapPin' },
+    { id: 'rankings', label: '랭킹', icon: 'Trophy' },
+    { id: 'home', label: '홈', icon: 'Home' },
+    { id: 'certification', label: '인증', icon: 'Award' },
+    { id: 'profile', label: '마이', icon: 'User' }
   ];
 
   const getIcon = (iconName: string, isActive: boolean) => {
     const className = `w-5 h-5 ${isActive ? 'text-emerald-600' : 'text-gray-400'}`;
-    
+
     switch (iconName) {
       case 'MapPin': return <MapPin className={className} />;
       case 'Trophy': return <Trophy className={className} />;
