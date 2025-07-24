@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { X, Trophy, Target, Zap, Calendar, Star, Medal, MapPin } from 'lucide-react';
-import type { User } from '../../types';
+import type { User } from '@/types';
 
 interface UserProfileModalProps {
     user: User;
