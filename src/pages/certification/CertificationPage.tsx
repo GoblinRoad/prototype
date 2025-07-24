@@ -1,47 +1,49 @@
-import React, { useState } from 'react';
-import { ArrowLeft, MapPin, Play, Pause, Square, Camera, Clock, Target } from 'lucide-react';
+"use client"
+
+import type React from "react"
+import { useState } from "react"
+import { ArrowLeft, MapPin, Play, Square, Camera, Clock, Target } from "lucide-react"
 
 const CertificationPage: React.FC = () => {
-  const [isTracking, setIsTracking] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
+  const [isTracking, setIsTracking] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
   const [trackingData, setTrackingData] = useState({
-    duration: '00:00:00',
-    distance: '0.0',
-    currentLocation: '서울특별시 강남구'
-  });
+    duration: "00:00:00",
+    distance: "0.0",
+    currentLocation: "서울특별시 강남구",
+  })
 
   const handleStartPlogging = () => {
-    setIsTracking(true);
-    setIsPaused(false);
+    setIsTracking(true)
+    setIsPaused(false)
     // GPS 추적 시작 로직 (추후 구현)
-  };
+  }
 
   const handlePausePlogging = () => {
-    setIsPaused(!isPaused);
+    setIsPaused(!isPaused)
     // GPS 추적 일시정지 로직 (추후 구현)
-  };
+  }
 
   const handleStopPlogging = () => {
-    setIsTracking(false);
-    setIsPaused(false);
+    setIsTracking(false)
+    setIsPaused(false)
     // GPS 추적 종료 및 결과 저장 로직 (추후 구현)
-  };
+  }
 
   const handleTakePhoto = () => {
     // 사진 촬영 로직 (추후 구현)
-  };
+  }
 
   return (
-      <div className="bg-gray-50 max-w-md mx-auto">
+      // max-w-md mx-auto 클래스를 App.tsx의 Layout 컴포넌트로 이동했습니다.
+      <div className="bg-gray-50">
         {/* 헤더 */}
         <div className="bg-white px-4 py-3 shadow-sm">
           <div className="flex items-center space-x-3">
             <button className="p-2 hover:bg-gray-100 rounded-lg">
               <ArrowLeft className="w-5 h-5" />
             </button>
-            <h1 className="text-lg font-semibold text-gray-900">
-              {isTracking ? '플로깅 진행중' : '플로깅 시작'}
-            </h1>
+            <h1 className="text-lg font-semibold text-gray-900">{isTracking ? "플로깅 진행중" : "플로깅 시작"}</h1>
           </div>
         </div>
 
@@ -78,7 +80,10 @@ const CertificationPage: React.FC = () => {
                     <Target className="w-4 h-4 text-emerald-500 mr-1" />
                     <span className="text-sm font-medium text-gray-600">거리</span>
                   </div>
-                  <span className="text-2xl font-bold text-gray-900">{trackingData.distance}<span className="text-sm text-gray-500 ml-1">km</span></span>
+                  <span className="text-2xl font-bold text-gray-900">
+                {trackingData.distance}
+                    <span className="text-sm text-gray-500 ml-1">km</span>
+              </span>
                 </div>
               </div>
             </div>
@@ -86,6 +91,7 @@ const CertificationPage: React.FC = () => {
 
         {/* 컨트롤 버튼 */}
         <div className="fixed bottom-20 left-0 right-0 px-4">
+          {/* max-w-md mx-auto 클래스를 App.tsx의 Layout 컴포넌트로 이동했습니다. */}
           <div className="max-w-md mx-auto">
             {!isTracking ? (
                 /* 시작하기 버튼 */
@@ -100,7 +106,6 @@ const CertificationPage: React.FC = () => {
                 /* 진행 중 컨트롤 */
                 <div className="space-y-3">
                   {/* 사진 촬영 버튼 */}
-
 
                   {/* 일시정지/재개 및 종료 버튼 */}
                   <div className="grid grid-cols-2 gap-3">
@@ -140,7 +145,7 @@ const CertificationPage: React.FC = () => {
             </div>
         )}
       </div>
-  );
-};
+  )
+}
 
-export default CertificationPage;
+export default CertificationPage
