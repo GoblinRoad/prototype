@@ -1,154 +1,194 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Search, MapPin, Filter, Star, Clock, Target, Navigation, Sparkles, Mountain, Waves, Building } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import type { Course } from '../../types';
+"use client"
+
+import type React from "react"
+import { useState } from "react"
+import {
+  ArrowLeft,
+  Search,
+  MapPin,
+  Filter,
+  Star,
+  Clock,
+  Target,
+  Navigation,
+  Sparkles,
+  Mountain,
+  Waves,
+  Building,
+} from "lucide-react"
+import { useNavigate } from "react-router-dom"
+import type { Course } from "../../types"
 
 const CoursesPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedRegion, setSelectedRegion] = useState('전체');
-  const [selectedTheme, setSelectedTheme] = useState('전체');
-  const [selectedDifficulty, setSelectedDifficulty] = useState('전체');
-  const [showFilters, setShowFilters] = useState(false);
-  const [activeTab, setActiveTab] = useState<'nearby' | 'search' | 'ai'>('nearby');
+  const navigate = useNavigate()
+  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedRegion, setSelectedRegion] = useState("전체")
+  const [selectedTheme, setSelectedTheme] = useState("전체")
+  const [selectedDifficulty, setSelectedDifficulty] = useState("전체")
+  const [showFilters, setShowFilters] = useState(false)
+  const [activeTab, setActiveTab] = useState<"nearby" | "search" | "ai">("nearby")
 
   // 지역 옵션
-  const regions = ['전체', '서울', '경기', '인천', '부산', '대구', '대전', '광주', '울산', '세종', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
+  const regions = [
+    "전체",
+    "서울",
+    "경기",
+    "인천",
+    "부산",
+    "대구",
+    "대전",
+    "광주",
+    "울산",
+    "세종",
+    "강원",
+    "충북",
+    "충남",
+    "전북",
+    "전남",
+    "경북",
+    "경남",
+    "제주",
+  ]
 
   // 테마 옵션
   const themes = [
-    { value: '전체', label: '전체', icon: null },
-    { value: '산', label: '산/숲', icon: Mountain },
-    { value: '바다', label: '바다/강', icon: Waves },
-    { value: '도시', label: '도시/공원', icon: Building }
-  ];
+    { value: "전체", label: "전체", icon: null },
+    { value: "산", label: "산/숲", icon: Mountain },
+    { value: "바다", label: "바다/강", icon: Waves },
+    { value: "도시", label: "도시/공원", icon: Building },
+  ]
 
   // 난이도 옵션
-  const difficulties = ['전체', '쉬움', '보통', '어려움'];
+  const difficulties = ["전체", "쉬움", "보통", "어려움"]
 
   // 현재 위치 기반 코스
   const nearbyCourses: Course[] = [
     {
-      id: '1',
-      name: '한강공원 플로깅 코스',
-      location: '서울 마포구',
-      distance: '3.2 km',
-      difficulty: '쉬움',
-      estimatedTime: '25분',
+      id: "1",
+      name: "한강공원 플로깅 코스",
+      location: "서울 마포구",
+      distance: "3.2 km",
+      difficulty: "쉬움",
+      estimatedTime: "25분",
       cleanupSpots: 8,
-      rating: 4.8
+      rating: 4.8,
     },
     {
-      id: '2',
-      name: '올림픽공원 둘레길',
-      location: '서울 송파구',
-      distance: '5.1 km',
-      difficulty: '보통',
-      estimatedTime: '40분',
+      id: "2",
+      name: "올림픽공원 둘레길",
+      location: "서울 송파구",
+      distance: "5.1 km",
+      difficulty: "보통",
+      estimatedTime: "40분",
       cleanupSpots: 12,
-      rating: 4.6
+      rating: 4.6,
     },
     {
-      id: '3',
-      name: '청계천 산책로',
-      location: '서울 중구',
-      distance: '2.8 km',
-      difficulty: '쉬움',
-      estimatedTime: '20분',
+      id: "3",
+      name: "청계천 산책로",
+      location: "서울 중구",
+      distance: "2.8 km",
+      difficulty: "쉬움",
+      estimatedTime: "20분",
       cleanupSpots: 6,
-      rating: 4.5
-    }
-  ];
+      rating: 4.5,
+    },
+  ]
 
   // 검색/필터된 코스
   const allCourses: Course[] = [
     ...nearbyCourses,
     {
-      id: '4',
-      name: '남산 순환로',
-      location: '서울 중구',
-      distance: '4.5 km',
-      difficulty: '보통',
-      estimatedTime: '35분',
+      id: "4",
+      name: "남산 순환로",
+      location: "서울 중구",
+      distance: "4.5 km",
+      difficulty: "보통",
+      estimatedTime: "35분",
       cleanupSpots: 10,
-      rating: 4.7
+      rating: 4.7,
     },
     {
-      id: '5',
-      name: '부산 해운대 해변길',
-      location: '부산 해운대구',
-      distance: '6.2 km',
-      difficulty: '쉬움',
-      estimatedTime: '45분',
+      id: "5",
+      name: "부산 해운대 해변길",
+      location: "부산 해운대구",
+      distance: "6.2 km",
+      difficulty: "쉬움",
+      estimatedTime: "45분",
       cleanupSpots: 15,
-      rating: 4.9
+      rating: 4.9,
     },
     {
-      id: '6',
-      name: '제주 우도 해안길',
-      location: '제주 제주시',
-      distance: '8.1 km',
-      difficulty: '어려움',
-      estimatedTime: '65분',
+      id: "6",
+      name: "제주 우도 해안길",
+      location: "제주 제주시",
+      distance: "8.1 km",
+      difficulty: "어려움",
+      estimatedTime: "65분",
       cleanupSpots: 20,
-      rating: 4.8
-    }
-  ];
+      rating: 4.8,
+    },
+  ]
 
   // AI 추천 코스
   const aiRecommendedCourses: Course[] = [
     {
-      id: 'ai1',
-      name: '🤖 AI 추천: 초보자 친화적 코스',
-      location: '서울 마포구',
-      distance: '2.5 km',
-      difficulty: '쉬움',
-      estimatedTime: '18분',
+      id: "ai1",
+      name: "🤖 AI 추천: 초보자 친화적 코스",
+      location: "서울 마포구",
+      distance: "2.5 km",
+      difficulty: "쉬움",
+      estimatedTime: "18분",
       cleanupSpots: 5,
-      rating: 4.6
+      rating: 4.6,
     },
     {
-      id: 'ai2',
-      name: '🤖 AI 추천: 경치 좋은 강변 코스',
-      location: '서울 잠실',
-      distance: '4.8 km',
-      difficulty: '보통',
-      estimatedTime: '38분',
+      id: "ai2",
+      name: "🤖 AI 추천: 경치 좋은 강변 코스",
+      location: "서울 잠실",
+      distance: "4.8 km",
+      difficulty: "보통",
+      estimatedTime: "38분",
       cleanupSpots: 11,
-      rating: 4.8
-    }
-  ];
+      rating: 4.8,
+    },
+  ]
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case '쉬움': return 'bg-green-100 text-green-800';
-      case '보통': return 'bg-yellow-100 text-yellow-800';
-      case '어려움': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case "쉬움":
+        return "bg-green-100 text-green-800"
+      case "보통":
+        return "bg-yellow-100 text-yellow-800"
+      case "어려움":
+        return "bg-red-100 text-red-800"
+      default:
+        return "bg-gray-100 text-gray-800"
     }
-  };
+  }
 
   const getThemeIcon = (theme: string) => {
-    const themeObj = themes.find(t => t.value === theme);
+    const themeObj = themes.find((t) => t.value === theme)
     if (themeObj?.icon) {
-      const IconComponent = themeObj.icon;
-      return <IconComponent className="w-4 h-4" />;
+      const IconComponent = themeObj.icon
+      return <IconComponent className="w-4 h-4" />
     }
-    return null;
-  };
+    return null
+  }
 
-  const filteredCourses = allCourses.filter(course => {
-    const matchesSearch = course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        course.location.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesRegion = selectedRegion === '전체' || course.location.includes(selectedRegion);
-    const matchesDifficulty = selectedDifficulty === '전체' || course.difficulty === selectedDifficulty;
+  const filteredCourses = allCourses.filter((course) => {
+    const matchesSearch =
+        course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        course.location.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesRegion = selectedRegion === "전체" || course.location.includes(selectedRegion)
+    const matchesDifficulty = selectedDifficulty === "전체" || course.difficulty === selectedDifficulty
 
-    return matchesSearch && matchesRegion && matchesDifficulty;
-  });
+    return matchesSearch && matchesRegion && matchesDifficulty
+  })
 
   const handleCourseClick = (courseId: string) => {
-    navigate(`/courses/${courseId}`);
-  };
+    navigate(`/courses/${courseId}`)
+  }
 
   const CourseCard: React.FC<{ course: Course }> = ({ course }) => (
       <div
@@ -188,24 +228,22 @@ const CoursesPage: React.FC = () => {
         <button
             className="w-full mt-3 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg transition-colors text-sm font-medium"
             onClick={(e) => {
-              e.stopPropagation();
+              e.stopPropagation()
               // 플로깅 시작 로직
             }}
         >
           코스 시작하기
         </button>
       </div>
-  );
+  )
 
   return (
-      <div className="min-h-screen bg-gray-50 max-w-md mx-auto">
+      // max-w-md mx-auto 클래스를 App.tsx의 Layout 컴포넌트로 이동했습니다.
+      <div className="min-h-screen bg-gray-50">
         {/* 헤더 */}
         <div className="bg-white px-4 py-3 shadow-sm">
           <div className="flex items-center space-x-3">
-            <button
-                className="p-2 hover:bg-gray-100 rounded-lg"
-                onClick={() => navigate(-1)}
-            >
+            <button className="p-2 hover:bg-gray-100 rounded-lg" onClick={() => navigate(-1)}>
               <ArrowLeft className="w-5 h-5" />
             </button>
             <h1 className="text-lg font-semibold text-gray-900">코스 찾기</h1>
@@ -216,33 +254,27 @@ const CoursesPage: React.FC = () => {
         <div className="bg-white px-4 py-3 border-b">
           <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
             <button
-                onClick={() => setActiveTab('nearby')}
+                onClick={() => setActiveTab("nearby")}
                 className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors flex items-center justify-center space-x-1 ${
-                    activeTab === 'nearby'
-                        ? 'bg-white text-emerald-600 shadow-sm'
-                        : 'text-gray-600 hover:text-gray-900'
+                    activeTab === "nearby" ? "bg-white text-emerald-600 shadow-sm" : "text-gray-600 hover:text-gray-900"
                 }`}
             >
               <Navigation className="w-4 h-4" />
               <span>내 주변</span>
             </button>
             <button
-                onClick={() => setActiveTab('search')}
+                onClick={() => setActiveTab("search")}
                 className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors flex items-center justify-center space-x-1 ${
-                    activeTab === 'search'
-                        ? 'bg-white text-emerald-600 shadow-sm'
-                        : 'text-gray-600 hover:text-gray-900'
+                    activeTab === "search" ? "bg-white text-emerald-600 shadow-sm" : "text-gray-600 hover:text-gray-900"
                 }`}
             >
               <Search className="w-4 h-4" />
               <span>검색</span>
             </button>
             <button
-                onClick={() => setActiveTab('ai')}
+                onClick={() => setActiveTab("ai")}
                 className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors flex items-center justify-center space-x-1 ${
-                    activeTab === 'ai'
-                        ? 'bg-white text-emerald-600 shadow-sm'
-                        : 'text-gray-600 hover:text-gray-900'
+                    activeTab === "ai" ? "bg-white text-emerald-600 shadow-sm" : "text-gray-600 hover:text-gray-900"
                 }`}
             >
               <Sparkles className="w-4 h-4" />
@@ -252,7 +284,7 @@ const CoursesPage: React.FC = () => {
         </div>
 
         <div className="pb-20">
-          {activeTab === 'nearby' && (
+          {activeTab === "nearby" && (
               /* 내 주변 탭 */
               <div className="p-4">
                 <div className="flex items-center justify-between mb-4">
@@ -271,7 +303,7 @@ const CoursesPage: React.FC = () => {
               </div>
           )}
 
-          {activeTab === 'search' && (
+          {activeTab === "search" && (
               /* 검색 탭 */
               <div className="p-4">
                 {/* 검색바 */}
@@ -308,8 +340,10 @@ const CoursesPage: React.FC = () => {
                             onChange={(e) => setSelectedRegion(e.target.value)}
                             className="w-full p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                         >
-                          {regions.map(region => (
-                              <option key={region} value={region}>{region}</option>
+                          {regions.map((region) => (
+                              <option key={region} value={region}>
+                                {region}
+                              </option>
                           ))}
                         </select>
                       </div>
@@ -318,14 +352,14 @@ const CoursesPage: React.FC = () => {
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">테마</label>
                         <div className="grid grid-cols-2 gap-2">
-                          {themes.map(theme => (
+                          {themes.map((theme) => (
                               <button
                                   key={theme.value}
                                   onClick={() => setSelectedTheme(theme.value)}
                                   className={`p-3 rounded-lg border transition-colors flex items-center justify-center space-x-2 ${
                                       selectedTheme === theme.value
-                                          ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
-                                          : 'border-gray-200 hover:border-gray-300'
+                                          ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+                                          : "border-gray-200 hover:border-gray-300"
                                   }`}
                               >
                                 {getThemeIcon(theme.value)}
@@ -339,14 +373,14 @@ const CoursesPage: React.FC = () => {
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">난이도</label>
                         <div className="flex space-x-2">
-                          {difficulties.map(difficulty => (
+                          {difficulties.map((difficulty) => (
                               <button
                                   key={difficulty}
                                   onClick={() => setSelectedDifficulty(difficulty)}
                                   className={`flex-1 py-2 px-3 text-sm font-medium rounded-lg transition-colors ${
                                       selectedDifficulty === difficulty
-                                          ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
-                                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                          ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+                                          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                                   }`}
                               >
                                 {difficulty}
@@ -360,9 +394,7 @@ const CoursesPage: React.FC = () => {
                 {/* 검색 결과 */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-semibold text-gray-900">
-                      검색 결과 ({filteredCourses.length}개)
-                    </h3>
+                    <h3 className="font-semibold text-gray-900">검색 결과 ({filteredCourses.length}개)</h3>
                   </div>
 
                   {filteredCourses.map((course) => (
@@ -379,7 +411,7 @@ const CoursesPage: React.FC = () => {
               </div>
           )}
 
-          {activeTab === 'ai' && (
+          {activeTab === "ai" && (
               /* AI 추천 탭 */
               <div className="p-4">
                 {/* AI 추천 설명 */}
@@ -430,15 +462,13 @@ const CoursesPage: React.FC = () => {
                   <p className="text-sm text-gray-600 mb-3">
                     플로깅 완료 후 코스 평가를 남겨주시면 더 나은 추천을 받을 수 있습니다.
                   </p>
-                  <button className="text-sm text-emerald-600 font-medium">
-                    피드백 남기기 →
-                  </button>
+                  <button className="text-sm text-emerald-600 font-medium">피드백 남기기 →</button>
                 </div>
               </div>
           )}
         </div>
       </div>
-  );
-};
+  )
+}
 
-export default CoursesPage;
+export default CoursesPage
