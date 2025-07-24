@@ -26,7 +26,7 @@ function App() {
         return <MyPage />;
       default:
         return (
-          <>
+          <div className="max-w-md mx-auto">
             {/* Weather & Air Quality */}
             <WeatherInfo />
 
@@ -38,7 +38,7 @@ function App() {
 
             {/* Environmental News */}
             <EnvironmentalNews />
-          </>
+          </div>
         );
     }
   };
