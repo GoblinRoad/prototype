@@ -21,22 +21,22 @@ export interface User {
   rank: number;
 }
 
-export interface NewsItem {
-  id: string;
-  title: string;
-  summary: string;
-  imageUrl: string;
-  publishedAt: string;
-  source: string;
-}
+// export interface NewsItem {
+//   id: string;
+//   title: string;
+//   summary: string;
+//   imageUrl: string;
+//   publishedAt: string;
+//   source: string;
+// }
 
-export interface WeatherData {
-  temperature: number;
-  condition: string;
-  humidity: number;
-  aqi: number;
-  aqiLevel: '좋음' | '보통' | '나쁨' | '매우나쁨';
-}
+// export interface WeatherData {
+//   temperature: number;
+//   condition: string;
+//   humidity: number;
+//   aqi: number;
+//   aqiLevel: '좋음' | '보통' | '나쁨' | '매우나쁨';
+// }
 
 export interface TabItem {
   id: string;
@@ -57,19 +57,19 @@ export interface Achievement {
 }
 
 // 기존 Achievement는 Certificate로 이름 변경
-export interface Certificate {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  progress: number;
-  maxProgress: number;
-  isCompleted: boolean;
-  points: number;
-  issueDate?: string;
-  level?: 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
-  imageUrl?: string;
-}
+// export interface Certificate {
+//   id: string;
+//   title: string;
+//   description: string;
+//   icon: string;
+//   progress: number;
+//   maxProgress: number;
+//   isCompleted: boolean;
+//   points: number;
+//   issueDate?: string;
+//   level?: 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
+//   imageUrl?: string;
+// }
 
 export interface UserProfile {
   id: string;
@@ -83,4 +83,31 @@ export interface UserProfile {
   totalPoints: number;
   rank: number;
   badges: string[];
+}
+
+export interface TouristSpot {
+  id: string
+  name: string
+  description: string
+  imageUrl: string
+  distance: string
+  category: string
+}
+
+export interface CourseDetail {
+  id: string
+  name: string
+  location: string
+  distance: string
+  difficulty: string
+  estimatedTime: string
+  cleanupSpots: number
+  rating: number
+  reviewCount: number
+  description: string
+  highlights: string[]
+  startPoint: string
+  endPoint: string
+  elevation: string
+  surface: string
 }
