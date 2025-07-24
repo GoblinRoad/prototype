@@ -1,23 +1,46 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import HomePage from "@/pages/home/HomePage";
-import CoursesPage from "@/pages/courses/CoursesPage";
-import RankingsPage from "@/pages/ranks/RankingsPage";
-import CertificationPage from "@/pages/certification/CertificationPage";
-import MyPage from "@/pages/accounts/MyPage";
-import CourseDetailPage from "@/pages/coureDetail/CourseDetailPage";
+import type { RouteObject } from "react-router-dom"
+import { createBrowserRouter } from "react-router-dom"
+import AppLayout from "@/layouts/AppLayout"
+import HomePage from "@/pages/home/HomePage"
+import CoursesPage from "@/pages/courses/CoursesPage"
+import RankingsPage from "@/pages/ranks/RankingsPage"
+import CertificationPage from "@/pages/certification/CertificationPage"
+import MyPage from "@/pages/accounts/MyPage"
+import CourseDetailPage from "@/pages/coureDetail/CourseDetailPage"
 
-const AppRoutes: React.FC = () => {
-    return (
-        <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/courses" element={<CoursesPage />} />
-            <Route path="/courses/:courseId" element={<CourseDetailPage />} />
-            <Route path="/rankings" element={<RankingsPage />} />
-            <Route path="/certification" element={<CertificationPage />} />
-            <Route path="/profile" element={<MyPage />} />
-        </Routes>
-    );
-};
+const routes: RouteObject[] = [
+    {
+        path: "/",
+        element: <AppLayout />,
+        children: [
+            {
+                index: true,
+                element: <HomePage />,
+            },
+            {
+                path: "courses",
+                element: <CoursesPage />,
+            },
+            {
+                path: "courses/:courseId",
+                element: <CourseDetailPage />,
+            },
+            {
+                path: "rankings",
+                element: <RankingsPage />,
+            },
+            {
+                path: "certification",
+                element: <CertificationPage />,
+            },
+            {
+                path: "profile",
+                element: <MyPage />,
+            },
+        ],
+    },
+]
 
-export default AppRoutes;
+const router = createBrowserRouter(routes)
+
+export default router
