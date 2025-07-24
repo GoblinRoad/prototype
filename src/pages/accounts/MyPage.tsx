@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+"use client"
+
+import type React from "react"
+import { useState } from "react"
 import {
-  User,
   Settings,
   Bell,
   Shield,
@@ -13,44 +15,46 @@ import {
   Zap,
   Calendar,
   ChevronRight,
-  Star
-} from 'lucide-react';
-import type { UserProfile } from '../types';
+  Star,
+} from "lucide-react"
+import type { UserProfile } from "@/types"
 
 const MyPage: React.FC = () => {
-  const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showEditProfile, setShowEditProfile] = useState(false)
 
   const userProfile: UserProfile = {
-    id: '1',
-    name: '김플로깅',
-    email: 'plogging@email.com',
-    avatar: 'https://images.pexels.com/photos/1559486/pexels-photo-1559486.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
-    joinDate: '2023-08-15',
+    id: "1",
+    name: "김플로깅",
+    email: "plogging@email.com",
+    avatar:
+        "https://images.pexels.com/photos/1559486/pexels-photo-1559486.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+    joinDate: "2023-08-15",
     level: 12,
     totalDistance: 127.5,
     totalCleanups: 89,
     totalPoints: 2340,
     rank: 8,
-    badges: ['첫 걸음', '거리 달성자', '정리 챔피언']
-  };
+    badges: ["첫 걸음", "거리 달성자", "정리 챔피언"],
+  }
 
   const menuItems = [
-    { icon: Settings, label: '계정 설정', hasChevron: true },
-    { icon: Bell, label: '알림 설정', hasChevron: true },
-    { icon: Shield, label: '개인정보 및 보안', hasChevron: true },
-    { icon: HelpCircle, label: '도움말 및 지원', hasChevron: true },
-    { icon: Star, label: '앱 평가하기', hasChevron: true },
-    { icon: LogOut, label: '로그아웃', hasChevron: false, isDestructive: true }
-  ];
+    { icon: Settings, label: "계정 설정", hasChevron: true },
+    { icon: Bell, label: "알림 설정", hasChevron: true },
+    { icon: Shield, label: "개인정보 및 보안", hasChevron: true },
+    { icon: HelpCircle, label: "도움말 및 지원", hasChevron: true },
+    { icon: Star, label: "앱 평가하기", hasChevron: true },
+    { icon: LogOut, label: "로그아웃", hasChevron: false, isDestructive: true },
+  ]
 
   return (
-      <div className="bg-gray-50 min-h-screen max-w-md mx-auto">
+      // max-w-md mx-auto 클래스를 App.tsx의 Layout 컴포넌트로 이동했습니다.
+      <div className="bg-gray-50 min-h-screen">
         {/* 프로필 헤더 */}
         <div className="bg-gradient-to-br from-emerald-500 to-sky-500 px-4 pt-8 pb-6">
           <div className="text-center">
             <div className="relative inline-block mb-4">
               <img
-                  src={userProfile.avatar}
+                  src={userProfile.avatar || "/placeholder.svg"}
                   alt={userProfile.name}
                   className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
               />
@@ -184,16 +188,14 @@ const MyPage: React.FC = () => {
                 <button
                     key={index}
                     className={`w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors ${
-                        index !== menuItems.length - 1 ? 'border-b border-gray-100' : ''
-                    } ${item.isDestructive ? 'text-red-600' : 'text-gray-900'}`}
+                        index !== menuItems.length - 1 ? "border-b border-gray-100" : ""
+                    } ${item.isDestructive ? "text-red-600" : "text-gray-900"}`}
                 >
                   <div className="flex items-center space-x-3">
-                    <item.icon className={`w-5 h-5 ${item.isDestructive ? 'text-red-600' : 'text-gray-600'}`} />
+                    <item.icon className={`w-5 h-5 ${item.isDestructive ? "text-red-600" : "text-gray-600"}`} />
                     <span className="font-medium">{item.label}</span>
                   </div>
-                  {item.hasChevron && (
-                      <ChevronRight className="w-4 h-4 text-gray-400" />
-                  )}
+                  {item.hasChevron && <ChevronRight className="w-4 h-4 text-gray-400" />}
                 </button>
             ))}
           </div>
@@ -203,15 +205,16 @@ const MyPage: React.FC = () => {
         <div className="px-4 pb-8">
           <div className="text-center">
             <p className="text-sm text-gray-500">
-              {new Date(userProfile.joinDate).toLocaleDateString('ko-KR', {
-                year: 'numeric',
-                month: 'long'
-              })} 가입
+              {new Date(userProfile.joinDate).toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "long",
+              })}{" "}
+              가입
             </p>
           </div>
         </div>
       </div>
-  );
-};
+  )
+}
 
-export default MyPage;
+export default MyPage
