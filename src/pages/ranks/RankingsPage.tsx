@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Trophy, Medal, Star, Target, MapPin, Calendar, Zap, Trash2, Award, Lock } from 'lucide-react';
-import type { User, Achievement } from '../types';
-import UserProfileModal from './UserProfileModal';
+import type { User, Achievement } from '../../types';
+import UserProfileModal from '../../components/ranks/UserProfileModal.tsx';
 
 const RankingsPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'rankings' | 'achievements'>('rankings');

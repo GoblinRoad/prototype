@@ -1,10 +1,6 @@
-import React, { useState } from 'react';
-import { ArrowLeft, MapPin, Clock, Target, Star, Camera, Heart, Share2, Navigation, Info, Users } from 'lucide-react';
-
-interface CourseDetailProps {
-    courseId: string;
-    onBack: () => void;
-}
+import React, { useState, useEffect } from 'react';
+import { ArrowLeft, MapPin, Clock, Target, Star, Heart, Share2, Navigation } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
 
 interface TouristSpot {
     id: string;
@@ -15,32 +11,123 @@ interface TouristSpot {
     category: string;
 }
 
-const CourseDetailPage: React.FC<CourseDetailProps> = ({ courseId, onBack }) => {
+interface CourseDetail {
+    id: string;
+    name: string;
+    location: string;
+    distance: string;
+    difficulty: string;
+    estimatedTime: string;
+    cleanupSpots: number;
+    rating: number;
+    reviewCount: number;
+    description: string;
+    highlights: string[];
+    startPoint: string;
+    endPoint: string;
+    elevation: string;
+    surface: string;
+}
+
+const CourseDetailPage: React.FC = () => {
+    const { courseId } = useParams<{ courseId: string }>();
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState<'overview' | 'spots' | 'reviews'>('overview');
     const [isLiked, setIsLiked] = useState(false);
+    const [courseDetail, setCourseDetail] = useState<CourseDetail | null>(null);
+    const [loading, setLoading] = useState(true);
 
-    // 코스 상세 정보 (실제로는 courseId로 API 조회)
-    const courseDetail = {
-        id: courseId,
-        name: '한강공원 플로깅 코스',
-        location: '서울 마포구 망원한강공원',
-        distance: '3.2 km',
-        difficulty: '쉬움',
-        estimatedTime: '25분',
-        cleanupSpots: 8,
-        rating: 4.8,
-        reviewCount: 124,
-        description: '한강을 따라 걷는 아름다운 플로깅 코스입니다. 평평한 길로 구성되어 있어 초보자도 쉽게 도전할 수 있으며, 강변의 멋진 경치를 감상하며 환경보호에 동참할 수 있습니다.',
-        highlights: [
-            '한강의 아름다운 일몰 경관',
-            '넓은 잔디밭과 휴식 공간',
-            '자전거 도로와 분리된 안전한 보행로',
-            '충분한 쓰레기통과 화장실 시설'
-        ],
-        startPoint: '망원한강공원 주차장',
-        endPoint: '양화대교 남단',
-        elevation: '평지 (고도차 거의 없음)',
-        surface: '포장도로 90%, 흙길 10%'
+    // 코스 데이터 (실제로는 API에서 가져올 데이터)
+    const coursesData: Record<string, CourseDetail> = {
+        '1': {
+            id: '1',
+            name: '한강공원 플로깅 코스',
+            location: '서울 마포구 망원한강공원',
+            distance: '3.2 km',
+            difficulty: '쉬움',
+            estimatedTime: '25분',
+            cleanupSpots: 8,
+            rating: 4.8,
+            reviewCount: 124,
+            description: '한강을 따라 걷는 아름다운 플로깅 코스입니다. 평평한 길로 구성되어 있어 초보자도 쉽게 도전할 수 있으며, 강변의 멋진 경치를 감상하며 환경보호에 동참할 수 있습니다.',
+            highlights: [
+                '한강의 아름다운 일몰 경관',
+                '넓은 잔디밭과 휴식 공간',
+                '자전거 도로와 분리된 안전한 보행로',
+                '충분한 쓰레기통과 화장실 시설'
+            ],
+            startPoint: '망원한강공원 주차장',
+            endPoint: '양화대교 남단',
+            elevation: '평지 (고도차 거의 없음)',
+            surface: '포장도로 90%, 흙길 10%'
+        },
+        '2': {
+            id: '2',
+            name: '올림픽공원 둘레길',
+            location: '서울 송파구 올림픽공원',
+            distance: '5.1 km',
+            difficulty: '보통',
+            estimatedTime: '40분',
+            cleanupSpots: 12,
+            rating: 4.6,
+            reviewCount: 87,
+            description: '올림픽공원을 둘러싸는 아름다운 둘레길입니다. 다양한 조각품과 녹지를 감상하며 플로깅할 수 있으며, 적당한 언덕이 있어 운동 효과도 좋습니다.',
+            highlights: [
+                '다양한 야외 조각품 감상',
+                '울창한 숲길과 호수 경관',
+                '적당한 경사로 운동 효과 증대',
+                '깨끗하게 관리된 공원 시설'
+            ],
+            startPoint: '올림픽공원 평화의 광장',
+            endPoint: '몽촌토성 입구',
+            elevation: '완만한 언덕 (최대 고도차 30m)',
+            surface: '포장도로 70%, 흙길 30%'
+        },
+        '3': {
+            id: '3',
+            name: '청계천 산책로',
+            location: '서울 중구 청계천',
+            distance: '2.8 km',
+            difficulty: '쉬움',
+            estimatedTime: '20분',
+            cleanupSpots: 6,
+            rating: 4.5,
+            reviewCount: 156,
+            description: '도심 속 청계천을 따라 걷는 짧은 플로깅 코스입니다. 직장인들의 점심시간 플로깅이나 가벼운 산책에 적합하며, 도심 속에서 자연을 느낄 수 있습니다.',
+            highlights: [
+                '도심 속 자연 공간',
+                '짧은 거리로 부담 없음',
+                '대중교통 접근성 우수',
+                '야간 조명으로 저녁 플로깅 가능'
+            ],
+            startPoint: '청계광장',
+            endPoint: '마장동 청계천변',
+            elevation: '평지 (고도차 없음)',
+            surface: '포장도로 100%'
+        },
+        // AI 추천 코스들
+        'ai1': {
+            id: 'ai1',
+            name: '🤖 AI 추천: 초보자 친화적 코스',
+            location: '서울 마포구',
+            distance: '2.5 km',
+            difficulty: '쉬움',
+            estimatedTime: '18분',
+            cleanupSpots: 5,
+            rating: 4.6,
+            reviewCount: 45,
+            description: 'AI가 초보자를 위해 특별히 선별한 코스입니다. 평평한 길과 짧은 거리로 구성되어 플로깅을 처음 시작하는 분들에게 최적화되어 있습니다.',
+            highlights: [
+                'AI 알고리즘으로 선별된 초보자 맞춤 코스',
+                '평평한 길로만 구성',
+                '적당한 휴식 공간 배치',
+                '안전한 야간 조명 시설'
+            ],
+            startPoint: 'AI 추천 시작점',
+            endPoint: 'AI 추천 도착점',
+            elevation: '평지',
+            surface: '포장도로 100%'
+        }
     };
 
     // 주변 관광지 정보
@@ -79,6 +166,33 @@ const CourseDetailPage: React.FC<CourseDetailProps> = ({ courseId, onBack }) => 
         }
     ];
 
+    useEffect(() => {
+        // 실제로는 API 호출
+        const fetchCourseDetail = async () => {
+            setLoading(true);
+            try {
+                // API 호출 시뮬레이션
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                if (courseId && coursesData[courseId]) {
+                    setCourseDetail(coursesData[courseId]);
+                } else {
+                    // 코스를 찾을 수 없는 경우
+                    navigate('/courses');
+                }
+            } catch (error) {
+                console.error('코스 정보를 불러오는데 실패했습니다:', error);
+                navigate('/courses');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (courseId) {
+            fetchCourseDetail();
+        }
+    }, [courseId, navigate]);
+
     const getDifficultyColor = (difficulty: string) => {
         switch (difficulty) {
             case '쉬움': return 'bg-green-100 text-green-800';
@@ -98,13 +212,49 @@ const CourseDetailPage: React.FC<CourseDetailProps> = ({ courseId, onBack }) => 
         }
     };
 
+    const handleBack = () => {
+        navigate(-1);
+    };
+
+    const handleStartPlogging = () => {
+        // 플로깅 시작 로직 (실제 플로깅 페이지로 이동)
+        console.log(`코스 ${courseId} 플로깅 시작`);
+    };
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-gray-50 max-w-md mx-auto flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto mb-4"></div>
+                    <p className="text-gray-600">코스 정보를 불러오는 중...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!courseDetail) {
+        return (
+            <div className="min-h-screen bg-gray-50 max-w-md mx-auto flex items-center justify-center">
+                <div className="text-center">
+                    <p className="text-gray-600 mb-4">코스를 찾을 수 없습니다.</p>
+                    <button
+                        onClick={() => navigate('/courses')}
+                        className="bg-emerald-600 text-white px-4 py-2 rounded-lg"
+                    >
+                        코스 목록으로 돌아가기
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-gray-50 max-w-md mx-auto">
             {/* 헤더 */}
             <div className="bg-white px-4 py-3 shadow-sm relative">
                 <div className="flex items-center justify-between">
                     <button
-                        onClick={onBack}
+                        onClick={handleBack}
                         className="p-2 hover:bg-gray-100 rounded-lg"
                     >
                         <ArrowLeft className="w-5 h-5" />
@@ -179,7 +329,10 @@ const CourseDetailPage: React.FC<CourseDetailProps> = ({ courseId, onBack }) => 
                     </div>
                 </div>
 
-                <button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl transition-colors font-semibold">
+                <button
+                    onClick={handleStartPlogging}
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl transition-colors font-semibold"
+                >
                     플로깅 시작하기
                 </button>
             </div>
@@ -312,7 +465,7 @@ const CourseDetailPage: React.FC<CourseDetailProps> = ({ courseId, onBack }) => 
                                 <div className="text-3xl font-bold text-gray-900">{courseDetail.rating}</div>
                                 <div className="flex items-center justify-center mt-1 mb-2">
                                     {[1, 2, 3, 4, 5].map((star) => (
-                                        <Star key={star} className="w-5 h-5 text-yellow-400 fill-current" />
+                                        <Star key={star} className={`w-5 h-5 ${star <= Math.floor(courseDetail.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />
                                     ))}
                                 </div>
                                 <div className="text-sm text-gray-600">{courseDetail.reviewCount}개의 리뷰</div>

@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Search, MapPin, Filter, Star, Clock, Target, Navigation, Sparkles, Mountain, Waves, Building } from 'lucide-react';
-import type { Course } from '../types';
-import CourseDetailPage from './CourseDetailPage';
+import { useNavigate } from 'react-router-dom';
+import type { Course } from '../../types';
 
 const CoursesPage: React.FC = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('전체');
   const [selectedTheme, setSelectedTheme] = useState('전체');
   const [selectedDifficulty, setSelectedDifficulty] = useState('전체');
   const [showFilters, setShowFilters] = useState(false);
   const [activeTab, setActiveTab] = useState<'nearby' | 'search' | 'ai'>('nearby');
-  const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
 
   // 지역 옵션
   const regions = ['전체', '서울', '경기', '인천', '부산', '대구', '대전', '광주', '울산', '세종', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
@@ -146,10 +146,14 @@ const CoursesPage: React.FC = () => {
     return matchesSearch && matchesRegion && matchesDifficulty;
   });
 
+  const handleCourseClick = (courseId: string) => {
+    navigate(`/courses/${courseId}`);
+  };
+
   const CourseCard: React.FC<{ course: Course }> = ({ course }) => (
       <div
           className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-          onClick={() => setSelectedCourse(course.id)}
+          onClick={() => handleCourseClick(course.id)}
       >
         <div className="flex justify-between items-start mb-3">
           <div className="flex-1">
@@ -193,22 +197,15 @@ const CoursesPage: React.FC = () => {
       </div>
   );
 
-  // 코스 상세 페이지가 선택된 경우
-  if (selectedCourse) {
-    return (
-        <CourseDetailPage
-            courseId={selectedCourse}
-            onBack={() => setSelectedCourse(null)}
-        />
-    );
-  }
-
   return (
       <div className="min-h-screen bg-gray-50 max-w-md mx-auto">
         {/* 헤더 */}
         <div className="bg-white px-4 py-3 shadow-sm">
           <div className="flex items-center space-x-3">
-            <button className="p-2 hover:bg-gray-100 rounded-lg">
+            <button
+                className="p-2 hover:bg-gray-100 rounded-lg"
+                onClick={() => navigate(-1)}
+            >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <h1 className="text-lg font-semibold text-gray-900">코스 찾기</h1>

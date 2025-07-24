@@ -1,6 +1,6 @@
 import React from 'react';
 import { MapPin, Trophy, Home, Award, User } from 'lucide-react';
-import type { TabItem } from '../types';
+import type { TabItem } from '../../types';
 
 interface BottomNavigationProps {
   currentPage: string;

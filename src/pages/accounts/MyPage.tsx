@@ -15,7 +15,7 @@ import {
   ChevronRight,
   Star
 } from 'lucide-react';
-import type { UserProfile } from '../types';
+import type { UserProfile } from '../../types';
 
 const MyPage: React.FC = () => {
   const [showEditProfile, setShowEditProfile] = useState(false);
