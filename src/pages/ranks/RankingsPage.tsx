@@ -2,9 +2,15 @@
 
 import type React from "react"
 import { useState } from "react"
-import { ArrowLeft, Trophy, Medal, Star, Target, MapPin, Calendar, Zap, Trash2, Award, Lock } from "lucide-react"
 import type { User, Achievement } from "@/types"
-import UserProfileModal from "../../components/ranks/UserProfileModal.tsx"
+import UserProfileModal from "@/components/ranks/UserProfileModal.tsx"
+import RankingsHeader from "@/components/ranks/RankingsHeader"
+import RankingsTabNavigation from "@/components/ranks/RankingsTabNavigation"
+import RankingPeriodSelector from "@/components/ranks/RankingPeriodSelector"
+import RankingTypeSelector from "@/components/ranks/RankingTypeSelector"
+import RankingList from "@/components/ranks/RankingList"
+import AchievementProgressSummary from "@/components/ranks/AchievementProgressSummary"
+import AchievementList from "@/components/ranks/AchievementList"
 
 const RankingsPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"rankings" | "achievements">("rankings")
@@ -165,271 +171,25 @@ const RankingsPage: React.FC = () => {
     },
   ]
 
-  const getRankIcon = (rank: number) => {
-    if (rank === 1) return <Trophy className="w-5 h-5 text-yellow-500" />
-    if (rank === 2) return <Trophy className="w-5 h-5 text-gray-400" />
-    if (rank === 3) return <Trophy className="w-5 h-5 text-orange-600" />
-    return <span className="w-5 h-5 flex items-center justify-center text-sm font-bold text-gray-600">#{rank}</span>
-  }
-
-  const getRankBadgeColor = (rank: number) => {
-    if (rank === 1) return "bg-gradient-to-r from-yellow-400 to-yellow-500"
-    if (rank === 2) return "bg-gradient-to-r from-gray-300 to-gray-400"
-    if (rank === 3) return "bg-gradient-to-r from-orange-400 to-orange-500"
-    return "bg-gradient-to-r from-emerald-400 to-emerald-500"
-  }
-
-  const getAchievementIcon = (iconType: string) => {
-    switch (iconType) {
-      case "star":
-        return <Star className="w-6 h-6" />
-      case "target":
-        return <Target className="w-6 h-6" />
-      case "trash":
-        return <Trash2 className="w-6 h-6" />
-      case "map":
-        return <MapPin className="w-6 h-6" />
-      case "calendar":
-        return <Calendar className="w-6 h-6" />
-      case "award":
-        return <Award className="w-6 h-6" />
-      default:
-        return <Medal className="w-6 h-6" />
-    }
-  }
-
-  const getCategoryName = (category: string) => {
-    switch (category) {
-      case "milestone":
-        return "기념일"
-      case "distance":
-        return "거리"
-      case "cleanup":
-        return "정리"
-      case "region":
-        return "지역"
-      case "streak":
-        return "연속"
-      default:
-        return "기타"
-    }
-  }
-
   return (
       <>
-        {/* max-w-md mx-auto 클래스를 App.tsx의 Layout 컴포넌트로 이동했습니다. */}
         <div className="min-h-screen bg-gray-50">
-          {/* 헤더 */}
-          <div className="bg-white px-4 py-3 shadow-sm">
-            <div className="flex items-center space-x-3">
-              <button className="p-2 hover:bg-gray-100 rounded-lg">
-                <ArrowLeft className="w-5 h-5" />
-              </button>
-              <h1 className="text-lg font-semibold text-gray-900">랭킹 & 업적</h1>
-            </div>
-          </div>
-
-          {/* 탭 메뉴 */}
-          <div className="bg-white px-4 py-3 border-b">
-            <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
-              <button
-                  onClick={() => setActiveTab("rankings")}
-                  className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors ${
-                      activeTab === "rankings" ? "bg-white text-emerald-600 shadow-sm" : "text-gray-600 hover:text-gray-900"
-                  }`}
-              >
-                랭킹
-              </button>
-              <button
-                  onClick={() => setActiveTab("achievements")}
-                  className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors ${
-                      activeTab === "achievements"
-                          ? "bg-white text-emerald-600 shadow-sm"
-                          : "text-gray-600 hover:text-gray-900"
-                  }`}
-              >
-                업적
-              </button>
-            </div>
-          </div>
+          <RankingsHeader title="랭킹 & 업적" />
+          <RankingsTabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
           <div className="pb-20">
             {activeTab === "rankings" ? (
                 /* 랭킹 탭 */
                 <div className="p-4">
-                  {/* 주간/월간 선택 */}
-                  <div className="bg-white rounded-lg p-1 flex mb-4 shadow-sm">
-                    <button
-                        onClick={() => setRankingPeriod("weekly")}
-                        className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors ${
-                            rankingPeriod === "weekly"
-                                ? "bg-blue-100 text-blue-700 shadow-sm"
-                                : "text-gray-600 hover:text-gray-900"
-                        }`}
-                    >
-                      주간
-                    </button>
-                    <button
-                        onClick={() => setRankingPeriod("monthly")}
-                        className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors ${
-                            rankingPeriod === "monthly"
-                                ? "bg-blue-100 text-blue-700 shadow-sm"
-                                : "text-gray-600 hover:text-gray-900"
-                        }`}
-                    >
-                      월간
-                    </button>
-                  </div>
-
-                  {/* 랭킹 타입 선택 */}
-                  <div className="bg-white rounded-lg p-1 flex mb-6 shadow-sm">
-                    <button
-                        onClick={() => setRankingType("distance")}
-                        className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors ${
-                            rankingType === "distance"
-                                ? "bg-emerald-100 text-emerald-700 shadow-sm"
-                                : "text-gray-600 hover:text-gray-900"
-                        }`}
-                    >
-                      거리
-                    </button>
-                    <button
-                        onClick={() => setRankingType("cleanups")}
-                        className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors ${
-                            rankingType === "cleanups"
-                                ? "bg-emerald-100 text-emerald-700 shadow-sm"
-                                : "text-gray-600 hover:text-gray-900"
-                        }`}
-                    >
-                      정리
-                    </button>
-                    <button
-                        onClick={() => setRankingType("points")}
-                        className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors ${
-                            rankingType === "points"
-                                ? "bg-emerald-100 text-emerald-700 shadow-sm"
-                                : "text-gray-600 hover:text-gray-900"
-                        }`}
-                    >
-                      점수
-                    </button>
-                  </div>
-
-                  {/* 랭킹 리스트 */}
-                  <div className="space-y-3">
-                    {users.map((user) => (
-                        <div
-                            key={user.id}
-                            className="bg-white rounded-xl p-4 shadow-sm active:scale-95 transition-transform duration-200 cursor-pointer"
-                            onClick={() => setSelectedUser(user)}
-                        >
-                          <div className="flex items-center space-x-3">
-                            <div
-                                className={`w-8 h-8 rounded-full flex items-center justify-center ${getRankBadgeColor(user.rank)}`}
-                            >
-                              {getRankIcon(user.rank)}
-                            </div>
-
-                            <img
-                                src={user.avatar || "/placeholder.svg"}
-                                alt={user.name}
-                                className="w-10 h-10 rounded-full object-cover"
-                            />
-
-                            <div className="flex-1">
-                              <h3 className="font-semibold text-gray-900">{user.name}</h3>
-                              <div className="flex items-center space-x-4 text-sm text-gray-600">
-                                <div className="flex items-center">
-                                  <Zap className="w-3 h-3 mr-1" />
-                                  {rankingType === "distance" && `${user.stats.distance}km`}
-                                  {rankingType === "cleanups" && `${user.stats.cleanups}개`}
-                                  {rankingType === "points" && `${user.stats.points}점`}
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="text-right">
-                              <div className="text-lg font-bold text-emerald-600">
-                                {rankingType === "distance" && user.stats.distance}
-                                {rankingType === "cleanups" && user.stats.cleanups}
-                                {rankingType === "points" && user.stats.points}
-                              </div>
-                              <div className="text-xs text-gray-500">
-                                {rankingType === "distance" && "km"}
-                                {rankingType === "cleanups" && "개"}
-                                {rankingType === "points" && "점"}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                    ))}
-                  </div>
+                  <RankingPeriodSelector rankingPeriod={rankingPeriod} setRankingPeriod={setRankingPeriod} />
+                  <RankingTypeSelector rankingType={rankingType} setRankingType={setRankingType} />
+                  <RankingList users={users} rankingType={rankingType} onUserClick={setSelectedUser} />
                 </div>
             ) : (
                 /* 업적 탭 */
                 <div className="p-4">
-                  {/* 업적 진행률 요약 */}
-                  <div className="bg-white rounded-xl p-4 mb-6 shadow-sm">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-semibold text-gray-900">업적 진행률</h3>
-                      <span className="text-sm text-emerald-600 font-medium">
-                    {achievements.filter((a) => a.isUnlocked).length}/{achievements.length}
-                  </span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div
-                          className="bg-emerald-500 h-2 rounded-full"
-                          style={{
-                            width: `${(achievements.filter((a) => a.isUnlocked).length / achievements.length) * 100}%`,
-                          }}
-                      ></div>
-                    </div>
-                  </div>
-
-                  {/* 업적 리스트 */}
-                  <div className="space-y-3">
-                    {achievements.map((achievement) => (
-                        <div
-                            key={achievement.id}
-                            className={`rounded-xl p-4 ${
-                                achievement.isUnlocked
-                                    ? "bg-white shadow-sm"
-                                    : "bg-gray-100 border-2 border-dashed border-gray-300"
-                            }`}
-                        >
-                          <div className="flex items-center space-x-3">
-                            <div
-                                className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                                    achievement.isUnlocked ? "bg-emerald-100 text-emerald-600" : "bg-gray-200 text-gray-400"
-                                }`}
-                            >
-                              {achievement.isUnlocked ? getAchievementIcon(achievement.icon) : <Lock className="w-6 h-6" />}
-                            </div>
-
-                            <div className="flex-1">
-                              <div className="flex items-center space-x-2 mb-1">
-                                <h3 className={`font-semibold ${achievement.isUnlocked ? "text-gray-900" : "text-gray-500"}`}>
-                                  {achievement.title}
-                                </h3>
-                                <span
-                                    className={`px-2 py-1 text-xs font-medium rounded-full ${
-                                        achievement.isUnlocked ? "bg-emerald-100 text-emerald-700" : "bg-gray-200 text-gray-600"
-                                    }`}
-                                >
-                            {getCategoryName(achievement.category)}
-                          </span>
-                              </div>
-                              <p className={`text-sm ${achievement.isUnlocked ? "text-gray-600" : "text-gray-400"}`}>
-                                {achievement.description}
-                              </p>
-                              {achievement.isUnlocked && achievement.unlockedAt && (
-                                  <p className="text-xs text-emerald-600 mt-1">{achievement.unlockedAt} 달성</p>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                    ))}
-                  </div>
+                  <AchievementProgressSummary achievements={achievements} />
+                  <AchievementList achievements={achievements} />
                 </div>
             )}
           </div>
