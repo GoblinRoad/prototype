@@ -3,7 +3,7 @@ import { Sun, Wind, Droplets, AlertTriangle } from "lucide-react";
 
 const WeatherInfo: React.FC = () => {
   return (
-    <div className="p-4 bg-gradient-to-r from-blue-400 to-cyan-400 text-white mx-4 mt-4 rounded-2xl shadow-lg">
+    <div className="p-4 bg-gradient-to-r from-blue-400 to-cyan-400 text-white mt-4 rounded-2xl shadow-lg">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Sun className="w-8 h-8" />
