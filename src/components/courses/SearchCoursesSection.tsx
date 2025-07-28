@@ -16,6 +16,7 @@ const SearchCoursesSection: React.FC<SearchCoursesSectionProps> = ({ allCourses,
     const [selectedRegion, setSelectedRegion] = useState("전체")
     const [selectedTheme, setSelectedTheme] = useState("전체")
     const [selectedDifficulty, setSelectedDifficulty] = useState("전체")
+    const [selectedTimes, setSelectedTimes] = useState("전체")
     const [showFilters, setShowFilters] = useState(false)
 
     // 지역 옵션
@@ -48,6 +49,14 @@ const SearchCoursesSection: React.FC<SearchCoursesSectionProps> = ({ allCourses,
         { value: "도시", label: "도시/공원", icon: Building },
     ]
 
+    // 시간간 옵션
+    const times = [
+        { value: "전체", label: "전체", icon: null },
+        { value: "3시간 이내", label: "3", icon: Mountain },
+        { value: "5시간", label: "5", icon: Waves },
+        { value: "7시간 이상", label: "7", icon: Building },
+    ]
+
     // 난이도 옵션
     const difficulties = ["전체", "쉬움", "보통", "어려움"]
 
@@ -68,8 +77,9 @@ const SearchCoursesSection: React.FC<SearchCoursesSectionProps> = ({ allCourses,
         const matchesDifficulty = selectedDifficulty === "전체" || course.difficulty === selectedDifficulty
         // TODO: 테마 필터링 로직 추가 (현재 Course 타입에 테마 정보 없음)
         // const matchesTheme = selectedTheme === '전체' || course.theme === selectedTheme;
+       // const matchesTimes = selectedTimes === "전체" || course.times === selectedTimes;
 
-        return matchesSearch && matchesRegion && matchesDifficulty // && matchesTheme;
+        return matchesSearch && matchesRegion && matchesDifficulty // && matchesTheme && matchesTimes;
     })
 
     return (
