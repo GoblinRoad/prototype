@@ -91,7 +91,7 @@ const MyPage: React.FC = () => {
   // 로그인되지 않은 경우 로그인 화면 표시
   if (!isLoggedIn) {
     return (
-      <div className="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+      <div className="fixed inset-0 bg-gray-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl w-full max-w-sm p-8 text-center">
           <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <User className="w-10 h-10 text-emerald-600" />
@@ -107,23 +107,31 @@ const MyPage: React.FC = () => {
             {/* 카카오 로그인 */}
             <button
               onClick={() => handleSocialLogin("kakao")}
-              className="w-full flex items-center justify-center space-x-3 px-6 py-4 bg-yellow-400 hover:bg-yellow-500 text-black font-medium rounded-xl transition-colors shadow-sm"
+              className="w-full flex items-center justify-center px-6 py-4 bg-[#FEE500] hover:bg-[#FDD800] text-black font-medium rounded-xl transition-colors shadow-sm"
             >
-              <div className="w-6 h-6 flex items-center justify-center">
-                <span className="text-lg">🎯</span>
+              <div className="flex items-center justify-center w-full max-w-xs">
+                <img
+                  src="/images/kakaotalk_logo_icon.png"
+                  alt="카카오 로고"
+                  className="w-8 h-8 object-contain"
+                />
+                <span className="ml-3 text-center">카카오로 로그인</span>
               </div>
-              <span>카카오로 로그인</span>
             </button>
 
             {/* 구글 로그인 */}
             <button
               onClick={() => handleSocialLogin("google")}
-              className="w-full flex items-center justify-center space-x-3 px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-xl transition-colors shadow-sm border border-gray-300"
+              className="w-full flex items-center justify-center px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-xl transition-colors shadow-sm border border-gray-300"
             >
-              <div className="w-6 h-6 flex items-center justify-center">
-                <span className="text-lg">🔍</span>
+              <div className="flex items-center justify-center w-full max-w-xs">
+                <img
+                  src="/images/google_logo_icon.png"
+                  alt="구글 로고"
+                  className="w-8 h-8 object-contain"
+                />
+                <span className="ml-3 text-center">구글로 로그인</span>
               </div>
-              <span>구글로 로그인</span>
             </button>
           </div>
 
