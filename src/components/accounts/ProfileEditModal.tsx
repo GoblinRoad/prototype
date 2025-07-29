@@ -11,7 +11,7 @@ import {
   AlertCircle,
   Loader2,
 } from "lucide-react";
-import type { UserProfile } from "@/types";
+import type { UserProfile, RegionData, AreaData } from "@/types";
 
 interface ProfileEditModalProps {
   userProfile: UserProfile;
@@ -56,7 +56,90 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
   const [isCheckingName, setIsCheckingName] = useState(false);
   const [nameAvailable, setNameAvailable] = useState<boolean | null>(null);
   const [imageError, setImageError] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState(
+    userProfile.region || ""
+  );
+  const [selectedDistrict, setSelectedDistrict] = useState(
+    userProfile.district || ""
+  );
+  const [preferredTheme, setPreferredTheme] = useState(
+    userProfile.preferredTheme || ""
+  );
+  const [difficultyLevel, setDifficultyLevel] = useState(
+    userProfile.difficultyLevel || ""
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // 지역 데이터 (실제로는 API에서 가져올 데이터)
+  const regionData: (RegionData | AreaData)[] = [
+    {
+      region: "서울특별시",
+      districts: [
+        "강남구",
+        "강동구",
+        "강북구",
+        "강서구",
+        "관악구",
+        "광진구",
+        "구로구",
+        "금천구",
+        "노원구",
+        "도봉구",
+        "동대문구",
+        "동작구",
+        "마포구",
+        "서대문구",
+        "서초구",
+        "성동구",
+        "성북구",
+        "송파구",
+        "양천구",
+        "영등포구",
+        "용산구",
+        "은평구",
+        "종로구",
+        "중구",
+        "중랑구",
+      ],
+    },
+    {
+      areaCode: 6,
+      areaName: "부산광역시",
+      subRegions: [
+        { sigunguCode: 1, name: "중구" },
+        { sigunguCode: 2, name: "서구" },
+        { sigunguCode: 3, name: "동구" },
+        { sigunguCode: 4, name: "영도구" },
+        { sigunguCode: 5, name: "부산진구" },
+        { sigunguCode: 6, name: "동래구" },
+        { sigunguCode: 7, name: "남구" },
+        { sigunguCode: 8, name: "북구" },
+        { sigunguCode: 9, name: "해운대구" },
+        { sigunguCode: 10, name: "사하구" },
+        { sigunguCode: 11, name: "금정구" },
+        { sigunguCode: 12, name: "강서구" },
+        { sigunguCode: 13, name: "연제구" },
+        { sigunguCode: 14, name: "수영구" },
+        { sigunguCode: 15, name: "사상구" },
+        { sigunguCode: 16, name: "기장군" },
+      ],
+    },
+  ];
+
+  // 선택된 지역의 시군구 목록 가져오기
+  const getDistrictsForRegion = (region: string) => {
+    const selectedRegionData = regionData.find((data) =>
+      "region" in data ? data.region === region : data.areaName === region
+    );
+
+    if (!selectedRegionData) return [];
+
+    if ("districts" in selectedRegionData) {
+      return selectedRegionData.districts;
+    } else {
+      return selectedRegionData.subRegions.map((sub) => sub.name);
+    }
+  };
 
   // 닉네임 중복 검사
   const checkNameAvailability = async (name: string) => {
@@ -171,6 +254,14 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
         name: formData.name,
         email: formData.email,
         avatar: formData.avatar,
+        region: selectedRegion,
+        district: selectedDistrict,
+        preferredTheme: preferredTheme as "sea" | "mountain" | undefined,
+        difficultyLevel: difficultyLevel as
+          | "easy"
+          | "medium"
+          | "hard"
+          | undefined,
       });
       setIsLoading(false);
       onClose();
@@ -181,7 +272,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] flex flex-col">
         {/* 헤더 */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <h2 className="text-xl font-bold text-gray-900">프로필 편집</h2>
@@ -194,7 +285,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
         </div>
 
         {/* 내용 */}
-        <div className="p-6 space-y-6">
+        <div className="p-6 space-y-6 overflow-y-auto flex-1">
           {/* 프로필 이미지 */}
           <div className="text-center">
             <div className="relative inline-block mb-4">
@@ -317,32 +408,175 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
               이메일은 보안상 변경할 수 없습니다
             </p>
           </div>
+
+          {/* 개인지역 선택 */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-gray-900">개인지역</h3>
+
+            {/* 지역 선택 */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                지역
+              </label>
+              <select
+                value={selectedRegion}
+                onChange={(e) => {
+                  setSelectedRegion(e.target.value);
+                  setSelectedDistrict(""); // 지역 변경 시 시군구 초기화
+                }}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-200"
+              >
+                <option value="">지역을 선택하세요</option>
+                {regionData.map((data, index) => (
+                  <option
+                    key={index}
+                    value={"region" in data ? data.region : data.areaName}
+                  >
+                    {"region" in data ? data.region : data.areaName}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* 시군구 선택 */}
+            {selectedRegion && (
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  시군구
+                </label>
+                <select
+                  value={selectedDistrict}
+                  onChange={(e) => setSelectedDistrict(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                >
+                  <option value="">시군구를 선택하세요</option>
+                  {getDistrictsForRegion(selectedRegion).map(
+                    (district, index) => (
+                      <option key={index} value={district}>
+                        {district}
+                      </option>
+                    )
+                  )}
+                </select>
+              </div>
+            )}
+          </div>
+
+          {/* 선호 테마 선택 */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              선호 테마
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setPreferredTheme("sea")}
+                className={`p-4 rounded-xl border-2 transition-colors ${
+                  preferredTheme === "sea"
+                    ? "border-blue-500 bg-blue-50 text-blue-700"
+                    : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                <div className="text-center">
+                  <div className="text-2xl mb-2">🌊</div>
+                  <div className="font-medium">바다</div>
+                </div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setPreferredTheme("mountain")}
+                className={`p-4 rounded-xl border-2 transition-colors ${
+                  preferredTheme === "mountain"
+                    ? "border-green-500 bg-green-50 text-green-700"
+                    : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                <div className="text-center">
+                  <div className="text-2xl mb-2">⛰️</div>
+                  <div className="font-medium">산</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          {/* 플로깅 난이도 선택 */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              플로깅 난이도
+            </label>
+            <div className="grid grid-cols-3 gap-3">
+              <button
+                type="button"
+                onClick={() => setDifficultyLevel("easy")}
+                className={`p-3 rounded-xl border-2 transition-colors ${
+                  difficultyLevel === "easy"
+                    ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+                    : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                <div className="text-center">
+                  <div className="text-lg mb-1">😊</div>
+                  <div className="text-sm font-medium">쉬움</div>
+                </div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setDifficultyLevel("medium")}
+                className={`p-3 rounded-xl border-2 transition-colors ${
+                  difficultyLevel === "medium"
+                    ? "border-blue-500 bg-blue-50 text-blue-700"
+                    : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                <div className="text-center">
+                  <div className="text-lg mb-1">😋</div>
+                  <div className="text-sm font-medium">보통</div>
+                </div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setDifficultyLevel("hard")}
+                className={`p-3 rounded-xl border-2 transition-colors ${
+                  difficultyLevel === "hard"
+                    ? "border-red-500 bg-red-50 text-red-700"
+                    : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                <div className="text-center">
+                  <div className="text-lg mb-1">🤩</div>
+                  <div className="text-sm font-medium">어려움</div>
+                </div>
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* 액션 버튼들 */}
-        <div className="flex space-x-3 p-6 border-t border-gray-100">
-          <button
-            onClick={onClose}
-            className="flex-1 px-4 py-3 border border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-colors"
-          >
-            취소
-          </button>
-          <button
-            onClick={handleSave}
-            disabled={
-              isLoading || nameAvailable === false || !formData.name.trim()
-            }
-            className="flex-1 px-4 py-3 bg-emerald-500 text-white rounded-xl font-medium hover:bg-emerald-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                저장 중...
-              </>
-            ) : (
-              "저장"
-            )}
-          </button>
+        <div className="flex justify-center p-6 pb-8 border-t border-gray-100 flex-shrink-0">
+          <div className="flex space-x-3 w-full max-w-xs">
+            <button
+              onClick={onClose}
+              className="flex-1 px-4 py-3 border border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+            >
+              취소
+            </button>
+            <button
+              onClick={handleSave}
+              disabled={
+                isLoading || nameAvailable === false || !formData.name.trim()
+              }
+              className="flex-1 px-4 py-3 bg-emerald-500 text-white rounded-xl font-medium hover:bg-emerald-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  저장 중...
+                </>
+              ) : (
+                "저장"
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>

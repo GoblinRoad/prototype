@@ -83,6 +83,28 @@ export interface UserProfile {
   totalPoints: number;
   rank: number;
   badges: string[];
+  // 새로운 필드들
+  region?: string;
+  district?: string;
+  preferredTheme?: "sea" | "mountain";
+  difficultyLevel?: "easy" | "medium" | "hard";
+}
+
+// 지역 데이터 타입
+export interface RegionData {
+  region: string;
+  districts: string[];
+}
+
+export interface SubRegion {
+  sigunguCode: number;
+  name: string;
+}
+
+export interface AreaData {
+  areaCode: number;
+  areaName: string;
+  subRegions: SubRegion[];
 }
 
 export interface TouristSpot {
