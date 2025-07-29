@@ -24,6 +24,7 @@ import ActivityHistoryModal from "@/components/accounts/ActivityHistoryModal";
 import AccountSettingsModal from "@/components/accounts/AccountSettingsModal";
 import LoginModal from "@/components/accounts/LoginModal";
 import LogoutConfirmModal from "@/components/accounts/LogoutConfirmModal";
+import BubbleAnimation from "@/components/accounts/BubbleAnimation";
 
 const MyPage: React.FC = () => {
   const [showEditProfile, setShowEditProfile] = useState(false);
@@ -136,7 +137,8 @@ const MyPage: React.FC = () => {
           </div>
 
           <p className="text-xs text-gray-500 mt-6">
-            로그인하면 개인정보 처리방침과 이용약관에 동의하는 것으로 간주됩니다
+            로그인 시 개인정보 처리방침과 이용약관에 <br /> 동의하는 것으로
+            간주됩니다
           </p>
         </div>
       </div>
@@ -147,17 +149,16 @@ const MyPage: React.FC = () => {
     // max-w-md mx-auto 클래스를 App.tsx의 Layout 컴포넌트로 이동했습니다.
     <div className="bg-gray-50 min-h-screen">
       {/* 프로필 헤더 */}
-      <div className="bg-gradient-to-br from-emerald-500 to-sky-500 px-4 pt-8 pb-6">
-        <div className="text-center">
+      <div className="bg-gradient-to-br from-emerald-500 to-sky-500 px-4 pt-8 pb-6 relative">
+        {/* 버블 애니메이션 */}
+        <BubbleAnimation />
+        <div className="text-center relative z-30 pointer-events-none">
           <div className="relative inline-block mb-4">
             <img
               src={userProfile.avatar || "/placeholder.svg"}
               alt={userProfile.name}
               className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
             />
-            <button className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-shadow">
-              <Camera className="w-4 h-4 text-gray-600" />
-            </button>
           </div>
 
           <h1 className="text-2xl font-bold text-white mb-1">
@@ -180,7 +181,7 @@ const MyPage: React.FC = () => {
 
           <button
             onClick={() => setShowEditProfile(true)}
-            className="bg-white/20 backdrop-blur-sm text-white px-6 py-2 rounded-lg font-medium text-sm hover:bg-white/30 transition-colors flex items-center mx-auto"
+            className="bg-white/20 backdrop-blur-sm text-white px-6 py-2 rounded-lg font-medium text-sm hover:bg-white/30 transition-colors flex items-center mx-auto pointer-events-auto relative z-40"
           >
             <Edit3 className="w-4 h-4 mr-2" />
             프로필 편집
