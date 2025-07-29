@@ -149,7 +149,7 @@ const MyPage: React.FC = () => {
     // max-w-md mx-auto 클래스를 App.tsx의 Layout 컴포넌트로 이동했습니다.
     <div className="bg-gray-50 min-h-screen">
       {/* 프로필 헤더 */}
-      <div className="bg-gradient-to-br from-emerald-500 to-sky-500 px-4 pt-8 pb-6 relative">
+      <div className="bg-gradient-to-br from-emerald-500 to-sky-500 px-4 pt-8 pb-6 relative z-0">
         {/* 버블 애니메이션 */}
         <BubbleAnimation />
         <div className="text-center relative z-30 pointer-events-none">
@@ -190,7 +190,7 @@ const MyPage: React.FC = () => {
       </div>
 
       {/* 통계 카드 */}
-      <div className="px-4 -mt-2 mb-6">
+      <div className="px-4 -mt-2 mb-6 relative z-10">
         <div className="bg-white rounded-2xl p-4 shadow-lg">
           <div className="grid grid-cols-3 gap-4">
             <div className="text-center">
