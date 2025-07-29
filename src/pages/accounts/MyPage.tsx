@@ -16,14 +16,22 @@ import {
   Calendar,
   ChevronRight,
   Star,
+  User,
 } from "lucide-react";
 import type { UserProfile } from "@/types";
 import ProfileEditModal from "@/components/accounts/ProfileEditModal";
 import ActivityHistoryModal from "@/components/accounts/ActivityHistoryModal";
+import AccountSettingsModal from "@/components/accounts/AccountSettingsModal";
+import LoginModal from "@/components/accounts/LoginModal";
+import LogoutConfirmModal from "@/components/accounts/LogoutConfirmModal";
 
 const MyPage: React.FC = () => {
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showActivityHistory, setShowActivityHistory] = useState(false);
+  const [showAccountSettings, setShowAccountSettings] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // 실제로는 로컬스토리지나 쿠키에서 확인
   const [userProfile, setUserProfile] = useState<UserProfile>({
     id: "1",
     name: "김플로깅",
@@ -47,6 +55,30 @@ const MyPage: React.FC = () => {
     }));
   };
 
+  // 로그아웃 핸들러
+  const handleLogout = () => {
+    // 실제로는 로그아웃 API 호출
+    console.log("로그아웃 처리");
+    setIsLoggedIn(false);
+    setShowLogoutConfirm(false);
+  };
+
+  // 회원탈퇴 핸들러
+  const handleWithdraw = () => {
+    // 실제로는 회원탈퇴 API 호출
+    console.log("회원탈퇴 처리");
+    setIsLoggedIn(false);
+    setShowAccountSettings(false);
+  };
+
+  // 소셜 로그인 핸들러
+  const handleSocialLogin = (provider: "kakao" | "google") => {
+    // 실제로는 소셜 로그인 API 호출
+    console.log(`${provider} 로그인 처리`);
+    setIsLoggedIn(true);
+    setShowLoginModal(false);
+  };
+
   const menuItems = [
     { icon: Settings, label: "계정 설정", hasChevron: true },
     { icon: Bell, label: "알림 설정", hasChevron: true },
@@ -55,6 +87,53 @@ const MyPage: React.FC = () => {
     { icon: Star, label: "앱 평가하기", hasChevron: true },
     { icon: LogOut, label: "로그아웃", hasChevron: false, isDestructive: true },
   ];
+
+  // 로그인되지 않은 경우 로그인 화면 표시
+  if (!isLoggedIn) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl w-full max-w-sm p-8 text-center">
+          <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <User className="w-10 h-10 text-emerald-600" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            로그인이 필요합니다
+          </h1>
+          <p className="text-gray-600 mb-8">
+            소셜 계정으로 간편하게 로그인하세요
+          </p>
+
+          <div className="space-y-4">
+            {/* 카카오 로그인 */}
+            <button
+              onClick={() => handleSocialLogin("kakao")}
+              className="w-full flex items-center justify-center space-x-3 px-6 py-4 bg-yellow-400 hover:bg-yellow-500 text-black font-medium rounded-xl transition-colors shadow-sm"
+            >
+              <div className="w-6 h-6 flex items-center justify-center">
+                <span className="text-lg">🎯</span>
+              </div>
+              <span>카카오로 로그인</span>
+            </button>
+
+            {/* 구글 로그인 */}
+            <button
+              onClick={() => handleSocialLogin("google")}
+              className="w-full flex items-center justify-center space-x-3 px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-xl transition-colors shadow-sm border border-gray-300"
+            >
+              <div className="w-6 h-6 flex items-center justify-center">
+                <span className="text-lg">🔍</span>
+              </div>
+              <span>구글로 로그인</span>
+            </button>
+          </div>
+
+          <p className="text-xs text-gray-500 mt-6">
+            로그인하면 개인정보 처리방침과 이용약관에 동의하는 것으로 간주됩니다
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     // max-w-md mx-auto 클래스를 App.tsx의 Layout 컴포넌트로 이동했습니다.
@@ -222,6 +301,15 @@ const MyPage: React.FC = () => {
           {menuItems.map((item, index) => (
             <button
               key={index}
+              onClick={() => {
+                if (item.label === "계정 설정") {
+                  setShowAccountSettings(true);
+                } else if (item.label === "로그아웃") {
+                  // 로그아웃 확인 모달 표시
+                  setShowLogoutConfirm(true);
+                }
+                // 다른 메뉴 항목들은 추후 구현
+              }}
               className={`w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors ${
                 index !== menuItems.length - 1 ? "border-b border-gray-100" : ""
               } ${item.isDestructive ? "text-red-600" : "text-gray-900"}`}
@@ -267,6 +355,27 @@ const MyPage: React.FC = () => {
       <ActivityHistoryModal
         isOpen={showActivityHistory}
         onClose={() => setShowActivityHistory(false)}
+      />
+
+      {/* 계정 설정 모달 */}
+      <AccountSettingsModal
+        isOpen={showAccountSettings}
+        onClose={() => setShowAccountSettings(false)}
+        onWithdraw={handleWithdraw}
+      />
+
+      {/* 로그인 모달 */}
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLogin={handleSocialLogin}
+      />
+
+      {/* 로그아웃 확인 모달 */}
+      <LogoutConfirmModal
+        isOpen={showLogoutConfirm}
+        onClose={() => setShowLogoutConfirm(false)}
+        onConfirm={handleLogout}
       />
     </div>
   );
