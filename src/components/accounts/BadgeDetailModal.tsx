@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { X, Trophy, Target, Zap, Leaf, Star } from "lucide-react";
+import { X, Trophy, Target, Zap, Leaf, Star, Calendar } from "lucide-react";
 import type { Badge } from "@/types";
 
 interface BadgeDetailModalProps {
@@ -20,6 +20,7 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       description: "첫 번째 플로깅을 완료했습니다",
       icon: "🎯",
       category: "achievement",
+      tier: "bronze",
       isObtained: true,
       obtainedDate: "2024-01-15",
     },
@@ -29,6 +30,7 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       description: "총 10km를 달성했습니다",
       icon: "🏃",
       category: "distance",
+      tier: "silver",
       isObtained: true,
       obtainedDate: "2024-01-10",
     },
@@ -38,6 +40,7 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       description: "10회 정리를 완료했습니다",
       icon: "🧹",
       category: "cleanup",
+      tier: "bronze",
       isObtained: true,
       obtainedDate: "2024-01-05",
     },
@@ -47,6 +50,7 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       description: "총 50개의 쓰레기를 수거했습니다",
       icon: "🌱",
       category: "environment",
+      tier: "gold",
       isObtained: true,
       obtainedDate: "2024-01-01",
     },
@@ -56,6 +60,7 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       description: "7일 연속으로 플로깅을 완료했습니다",
       icon: "🔥",
       category: "achievement",
+      tier: "silver",
       isObtained: true,
       obtainedDate: "2023-12-25",
     },
@@ -66,6 +71,7 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       description: "총 100km를 달성하세요",
       icon: "🏆",
       category: "distance",
+      tier: "platinum",
       isObtained: false,
       progress: 45,
       maxProgress: 100,
@@ -76,6 +82,7 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       description: "100회 정리를 완료하세요",
       icon: "👑",
       category: "cleanup",
+      tier: "gold",
       isObtained: false,
       progress: 23,
       maxProgress: 100,
@@ -86,6 +93,7 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       description: "한 달 동안 매일 플로깅을 완료하세요",
       icon: "⭐",
       category: "achievement",
+      tier: "gold",
       isObtained: false,
       progress: 15,
       maxProgress: 30,
@@ -96,6 +104,7 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       description: "총 500개의 쓰레기를 수거하세요",
       icon: "🌿",
       category: "environment",
+      tier: "platinum",
       isObtained: false,
       progress: 89,
       maxProgress: 500,
@@ -106,6 +115,7 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       description: "특별한 조건을 만족하면 획득할 수 있습니다",
       icon: "💎",
       category: "special",
+      tier: "platinum",
       isObtained: false,
     },
   ]);
@@ -159,22 +169,42 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
     return Math.min((badge.progress / badge.maxProgress) * 100, 100);
   };
 
+  const getTierName = (tier: string) => {
+    switch (tier) {
+      case "bronze":
+        return "브론즈";
+      case "silver":
+        return "실버";
+      case "gold":
+        return "골드";
+      case "platinum":
+        return "플래티넘";
+      default:
+        return "브론즈";
+    }
+  };
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-hidden">
         {/* 헤더 */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900">뱃지 컬렉션</h2>
+          <div>
+            <h2 className="text-xl font-bold text-gray-900">뱃지 컬렉션</h2>
+            <p className="text-sm text-gray-500 mt-1">
+              총 {badges.length}개의 뱃지
+            </p>
+          </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-2 hover:bg-gray-100 rounded-xl transition-colors"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-5 h-5 text-gray-600" />
           </button>
         </div>
 
         {/* 뱃지 목록 */}
-        <div className="overflow-y-auto max-h-[calc(90vh-80px)]">
+        <div className="overflow-y-auto max-h-[calc(90vh-140px)]">
           {/* 보유 뱃지 섹션 */}
           {obtainedBadges.length > 0 && (
             <div className="p-6">
@@ -195,13 +225,16 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
                         <h4 className="font-semibold text-gray-900">
                           {badge.name}
                         </h4>
+                        <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full">
+                          {getTierName(badge.tier)}
+                        </span>
                         {getCategoryIcon(badge.category)}
                       </div>
                       <p className="text-sm text-gray-600 mb-1 leading-relaxed">
                         {badge.description}
                       </p>
                       {badge.obtainedDate && (
-                        <p className="text-xs text-emerald-600">
+                        <p className="text-xs text-emerald-600 mb-2">
                           획득일:{" "}
                           {new Date(badge.obtainedDate).toLocaleDateString()}
                         </p>
@@ -222,7 +255,7 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
 
           {/* 미보유 뱃지 섹션 */}
           {unobtainedBadges.length > 0 && (
-            <div className="p-6">
+            <div className="p-6 pb-8">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
                 미보유 뱃지 ({unobtainedBadges.length}개)
               </h3>
@@ -240,6 +273,9 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
                         <h4 className="font-semibold text-gray-500">
                           {badge.name}
                         </h4>
+                        <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                          {getTierName(badge.tier)}
+                        </span>
                         {getCategoryIcon(badge.category)}
                       </div>
                       <p className="text-sm text-gray-500 mb-2 leading-relaxed">
@@ -269,6 +305,30 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
               </div>
             </div>
           )}
+        </div>
+
+        {/* 하단 통계 */}
+        <div className="p-4 border-t border-gray-100 bg-gray-50">
+          <div className="grid grid-cols-3 gap-4 text-center">
+            <div>
+              <div className="text-lg font-bold text-gray-900">
+                {obtainedBadges.length}
+              </div>
+              <div className="text-xs text-gray-500">보유 뱃지</div>
+            </div>
+            <div>
+              <div className="text-lg font-bold text-gray-900">
+                {unobtainedBadges.length}
+              </div>
+              <div className="text-xs text-gray-500">미보유 뱃지</div>
+            </div>
+            <div>
+              <div className="text-lg font-bold text-emerald-600">
+                {Math.round((obtainedBadges.length / badges.length) * 100)}%
+              </div>
+              <div className="text-xs text-gray-500">달성률</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

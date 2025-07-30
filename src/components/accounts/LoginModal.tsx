@@ -51,23 +51,39 @@ const LoginModal: React.FC<LoginModalProps> = ({
           {/* 카카오 로그인 */}
           <button
             onClick={() => onLogin("kakao")}
-            className="w-full flex items-center justify-center space-x-3 px-6 py-4 bg-yellow-400 hover:bg-yellow-500 text-black font-medium rounded-xl transition-colors shadow-sm"
+            className="w-full flex items-center justify-center px-6 py-4 bg-[#FEE500] hover:bg-[#FDD800] text-black font-medium rounded-xl transition-colors shadow-sm"
           >
-            <div className="w-6 h-6 flex items-center justify-center">
-              <span className="text-lg">🎯</span>
+            <div className="flex items-center justify-center w-full max-w-xs">
+              <img
+                src="/images/kakaotalk_logo_icon.png"
+                alt="카카오 로고"
+                className="w-8 h-8 object-contain"
+                onError={(e) => {
+                  console.error("카카오 로고 이미지 로딩 실패");
+                  e.currentTarget.style.display = "none";
+                }}
+              />
+              <span className="ml-3 text-center">카카오로 로그인</span>
             </div>
-            <span>카카오로 로그인</span>
           </button>
 
           {/* 구글 로그인 */}
           <button
             onClick={() => onLogin("google")}
-            className="w-full flex items-center justify-center space-x-3 px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-xl transition-colors shadow-sm border border-gray-300"
+            className="w-full flex items-center justify-center px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-xl transition-colors shadow-sm border border-gray-300"
           >
-            <div className="w-6 h-6 flex items-center justify-center">
-              <span className="text-lg">🔍</span>
+            <div className="flex items-center justify-center w-full max-w-xs">
+              <img
+                src="/images/google_logo_icon.png"
+                alt="구글 로고"
+                className="w-8 h-8 object-contain"
+                onError={(e) => {
+                  console.error("구글 로고 이미지 로딩 실패");
+                  e.currentTarget.style.display = "none";
+                }}
+              />
+              <span className="ml-3 text-center">구글로 로그인</span>
             </div>
-            <span>구글로 로그인</span>
           </button>
         </div>
 

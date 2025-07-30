@@ -287,8 +287,8 @@ const MyPage: React.FC = () => {
         <div className="bg-white rounded-xl p-4 shadow-sm">
           <h3 className="font-semibold text-gray-900 mb-3">획득한 뱃지</h3>
 
-          {/* 가로 스크롤 컨테이너 */}
-          <div className="flex gap-4 overflow-x-auto pb-2">
+          {/* 반응형 뱃지 컨테이너 */}
+          <div className="grid grid-cols-4 gap-4 sm:flex sm:gap-4 sm:overflow-x-auto sm:pb-2">
             {/* 획득한 뱃지들 */}
             {userProfile.badges.map((badge, index) => (
               <div

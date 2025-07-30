@@ -77,12 +77,15 @@ export interface Achievement {
 //   imageUrl?: string;
 // }
 
+export type BadgeTier = "bronze" | "silver" | "gold" | "platinum";
+
 export interface Badge {
   id: string;
   name: string;
   description: string;
   icon: string;
   category: "distance" | "cleanup" | "achievement" | "environment" | "special";
+  tier: BadgeTier;
   isObtained: boolean;
   obtainedDate?: string;
   progress?: number;
