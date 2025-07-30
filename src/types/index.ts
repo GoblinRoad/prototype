@@ -3,7 +3,7 @@ export interface Course {
   name: string;
   location: string;
   distance: string;
-  difficulty: '쉬움' | '보통' | '어려움';
+  difficulty: "쉬움" | "보통" | "어려움";
   estimatedTime: string;
   cleanupSpots: number;
   rating: number;
@@ -53,7 +53,13 @@ export interface Achievement {
   icon: string;
   isUnlocked: boolean;
   unlockedAt?: string;
-  category: 'milestone' | 'distance' | 'cleanup' | 'region' | 'streak' | 'other';
+  category:
+    | "milestone"
+    | "distance"
+    | "cleanup"
+    | "region"
+    | "streak"
+    | "other";
 }
 
 // 기존 Achievement는 Certificate로 이름 변경
@@ -70,6 +76,18 @@ export interface Achievement {
 //   level?: 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
 //   imageUrl?: string;
 // }
+
+export interface Badge {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  category: "distance" | "cleanup" | "achievement" | "environment" | "special";
+  isObtained: boolean;
+  obtainedDate?: string;
+  progress?: number;
+  maxProgress?: number;
+}
 
 export interface UserProfile {
   id: string;
@@ -108,28 +126,28 @@ export interface AreaData {
 }
 
 export interface TouristSpot {
-  id: string
-  name: string
-  description: string
-  imageUrl: string
-  distance: string
-  category: string
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+  distance: string;
+  category: string;
 }
 
 export interface CourseDetail {
-  id: string
-  name: string
-  location: string
-  distance: string
-  difficulty: string
-  estimatedTime: string
-  cleanupSpots: number
-  rating: number
-  reviewCount: number
-  description: string
-  highlights: string[]
-  startPoint: string
-  endPoint: string
-  elevation: string
-  surface: string
+  id: string;
+  name: string;
+  location: string;
+  distance: string;
+  difficulty: string;
+  estimatedTime: string;
+  cleanupSpots: number;
+  rating: number;
+  reviewCount: number;
+  description: string;
+  highlights: string[];
+  startPoint: string;
+  endPoint: string;
+  elevation: string;
+  surface: string;
 }

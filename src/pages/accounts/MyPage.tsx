@@ -17,6 +17,7 @@ import {
   ChevronRight,
   Star,
   User,
+  Plus,
 } from "lucide-react";
 import type { UserProfile } from "@/types";
 import ProfileEditModal from "@/components/accounts/ProfileEditModal";
@@ -25,6 +26,7 @@ import AccountSettingsModal from "@/components/accounts/AccountSettingsModal";
 import LoginModal from "@/components/accounts/LoginModal";
 import LogoutConfirmModal from "@/components/accounts/LogoutConfirmModal";
 import BubbleAnimation from "@/components/accounts/BubbleAnimation";
+import BadgeDetailModal from "@/components/accounts/BadgeDetailModal";
 
 const MyPage: React.FC = () => {
   const [showEditProfile, setShowEditProfile] = useState(false);
@@ -32,6 +34,7 @@ const MyPage: React.FC = () => {
   const [showAccountSettings, setShowAccountSettings] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [showBadgeDetail, setShowBadgeDetail] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true); // 실제로는 로컬스토리지나 쿠키에서 확인
   const [userProfile, setUserProfile] = useState<UserProfile>({
     id: "1",
@@ -283,22 +286,39 @@ const MyPage: React.FC = () => {
       <div className="px-4 mb-6">
         <div className="bg-white rounded-xl p-4 shadow-sm">
           <h3 className="font-semibold text-gray-900 mb-3">획득한 뱃지</h3>
-          <div className="grid grid-cols-4 gap-3">
+
+          {/* 가로 스크롤 컨테이너 */}
+          <div className="flex gap-4 overflow-x-auto pb-2">
+            {/* 획득한 뱃지들 */}
             {userProfile.badges.map((badge, index) => (
-              <div key={index} className="text-center">
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <div
+                key={index}
+                className="flex flex-col items-center min-w-[80px] flex-shrink-0"
+              >
+                {/* 뱃지 아이콘 - 고정 크기 */}
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center mb-2">
                   <Trophy className="w-6 h-6 text-white" />
                 </div>
-                <p className="text-xs font-medium text-gray-900 break-words">
+                {/* 뱃지 이름 */}
+                <span className="text-sm font-medium text-gray-900 text-center leading-tight">
                   {badge}
-                </p>
+                </span>
               </div>
             ))}
-            <div className="text-center">
-              <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-2 border-2 border-dashed border-gray-300">
-                <span className="text-gray-400 text-lg">+</span>
-              </div>
-              <p className="text-xs text-gray-500">더 많은 뱃지</p>
+
+            {/* 더 많은 뱃지 버튼 - 동일한 구조와 크기 */}
+            <div className="flex flex-col items-center min-w-[80px] flex-shrink-0">
+              {/* 버튼 - 뱃지와 동일한 크기 */}
+              <button
+                className="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center mb-2 border-2 border-dashed border-gray-400 hover:border-gray-500 hover:bg-gray-300 transition-colors"
+                onClick={() => setShowBadgeDetail(true)}
+              >
+                <Plus className="w-6 h-6 text-gray-600" />
+              </button>
+              {/* 버튼 텍스트 */}
+              <span className="text-sm font-medium text-gray-600 text-center leading-tight">
+                더 많은 뱃지
+              </span>
             </div>
           </div>
         </div>
@@ -385,6 +405,12 @@ const MyPage: React.FC = () => {
         isOpen={showLogoutConfirm}
         onClose={() => setShowLogoutConfirm(false)}
         onConfirm={handleLogout}
+      />
+
+      {/* 뱃지 상세 모달 */}
+      <BadgeDetailModal
+        isOpen={showBadgeDetail}
+        onClose={() => setShowBadgeDetail(false)}
       />
     </div>
   );
