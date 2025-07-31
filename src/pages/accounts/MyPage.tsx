@@ -4,7 +4,6 @@ import type React from "react";
 import { useState } from "react";
 import {
   Settings,
-  Bell,
   Shield,
   HelpCircle,
   LogOut,
@@ -84,10 +83,8 @@ const MyPage: React.FC = () => {
 
   const menuItems = [
     { icon: Settings, label: "계정 설정", hasChevron: true },
-    { icon: Bell, label: "알림 설정", hasChevron: true },
     { icon: Shield, label: "개인정보 및 보안", hasChevron: true },
     { icon: HelpCircle, label: "도움말 및 지원", hasChevron: true },
-    { icon: Star, label: "앱 평가하기", hasChevron: true },
     { icon: LogOut, label: "로그아웃", hasChevron: false, isDestructive: true },
   ];
 
@@ -319,7 +316,7 @@ const MyPage: React.FC = () => {
       </div>
 
       {/* 메뉴 항목 */}
-      <div className="px-4 pb-6">
+      <div className="px-4 pb-4">
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           {menuItems.map((item, index) => (
             <button
@@ -354,7 +351,7 @@ const MyPage: React.FC = () => {
       </div>
 
       {/* 가입 정보 */}
-      <div className="px-4 pb-8">
+      <div className="px-4 pb-4">
         <div className="text-center">
           <p className="text-sm text-gray-500">
             {new Date(userProfile.joinDate).toLocaleDateString("ko-KR", {

@@ -16,7 +16,7 @@ import {
 
 interface Activity {
   id: string;
-  type: "plogging" | "badge" | "streak" | "course" | "achievement";
+  type: "plogging" | "badge" | "streak" | "course";
   title: string;
   description: string;
   points: number;
@@ -92,14 +92,7 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({
       location: "올림픽공원",
       distance: 5.1,
     },
-    {
-      id: "5",
-      type: "achievement",
-      title: "거리 달성자 업적 달성",
-      description: "총 100km 달성으로 업적을 달성했습니다",
-      points: 200,
-      date: "1주 전",
-    },
+
     {
       id: "6",
       type: "plogging",
@@ -141,8 +134,6 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({
         return <TrendingUp className={`${iconClass} text-orange-500`} />;
       case "course":
         return <MapPin className={`${iconClass} text-blue-500`} />;
-      case "achievement":
-        return <Award className={`${iconClass} text-purple-500`} />;
       default:
         return <Star className={`${iconClass} text-gray-500`} />;
     }
@@ -159,8 +150,6 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({
         return "bg-orange-100";
       case "course":
         return "bg-blue-100";
-      case "achievement":
-        return "bg-purple-100";
       default:
         return "bg-gray-100";
     }
@@ -177,8 +166,6 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({
         return "연속";
       case "course":
         return "코스";
-      case "achievement":
-        return "업적";
       default:
         return "활동";
     }
