@@ -10,6 +10,9 @@ import {
   Check,
   AlertCircle,
   Loader2,
+  Mountain,
+  Waves,
+  Building,
 } from "lucide-react";
 import type { UserProfile, RegionData, AreaData } from "@/types";
 
@@ -62,13 +65,58 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
   const [selectedDistrict, setSelectedDistrict] = useState(
     userProfile.district || ""
   );
-  const [preferredTheme, setPreferredTheme] = useState(
-    userProfile.preferredTheme || ""
+  const [preferredTheme, setPreferredTheme] = useState<string[]>(
+    userProfile.preferredTheme ? [userProfile.preferredTheme] : []
   );
   const [difficultyLevel, setDifficultyLevel] = useState(
     userProfile.difficultyLevel || ""
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // 테마 옵션
+  const themeOptions = [
+    { value: "전체", label: "전체", icon: null },
+    { value: "산", label: "산/숲", icon: Mountain },
+    { value: "바다", label: "바다/강", icon: Waves },
+    { value: "도시", label: "도시/공원", icon: Building },
+  ];
+
+  // 테마 토글 핸들러
+  const handleThemeToggle = (theme: string) => {
+    setPreferredTheme((prev) => {
+      if (theme === "전체") {
+        // 전체 버튼 클릭 시 전체 선택 또는 해제
+        if (prev.includes("전체")) {
+          return [];
+        } else {
+          return ["전체"];
+        }
+      }
+
+      if (prev.includes(theme)) {
+        // 개별 테마 해제
+        const newSelection = prev.filter((t) => t !== theme);
+        return newSelection;
+      } else {
+        // 개별 테마 추가 (전체가 선택되어 있으면 전체 해제)
+        const newSelection = prev.includes("전체")
+          ? [theme] // 전체가 선택되어 있으면 해당 테마만 선택
+          : [...prev, theme];
+
+        // 산, 바다, 도시가 모두 선택되면 전체로 변경
+        const individualThemes = ["산", "바다", "도시"];
+        const hasAllIndividualThemes = individualThemes.every((t) =>
+          newSelection.includes(t)
+        );
+
+        if (hasAllIndividualThemes) {
+          return ["전체"];
+        }
+
+        return newSelection;
+      }
+    });
+  };
 
   // 지역 데이터 (실제로는 API에서 가져올 데이터)
   const regionData: (RegionData | AreaData)[] = [
@@ -256,7 +304,10 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
         avatar: formData.avatar,
         region: selectedRegion,
         district: selectedDistrict,
-        preferredTheme: preferredTheme as "sea" | "mountain" | undefined,
+        preferredTheme:
+          preferredTheme.length > 0
+            ? (preferredTheme[0] as "sea" | "mountain" | undefined)
+            : undefined,
         difficultyLevel: difficultyLevel as
           | "easy"
           | "medium"
@@ -411,7 +462,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
 
           {/* 개인지역 선택 */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900">개인지역</h3>
+            <h3 className="text-lg font-semibold text-gray-900">선호 지역</h3>
 
             {/* 지역 선택 */}
             <div className="space-y-2">
@@ -468,34 +519,37 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
               선호 테마
             </label>
             <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => setPreferredTheme("sea")}
-                className={`p-4 rounded-xl border-2 transition-colors ${
-                  preferredTheme === "sea"
-                    ? "border-blue-500 bg-blue-50 text-blue-700"
-                    : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
-                }`}
-              >
-                <div className="text-center">
-                  <div className="text-2xl mb-2">🌊</div>
-                  <div className="font-medium">바다</div>
-                </div>
-              </button>
-              <button
-                type="button"
-                onClick={() => setPreferredTheme("mountain")}
-                className={`p-4 rounded-xl border-2 transition-colors ${
-                  preferredTheme === "mountain"
-                    ? "border-green-500 bg-green-50 text-green-700"
-                    : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
-                }`}
-              >
-                <div className="text-center">
-                  <div className="text-2xl mb-2">⛰️</div>
-                  <div className="font-medium">산</div>
-                </div>
-              </button>
+              {themeOptions.map((theme) => {
+                const IconComponent = theme.icon;
+                const isSelected = preferredTheme.includes(theme.value);
+                return (
+                  <button
+                    key={theme.value}
+                    type="button"
+                    onClick={() => handleThemeToggle(theme.value)}
+                    className={`p-4 rounded-xl border-2 transition-colors ${
+                      isSelected
+                        ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+                        : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+                    }`}
+                  >
+                    <div className="text-center">
+                      {IconComponent && (
+                        <div className="flex justify-center mb-2">
+                          <IconComponent className="w-6 h-6" />
+                        </div>
+                      )}
+                      <div
+                        className={`font-medium ${
+                          theme.value === "전체" ? "text-base" : "text-sm"
+                        }`}
+                      >
+                        {theme.label}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
