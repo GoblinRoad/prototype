@@ -26,6 +26,7 @@ import LoginModal from "@/components/accounts/LoginModal";
 import LogoutConfirmModal from "@/components/accounts/LogoutConfirmModal";
 import BubbleAnimation from "@/components/accounts/BubbleAnimation";
 import BadgeDetailModal from "@/components/accounts/BadgeDetailModal";
+import HelpSupportModal from "@/components/accounts/HelpSupportModal";
 
 const MyPage: React.FC = () => {
   const [showEditProfile, setShowEditProfile] = useState(false);
@@ -34,6 +35,7 @@ const MyPage: React.FC = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showBadgeDetail, setShowBadgeDetail] = useState(false);
+  const [showHelpSupport, setShowHelpSupport] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true); // 실제로는 로컬스토리지나 쿠키에서 확인
   const [userProfile, setUserProfile] = useState<UserProfile>({
     id: "1",
@@ -324,6 +326,8 @@ const MyPage: React.FC = () => {
               onClick={() => {
                 if (item.label === "계정 설정") {
                   setShowAccountSettings(true);
+                } else if (item.label === "도움말 및 지원") {
+                  setShowHelpSupport(true);
                 } else if (item.label === "로그아웃") {
                   // 로그아웃 확인 모달 표시
                   setShowLogoutConfirm(true);
@@ -402,6 +406,12 @@ const MyPage: React.FC = () => {
       <BadgeDetailModal
         isOpen={showBadgeDetail}
         onClose={() => setShowBadgeDetail(false)}
+      />
+
+      {/* 도움말 및 지원 모달 */}
+      <HelpSupportModal
+        isOpen={showHelpSupport}
+        onClose={() => setShowHelpSupport(false)}
       />
     </div>
   );
