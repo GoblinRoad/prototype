@@ -40,8 +40,7 @@ const MyPage: React.FC = () => {
     id: "1",
     name: "김플로깅",
     email: "plogging@email.com",
-    avatar:
-      "https://images.pexels.com/photos/1559486/pexels-photo-1559486.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+    avatar: "/images/green-goblin.png",
     joinDate: "2023-08-15",
     level: 12,
     totalDistance: 127.5,
@@ -164,17 +163,12 @@ const MyPage: React.FC = () => {
             />
           </div>
 
-          <h1 className="text-2xl font-bold text-white mb-1">
+          <h1 className="text-2xl font-bold text-white mb-2">
             {userProfile.name}
           </h1>
-          <p className="text-emerald-100 text-sm mb-2">{userProfile.email}</p>
 
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="bg-white/20 rounded-full px-3 py-1">
-              <span className="text-white text-sm font-medium">
-                레벨 {userProfile.level}
-              </span>
-            </div>
+          {/* 순위 배지 - 닉네임 하단 */}
+          <div className="flex items-center justify-center mb-4">
             <div className="bg-white/20 rounded-full px-3 py-1">
               <span className="text-white text-sm font-medium">
                 순위 #{userProfile.rank}

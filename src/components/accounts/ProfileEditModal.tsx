@@ -304,7 +304,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
               </div>
 
               {/* 이미지 편집 버튼들 */}
-              <div className="absolute bottom-0 right-0 flex space-x-1">
+              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg hover:bg-emerald-600 transition-colors"
