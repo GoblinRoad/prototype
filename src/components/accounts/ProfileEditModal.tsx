@@ -558,7 +558,23 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
             <label className="block text-sm font-medium text-gray-700">
               플로깅 난이도
             </label>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-4 gap-3">
+              <button
+                type="button"
+                onClick={() => setDifficultyLevel("")}
+                className={`p-3 rounded-xl border-2 transition-colors ${
+                  difficultyLevel === ""
+                    ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+                    : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                <div className="text-center">
+                  <div className="text-sm font-medium leading-tight">
+                    <div>상관</div>
+                    <div>없음</div>
+                  </div>
+                </div>
+              </button>
               <button
                 type="button"
                 onClick={() => setDifficultyLevel("easy")}
@@ -569,7 +585,6 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                 }`}
               >
                 <div className="text-center">
-                  <div className="text-lg mb-1">😊</div>
                   <div className="text-sm font-medium">쉬움</div>
                 </div>
               </button>
@@ -578,12 +593,11 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                 onClick={() => setDifficultyLevel("medium")}
                 className={`p-3 rounded-xl border-2 transition-colors ${
                   difficultyLevel === "medium"
-                    ? "border-blue-500 bg-blue-50 text-blue-700"
+                    ? "border-emerald-500 bg-emerald-50 text-emerald-700"
                     : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
                 }`}
               >
                 <div className="text-center">
-                  <div className="text-lg mb-1">😋</div>
                   <div className="text-sm font-medium">보통</div>
                 </div>
               </button>
@@ -592,12 +606,11 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                 onClick={() => setDifficultyLevel("hard")}
                 className={`p-3 rounded-xl border-2 transition-colors ${
                   difficultyLevel === "hard"
-                    ? "border-red-500 bg-red-50 text-red-700"
+                    ? "border-emerald-500 bg-emerald-50 text-emerald-700"
                     : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
                 }`}
               >
                 <div className="text-center">
-                  <div className="text-lg mb-1">🤩</div>
                   <div className="text-sm font-medium">어려움</div>
                 </div>
               </button>
