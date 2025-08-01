@@ -3,6 +3,60 @@
 @tailwind utilities;
 
 body {
-  background-color: #f8fafc;
-  color: #334155;
+    background-color: #f8fafc;
+    color: #334155;
+}
+
+.map-container {
+    flex: 1; /* 남은 공간 전체 사용 */
+    overflow: hidden;
+    position: relative;
+    margin-bottom: max(70px, calc(70px + env(safe-area-inset-bottom)));
+}
+
+/* 모바일 버튼 위치 */
+.mobile-button-container {
+    bottom: max(4rem, calc(4rem + env(safe-area-inset-bottom))); /* 7rem → 5rem */
+}
+
+.mobile-secondary-button-container {
+    bottom: max(9rem, calc(9rem + env(safe-area-inset-bottom))); /* 12rem → 9rem */
+}
+
+/* 터치 친화적 버튼 크기 */
+.touch-friendly-button {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* 모바일 전용 스타일 */
+@media (max-width: 768px) {
+    .mobile-optimized {
+        padding: 1rem;
+    }
+
+    .mobile-button-spacing {
+        margin-bottom: 1rem;
+    }
+}
+
+/* 작은 화면 대응 */
+@media (max-height: 600px) {
+    .mobile-button-container {
+        bottom: max(1rem, calc(1rem + env(safe-area-inset-bottom))); /* 더 아래로 */
+    }
+}
+
+/* 큰 화면 */
+@media (min-height: 900px) {
+    .mobile-button-container {
+        bottom: max(3rem, calc(3rem + env(safe-area-inset-bottom))); /* 더 아래로 */
+    }
+}
+
+/* 가로 모드 */
+@media (orientation: landscape) and (max-height: 500px) {
+    .mobile-button-container {
+        bottom: max(1rem, calc(1rem + env(safe-area-inset-bottom))); /* 더 아래로 */
+    }
 }

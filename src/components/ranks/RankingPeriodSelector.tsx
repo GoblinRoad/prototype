@@ -1,31 +1,57 @@
-"use client"
-
 import type React from "react"
 
 interface RankingPeriodSelectorProps {
-    rankingPeriod: "weekly" | "monthly"
-    setRankingPeriod: (period: "weekly" | "monthly") => void
+    rankingPeriod: "weekly" | "monthly" | "all"
+    setRankingPeriod: (period: "weekly" | "monthly" | "all") => void
 }
 
-const RankingPeriodSelector: React.FC<RankingPeriodSelectorProps> = ({ rankingPeriod, setRankingPeriod }) => {
+const RankingPeriodSelector: React.FC<RankingPeriodSelectorProps> = ({
+                                                                         rankingPeriod,
+                                                                         setRankingPeriod
+                                                                     }) => {
     return (
-        <div className="bg-white rounded-lg p-1 flex mb-4 shadow-sm">
-            <button
-                onClick={() => setRankingPeriod("weekly")}
-                className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors ${
-                    rankingPeriod === "weekly" ? "bg-blue-100 text-blue-700 shadow-sm" : "text-gray-600 hover:text-gray-900"
-                }`}
-            >
-                주간
-            </button>
-            <button
-                onClick={() => setRankingPeriod("monthly")}
-                className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors ${
-                    rankingPeriod === "monthly" ? "bg-blue-100 text-blue-700 shadow-sm" : "text-gray-600 hover:text-gray-900"
-                }`}
-            >
-                월간
-            </button>
+        <div className="flex justify-center mb-8">
+            <div className="flex space-x-8">
+                <button
+                    onClick={() => setRankingPeriod("weekly")}
+                    className={`pb-3 text-base font-semibold transition-all duration-200 relative ${
+                        rankingPeriod === "weekly"
+                            ? 'text-gray-900'
+                            : 'text-gray-400 hover:text-gray-600'
+                    }`}
+                >
+                    주간
+                    {rankingPeriod === "weekly" && (
+                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900 rounded-full" />
+                    )}
+                </button>
+                <button
+                    onClick={() => setRankingPeriod("monthly")}
+                    className={`pb-3 text-base font-semibold transition-all duration-200 relative ${
+                        rankingPeriod === "monthly"
+                            ? 'text-gray-900'
+                            : 'text-gray-400 hover:text-gray-600'
+                    }`}
+                >
+                    월간
+                    {rankingPeriod === "monthly" && (
+                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900 rounded-full" />
+                    )}
+                </button>
+                <button
+                    onClick={() => setRankingPeriod("all")}
+                    className={`pb-3 text-base font-semibold transition-all duration-200 relative ${
+                        rankingPeriod === "all"
+                            ? 'text-gray-900'
+                            : 'text-gray-400 hover:text-gray-600'
+                    }`}
+                >
+                    전체
+                    {rankingPeriod === "all" && (
+                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900 rounded-full" />
+                    )}
+                </button>
+            </div>
         </div>
     )
 }
