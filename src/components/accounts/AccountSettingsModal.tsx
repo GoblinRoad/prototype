@@ -185,17 +185,6 @@ const AccountSettingsModal: React.FC<AccountSettingsModalProps> = ({
             </div>
             <ChevronRight className="w-5 h-5 text-red-400" />
           </button>
-
-          {/* 안내 메시지 */}
-          <div className="bg-green-50 border border-green-200 rounded-xl p-4 mt-6">
-            <div className="flex items-start space-x-2">
-              <Shield className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-              <div className="text-sm text-green-700">
-                <p className="font-medium mb-1">계정 보안</p>
-                <p>회원탈퇴 후 7일 내에 복구가 가능합니다.</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

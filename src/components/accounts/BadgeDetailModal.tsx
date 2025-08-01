@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { X, Trophy, Target, Zap, Leaf, Star, Calendar } from "lucide-react";
 import type { Badge } from "@/types";
+import BadgeDetailViewModal from "./BadgeDetailViewModal";
 
 interface BadgeDetailModalProps {
   isOpen: boolean;
@@ -11,6 +12,8 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
+  const [isDetailViewOpen, setIsDetailViewOpen] = useState(false);
   // 뱃지 데이터 (실제로는 API에서 가져올 데이터)
   const [badges] = useState<Badge[]>([
     // 보유 뱃지들 (최신 날짜 순)
@@ -184,6 +187,16 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
     }
   };
 
+  const handleBadgeClick = (badge: Badge) => {
+    setSelectedBadge(badge);
+    setIsDetailViewOpen(true);
+  };
+
+  const handleDetailViewClose = () => {
+    setIsDetailViewOpen(false);
+    setSelectedBadge(null);
+  };
+
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-hidden">
@@ -215,10 +228,19 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
                 {obtainedBadges.map((badge) => (
                   <div
                     key={badge.id}
-                    className="flex items-start p-4 bg-emerald-50 rounded-xl border border-emerald-200 min-h-[80px]"
+                    className="flex items-start p-4 bg-emerald-50 rounded-xl border border-emerald-200 min-h-[80px] cursor-pointer hover:bg-emerald-100 transition-colors"
+                    onClick={() => handleBadgeClick(badge)}
                   >
-                    <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                      <span className="text-2xl">{badge.icon}</span>
+                    <div className="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0">
+                      <img
+                        src={
+                          badge.tier === "gold"
+                            ? "/images/gold_goblin.png"
+                            : `/images/${badge.tier}.png`
+                        }
+                        alt={`${getTierName(badge.tier)} 뱃지`}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div className="flex-1 flex flex-col justify-start">
                       <div className="flex items-center gap-2 mb-1">
@@ -228,7 +250,6 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
                         <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full">
                           {getTierName(badge.tier)}
                         </span>
-                        {getCategoryIcon(badge.category)}
                       </div>
                       <p className="text-sm text-gray-600 mb-1 leading-relaxed">
                         {badge.description}
@@ -263,10 +284,19 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
                 {unobtainedBadges.map((badge) => (
                   <div
                     key={badge.id}
-                    className="flex items-start p-4 bg-gray-50 rounded-xl border border-gray-200 min-h-[80px]"
+                    className="flex items-start p-4 bg-gray-50 rounded-xl border border-gray-200 min-h-[80px] cursor-pointer hover:bg-gray-100 transition-colors"
+                    onClick={() => handleBadgeClick(badge)}
                   >
-                    <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                      <span className="text-2xl opacity-50">{badge.icon}</span>
+                    <div className="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0">
+                      <img
+                        src={
+                          badge.tier === "gold"
+                            ? "/images/gold_goblin.png"
+                            : `/images/${badge.tier}.png`
+                        }
+                        alt={`${getTierName(badge.tier)} 뱃지`}
+                        className="w-full h-full object-cover opacity-50"
+                      />
                     </div>
                     <div className="flex-1 flex flex-col justify-start">
                       <div className="flex items-center gap-2 mb-1">
@@ -276,7 +306,6 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
                         <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
                           {getTierName(badge.tier)}
                         </span>
-                        {getCategoryIcon(badge.category)}
                       </div>
                       <p className="text-sm text-gray-500 mb-2 leading-relaxed">
                         {badge.description}
@@ -331,6 +360,15 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
           </div>
         </div>
       </div>
+
+      {/* 뱃지 상세 보기 모달 */}
+      {selectedBadge && (
+        <BadgeDetailViewModal
+          badge={selectedBadge}
+          isOpen={isDetailViewOpen}
+          onClose={handleDetailViewClose}
+        />
+      )}
     </div>
   );
 };

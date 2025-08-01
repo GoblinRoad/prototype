@@ -48,7 +48,12 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
     longestStreak: 28,
     completedCourses: 23,
     favoriteLocation: "한강공원",
-    badges: ["첫 걸음", "거리 달성자", "정리 챔피언", "연속 달성자"],
+    badges: [
+      { name: "첫 걸음", tier: "bronze" },
+      { name: "거리 달성자", tier: "silver" },
+      { name: "정리 챔피언", tier: "gold" },
+      { name: "연속 달성자", tier: "bronze" },
+    ],
     recentActivities: [
       { date: "2일 전", activity: "올림픽공원 플로깅 완료", points: 85 },
       { date: "4일 전", activity: "한강공원 코스 완주", points: 120 },
@@ -255,11 +260,19 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
               <div className="grid grid-cols-4 gap-3">
                 {userDetail.badges.map((badge, index) => (
                   <div key={index} className="text-center">
-                    <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center mx-auto mb-1">
-                      <Medal className="w-5 h-5 text-white" />
+                    <div className="w-10 h-10 rounded-xl overflow-hidden mx-auto mb-1">
+                      <img
+                        src={
+                          badge.tier === "gold"
+                            ? "/images/gold_goblin.png"
+                            : `/images/${badge.tier}.png`
+                        }
+                        alt={`${badge.name} 뱃지`}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <p className="text-xs font-medium text-gray-900 break-words">
-                      {badge}
+                      {badge.name}
                     </p>
                   </div>
                 ))}

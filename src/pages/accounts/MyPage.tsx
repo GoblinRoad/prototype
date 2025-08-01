@@ -48,7 +48,11 @@ const MyPage: React.FC = () => {
     totalCleanups: 89,
     totalPoints: 2340,
     rank: 8,
-    badges: ["첫 걸음", "거리 달성자", "정리 챔피언"],
+    badges: [
+      { name: "첫 걸음", tier: "bronze" },
+      { name: "거리 달성자", tier: "silver" },
+      { name: "정리 챔피언", tier: "gold" },
+    ],
   });
 
   // 프로필 저장 핸들러
@@ -288,13 +292,21 @@ const MyPage: React.FC = () => {
                 key={index}
                 className="flex flex-col items-center min-w-[80px] flex-shrink-0"
               >
-                {/* 뱃지 아이콘 - 고정 크기 */}
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center mb-2">
-                  <Trophy className="w-6 h-6 text-white" />
+                {/* 뱃지 이미지 */}
+                <div className="w-12 h-12 rounded-xl overflow-hidden mb-2">
+                  <img
+                    src={
+                      badge.tier === "gold"
+                        ? "/images/gold_goblin.png"
+                        : `/images/${badge.tier}.png`
+                    }
+                    alt={`${badge.name} 뱃지`}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 {/* 뱃지 이름 */}
                 <span className="text-sm font-medium text-gray-900 text-center leading-tight">
-                  {badge}
+                  {badge.name}
                 </span>
               </div>
             ))}

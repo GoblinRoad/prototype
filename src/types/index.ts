@@ -103,7 +103,7 @@ export interface UserProfile {
   totalCleanups: number;
   totalPoints: number;
   rank: number;
-  badges: string[];
+  badges: Array<{ name: string; tier: BadgeTier }>;
   // 새로운 필드들
   region?: string;
   district?: string;
