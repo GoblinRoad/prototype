@@ -236,6 +236,8 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
                         src={
                           badge.tier === "gold"
                             ? "/images/gold_goblin.png"
+                            : badge.tier === "platinum"
+                            ? "/images/platinum.png"
                             : `/images/${badge.tier}.png`
                         }
                         alt={`${getTierName(badge.tier)} 뱃지`}
@@ -292,6 +294,8 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
                         src={
                           badge.tier === "gold"
                             ? "/images/gold_goblin.png"
+                            : badge.tier === "platinum"
+                            ? "/images/platinum.png"
                             : `/images/${badge.tier}.png`
                         }
                         alt={`${getTierName(badge.tier)} 뱃지`}

@@ -298,6 +298,8 @@ const MyPage: React.FC = () => {
                     src={
                       badge.tier === "gold"
                         ? "/images/gold_goblin.png"
+                        : badge.tier === "platinum"
+                        ? "/images/platinum.png"
                         : `/images/${badge.tier}.png`
                     }
                     alt={`${badge.name} 뱃지`}

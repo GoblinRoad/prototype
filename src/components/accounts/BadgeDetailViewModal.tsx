@@ -120,7 +120,13 @@ const BadgeDetailViewModal: React.FC<BadgeDetailViewModalProps> = ({
             >
               {/* 뱃지 이미지 */}
               <img
-                src={badge.tier === "gold" ? "/images/gold_goblin.png" : `/images/${badge.tier}.png`}
+                src={
+                  badge.tier === "gold"
+                    ? "/images/gold_goblin.png"
+                    : badge.tier === "platinum"
+                    ? "/images/platinum.png"
+                    : `/images/${badge.tier}.png`
+                }
                 alt={`${getTierName(badge.tier)} 뱃지`}
                 className="w-48 h-48 object-contain cursor-grab active:cursor-grabbing"
                 draggable={false}
