@@ -1,5 +1,4 @@
 import React from 'react';
-import { Bell } from 'lucide-react';
 
 const Header: React.FC = () => {
   return (
@@ -10,13 +9,6 @@ const Header: React.FC = () => {
               <span className="text-white font-bold text-lg">🌱</span>
             </div>
             <h1 className="text-xl font-bold text-gray-900">깨비로드</h1>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <button className="p-3 hover:bg-gray-100 rounded-xl transition-all duration-200 relative active:scale-95">
-              <Bell className="w-5 h-5 text-gray-600" />
-              <span className="absolute top-1 right-1 w-3 h-3 bg-emerald-500 rounded-full shadow-sm animate-pulse"></span>
-            </button>
           </div>
         </div>
       </header>
