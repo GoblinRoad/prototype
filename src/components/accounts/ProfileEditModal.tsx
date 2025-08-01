@@ -269,6 +269,18 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
     reader.readAsDataURL(file);
   };
 
+  // 기본 이미지인지 확인하는 함수
+  const isDefaultImage = (avatar: string) => {
+    // 기본 이미지 URL 패턴이나 기본값 확인
+    return !avatar || avatar === "" || avatar === userProfile.avatar;
+  };
+
+  // 사용자가 업로드한 이미지인지 확인하는 함수
+  const isUserUploadedImage = (avatar: string) => {
+    // base64 데이터 URL인지 확인 (사용자가 업로드한 이미지)
+    return avatar && avatar.startsWith("data:image/");
+  };
+
   // 이미지 삭제 핸들러
   const handleImageDelete = () => {
     setFormData((prev) => ({ ...prev, avatar: "" }));
@@ -290,10 +302,14 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
 
     // 실제로는 API 호출을 통해 저장
     setTimeout(() => {
+      // avatar가 빈 문자열이면 undefined로 전달하여 기본 이미지로 설정
+      const avatarToSave =
+        formData.avatar.trim() === "" ? undefined : formData.avatar;
+
       onSave({
         name: formData.name,
         email: formData.email,
-        avatar: formData.avatar,
+        avatar: avatarToSave,
         region: selectedRegion,
         district: selectedDistrict,
         preferredTheme:
@@ -354,7 +370,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                 >
                   <Camera className="w-4 h-4 text-white" />
                 </button>
-                {formData.avatar && (
+                {formData.avatar && isUserUploadedImage(formData.avatar) && (
                   <button
                     onClick={handleImageDelete}
                     className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 transition-colors"
