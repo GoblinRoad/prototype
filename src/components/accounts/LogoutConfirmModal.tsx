@@ -14,16 +14,14 @@ const LogoutConfirmModal: React.FC<LogoutConfirmModalProps> = ({
 }) => {
   useEffect(() => {
     if (isOpen) {
-      document.body.style.position = "fixed";
-      document.body.style.width = "100%";
+      // body 스크롤 막기 (더 안전한 방법)
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.position = "";
-      document.body.style.width = "";
+      document.body.style.overflow = "";
     }
 
     return () => {
-      document.body.style.position = "";
-      document.body.style.width = "";
+      document.body.style.overflow = "";
     };
   }, [isOpen]);
 

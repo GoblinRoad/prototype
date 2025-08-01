@@ -32,20 +32,12 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
   // 모달 열릴 때 뒤쪽 스크롤 막기
   useEffect(() => {
     if (isOpen) {
-      // 현재 스크롤 위치 저장
-      const scrollY = window.scrollY;
-
-      // body 스크롤 막기
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = "100%";
+      // body 스크롤 막기 (더 안전한 방법)
+      document.body.style.overflow = "hidden";
 
       // 모달 닫힐 때 복원
       return () => {
-        document.body.style.position = "";
-        document.body.style.top = "";
-        document.body.style.width = "";
-        window.scrollTo(0, scrollY);
+        document.body.style.overflow = "";
       };
     }
   }, [isOpen]);
