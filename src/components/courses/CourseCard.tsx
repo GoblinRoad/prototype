@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { MapPin, Clock, Target, Star } from "lucide-react"
-import type { Course } from "../../types"
+import type { Course } from "@/types"
 
 interface CourseCardProps {
     course: Course
