@@ -87,7 +87,7 @@ const CoursesPage: React.FC = () => {
   const aiRecommendedCourses: Course[] = [
     {
       id: "ai1",
-      name: "🤖 AI 추천: 초보자 친화적 코스",
+      name: "AI 추천: 초보자 친화적 코스",
       location: "서울 마포구",
       distance: "2.5 km",
       difficulty: "쉬움",
@@ -97,7 +97,7 @@ const CoursesPage: React.FC = () => {
     },
     {
       id: "ai2",
-      name: "🤖 AI 추천: 경치 좋은 강변 코스",
+      name: "AI 추천: 경치 좋은 강변 코스",
       location: "서울 잠실",
       distance: "4.8 km",
       difficulty: "보통",
