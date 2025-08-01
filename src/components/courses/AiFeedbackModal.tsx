@@ -84,10 +84,10 @@ const AiFeedbackModal: React.FC<AiFeedbackModalProps> = ({ isOpen, onClose, cour
     if (!isOpen) return null
 
     return (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end justify-center">
-            <div className="bg-white rounded-t-3xl w-full max-w-md h-[90vh] overflow-hidden">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end justify-center pb-20">
+            <div className="bg-white rounded-t-3xl w-full max-w-md max-h-[calc(100vh-80px)] overflow-hidden flex flex-col">
                 {/* 헤더 */}
-                <div className="bg-gradient-to-r from-purple-500 to-blue-500 px-6 pt-6 pb-4 relative">
+                <div className="bg-gradient-to-r from-purple-500 to-blue-500 px-6 pt-6 pb-4 relative flex-shrink-0">
                     <button
                         onClick={onClose}
                         className="absolute top-4 right-4 w-8 h-8 bg-white/20 rounded-full flex items-center justify-center"
@@ -346,7 +346,7 @@ const AiFeedbackModal: React.FC<AiFeedbackModalProps> = ({ isOpen, onClose, cour
                                             onClick={() => setPersonalInfo((prev) => ({ ...prev, companion }))}
                                             className={`p-3 rounded-xl border-2 text-sm font-medium transition-colors ${
                                                 personalInfo.companion === companion
-                                                    ? "border-purple-500 bg-purple-50 text-purple-700"
+                                                    ? "border-purple-500 bg-purple-50"
                                                     : "border-gray-200 hover:border-gray-300"
                                             }`}
                                         >
@@ -366,7 +366,7 @@ const AiFeedbackModal: React.FC<AiFeedbackModalProps> = ({ isOpen, onClose, cour
                                             onClick={() => setPersonalInfo((prev) => ({ ...prev, frequency }))}
                                             className={`p-3 rounded-xl border-2 text-sm font-medium transition-colors ${
                                                 personalInfo.frequency === frequency
-                                                    ? "border-purple-500 bg-purple-50 text-purple-700"
+                                                    ? "border-purple-500 bg-purple-50"
                                                     : "border-gray-200 hover:border-gray-300"
                                             }`}
                                         >
@@ -380,7 +380,7 @@ const AiFeedbackModal: React.FC<AiFeedbackModalProps> = ({ isOpen, onClose, cour
                 </div>
 
                 {/* 하단 버튼 */}
-                <div className="p-6 border-t bg-white">
+                <div className="p-6 border-t bg-white flex-shrink-0">
                     <div className="flex space-x-3">
                         {currentStep > 1 && (
                             <button
