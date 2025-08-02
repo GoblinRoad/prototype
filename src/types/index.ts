@@ -284,3 +284,81 @@ declare global {
   }
 }
 export {}
+
+
+// 사용자 선호도 관련 타입 정의
+export interface UserPreferences {
+  // 기본 정보
+  preferredThemes: string[] // 'sea', 'mountain', 'urban', 'park', 'river', 'historic'
+  preferredRegions: string[] // 시/도 목록
+  difficultyLevel: string // 'easy', 'medium', 'hard'
+
+  // 운동 관련
+  exerciseIntensity: string // 'light', 'moderate', 'intense'
+  preferredDistance: string // '1-3km', '3-5km', '5-10km', '10km+'
+
+  // 시간/계절 관련
+  preferredTimeSlots: string[] // 'morning', 'afternoon', 'evening'
+  preferredSeasons: string[] // 'spring', 'summer', 'autumn', 'winter'
+
+  // 사회적 요소
+  companionType: string[] // 'alone', 'friends', 'family', 'couple', 'pet', 'group'
+
+  // 시설/접근성
+  importantFacilities: string[] // 'restroom', 'parking', 'cafe', 'restaurant', 'convenience', 'bench'
+  accessibilityPreference: string // 'public_transport', 'parking_convenience', 'walking_distance'
+
+  // 목적/취향
+  activityPurpose: string[] // 'exercise', 'healing', 'photography', 'environment', 'social', 'exploration'
+  courseType: string // 'circular', 'linear', 'mixed'
+
+  // 추가 선호도 (확장 가능)
+  weatherPreference: string[] // 'sunny', 'cloudy', 'cool', 'warm'
+  sceneryPreference: string[] // 'nature', 'urban', 'historic', 'modern'
+}
+
+// 추천 시스템을 위한 가중치 설정
+export interface PreferenceWeights {
+  theme: number
+  region: number
+  difficulty: number
+  distance: number
+  facilities: number
+  purpose: number
+  // ... 기타 가중치
+}
+
+// API 응답을 위한 추천 결과 타입
+export interface RecommendationResult {
+  courseId: string
+  score: number
+  matchedPreferences: string[]
+  reasons: string[]
+}
+
+// 환경 뉴스 관련 타입 정의
+export interface NewsItem {
+  id: string
+  title: string
+  summary: string
+  content: string
+  imageUrl: string
+  publishedAt: string
+  source: string
+  category: NewsCategory
+  tags: string[]
+  readTime: number // 읽는데 걸리는 시간 (분)
+  isBookmarked?: boolean
+  viewCount: number
+  author?: string
+  sourceUrl?: string
+}
+
+export type NewsCategory = "all" | "environment" | "climate" | "ocean" | "forest" | "energy" | "policy" | "technology"
+
+export interface NewsFilter {
+  category: NewsCategory
+  searchQuery: string
+  sortBy: "latest" | "popular" | "relevant"
+}
+
