@@ -3,16 +3,17 @@
 import type React from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import type { Course } from "@/types"
+import type {Course, GroupEvent} from "@/types"
 import CoursesHeader from "@/components/courses/CoursesHeader"
 import CoursesTabNavigation from "@/components/courses/CoursesTabNavigation"
 import NearbyCoursesSection from "@/components/courses/NearbyCoursesSection"
 import SearchCoursesSection from "@/components/courses/SearchCoursesSection"
 import AiRecommendedCoursesSection from "@/components/courses/AiRecommendedCoursesSection"
+import GroupPloggingSection from "@/components/courses/GroupPloggingSection" // 새로운 컴포넌트 임포트
 
 const CoursesPage: React.FC = () => {
   const navigate = useNavigate()
-  const [activeTab, setActiveTab] = useState<"nearby" | "search" | "ai">("nearby")
+  const [activeTab, setActiveTab] = useState<"nearby" | "search" | "ai" | "group">("nearby") // 'group' 탭 추가
 
   // 현재 위치 기반 코스 (데이터는 CoursesPage에서 관리)
   const nearbyCourses: Course[] = [
@@ -107,6 +108,32 @@ const CoursesPage: React.FC = () => {
     },
   ]
 
+  // 그룹 플로깅 이벤트 (임시 데이터)
+  const groupEvents: GroupEvent[] = [
+    {
+      id: "g1",
+      name: "주말 한강공원 단체 플로깅",
+      location: "서울 여의도 한강공원",
+      date: "2025-08-10",
+      time: "10:00",
+      participants: 15,
+      maxParticipants: 30,
+      difficulty: "쉬움", // 이제 타입이 명확해짐
+      imageUrl: "https://cdn.m-i.kr/news/photo/202408/1146803_915673_016.jpg",
+    },
+    {
+      id: "g2",
+      name: "남산 둘레길 환경 정화",
+      location: "서울 중구 남산공원",
+      date: "2025-08-15",
+      time: "14:00",
+      participants: 8,
+      maxParticipants: 20,
+      difficulty: "보통", // 이제 타입이 명확해짐
+      imageUrl: "https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=400",
+    },
+  ]
+
   const handleCourseClick = (courseId: string) => {
     navigate(`/courses/${courseId}`)
   }
@@ -122,6 +149,8 @@ const CoursesPage: React.FC = () => {
           {activeTab === "ai" && (
               <AiRecommendedCoursesSection courses={aiRecommendedCourses} onCourseClick={handleCourseClick} />
           )}
+          {/* '그룹 플로깅' 탭이 활성화될 때 렌더링될 새로운 섹션 */}
+          {activeTab === "group" && <GroupPloggingSection events={groupEvents} />}
         </div>
       </div>
   )
