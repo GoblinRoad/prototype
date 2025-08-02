@@ -145,6 +145,14 @@ const GroupEventDetailPage: React.FC = () => {
         navigate(`/certification?eventId=${eventId}`)
     }
 
+    const handleChatRoomClick = () => {
+        if (eventDetail) {
+            navigate(`/group-events/${eventId}/chat`, {
+                state: { eventName: eventDetail.name, eventId: eventDetail.id },
+            })
+        }
+    }
+
     if (loading) {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -312,16 +320,23 @@ const GroupEventDetailPage: React.FC = () => {
             <div className="bg-white border-t border-gray-200 p-4 w-full">
                 {isJoined && (
                     <div className="flex space-x-4 mb-4">
-                        <a
-                            href={eventDetail.chatLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex-1 flex items-center justify-center px-4 py-3 text-sm bg-cyan-100 text-cyan-800 rounded-2xl font-medium hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-500 transition-colors"
-                            aria-label="이벤트 채팅방 열기"
-                        >
+                        {/*<a*/}
+                        {/*    href={eventDetail.chatLink}*/}
+                        {/*    target="_blank"*/}
+                        {/*    rel="noopener noreferrer"*/}
+                        {/*    className="flex-1 flex items-center justify-center px-4 py-3 text-sm bg-cyan-100 text-cyan-800 rounded-2xl font-medium hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-500 transition-colors"*/}
+                        {/*    aria-label="이벤트 채팅방 열기"*/}
+                        {/*>*/}
+                            <button
+                                onClick={handleChatRoomClick} // 카카오톡 오픈채팅 링크 대신 내부 채팅방으로 이동
+                                className="flex-1 flex items-center justify-center px-4 py-3 text-sm bg-cyan-100 text-cyan-800 rounded-2xl font-medium hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-500 transition-colors"
+                                aria-label="이벤트 채팅방 열기"
+                            >
                             <MessageSquare className="w-5 h-5 mr-2 text-cyan-600" />
                             채팅방
-                        </a>
+                        </button>
+                        {/*</a>*/}
+
                         <button
                             onClick={handleStartEvent}
                             className="flex-1 flex items-center justify-center px-4 py-3 text-sm bg-emerald-600 text-white rounded-2xl font-medium hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 transition-colors"

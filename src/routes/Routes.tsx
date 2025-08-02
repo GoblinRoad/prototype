@@ -7,9 +7,11 @@ import RankingsPage from "@/pages/ranks/RankingsPage"
 import CertificationPage from "@/pages/certification/CertificationPage"
 import MyPage from "@/pages/accounts/MyPage"
 import CourseDetailPage from "@/pages/coureDetail/CourseDetailPage"
-import GroupEventDetailPage from "@/pages/groupEvents/GroupEventDetailPage" // 새 페이지 임포트
-import CreateGroupEventPage from "@/pages/groupEvents/CreateGroupEventPage" // 새 페이지 임포트
-import AllParticipantsPage from "@/pages/groupEvents/AllParticipantsPage" // 새 페이지 임포트
+import GroupEventDetailPage from "@/pages/groupEvents/GroupEventDetailPage"
+import CreateGroupEventPage from "@/pages/groupEvents/CreateGroupEventPage"
+import AllParticipantsPage from "@/pages/groupEvents/AllParticipantsPage"
+import GroupChatPage from "@/pages/chats/GroupChatPage" // 새 페이지 임포트
+
 
 const routes: RouteObject[] = [
     {
@@ -54,6 +56,10 @@ const routes: RouteObject[] = [
                 element: <AllParticipantsPage />,
 
 
+            },
+            {
+                path: "group-events/:eventId/chat", // 새로운 채팅방 라우트
+                element: <GroupChatPage />,
             },
         ],
     },
