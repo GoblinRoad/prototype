@@ -7,6 +7,9 @@ import RankingsPage from "@/pages/ranks/RankingsPage"
 import CertificationPage from "@/pages/certification/CertificationPage"
 import MyPage from "@/pages/accounts/MyPage"
 import CourseDetailPage from "@/pages/coureDetail/CourseDetailPage"
+import GroupEventDetailPage from "@/pages/groupEvents/GroupEventDetailPage" // 새 페이지 임포트
+import CreateGroupEventPage from "@/pages/groupEvents/CreateGroupEventPage" // 새 페이지 임포트
+import AllParticipantsPage from "@/pages/groupEvents/AllParticipantsPage" // 새 페이지 임포트
 
 const routes: RouteObject[] = [
     {
@@ -36,6 +39,21 @@ const routes: RouteObject[] = [
             {
                 path: "profile",
                 element: <MyPage />,
+            },
+            // 그룹 이벤트 관련 라우트 추가
+            {
+                path: "group-events/:eventId",
+                element: <GroupEventDetailPage />,
+            },
+            {
+                path: "group-events/create",
+                element: <CreateGroupEventPage />,
+            },
+            {
+                path: "group-events/:eventId/participants",
+                element: <AllParticipantsPage />,
+
+
             },
         ],
     },
