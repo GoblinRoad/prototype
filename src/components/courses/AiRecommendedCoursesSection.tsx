@@ -13,7 +13,16 @@ interface AiRecommendedCoursesSectionProps {
 }
 
 const AiRecommendedCoursesSection: React.FC<AiRecommendedCoursesSectionProps> = ({ courses, onCourseClick }) => {
-    const [showFeedbackModal, setShowFeedbackModal] = useState(false)
+    const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false)
+    const [selectedCourseName, setSelectedCourseName] = useState<string>("")
+
+
+    const handleCourseClick = (courseId: string, courseName: string) => {
+        onCourseClick(courseId)
+        setSelectedCourseName(courseName)
+        setIsFeedbackModalOpen(true)
+    }
+
 
     return (
         <div className="p-4">
@@ -109,7 +118,7 @@ const AiRecommendedCoursesSection: React.FC<AiRecommendedCoursesSectionProps> = 
                                 <span>AI</span>
                             </div>
                         </div>
-                        <CourseCard course={course} onCourseClick={onCourseClick} />
+                        <CourseCard course={course} onCourseClick={() => handleCourseClick(course.id, course.name)} />
                     </div>
                 ))}
             </div>
@@ -151,7 +160,7 @@ const AiRecommendedCoursesSection: React.FC<AiRecommendedCoursesSectionProps> = 
                         </div>
                     </div>
                     <button
-                        onClick={() => setShowFeedbackModal(true)}
+                        onClick={() => setIsFeedbackModalOpen(true)}
                         className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-200"
                     >
                         피드백 남기기
@@ -161,10 +170,11 @@ const AiRecommendedCoursesSection: React.FC<AiRecommendedCoursesSectionProps> = 
 
             {/* AI 피드백 모달 */}
             <AiFeedbackModal
-                isOpen={showFeedbackModal}
-                onClose={() => setShowFeedbackModal(false)}
-                courseName="AI 추천 코스"
+                isOpen={isFeedbackModalOpen}
+                onClose={() => setIsFeedbackModalOpen(false)}
+                courseName={selectedCourseName}
             />
+
         </div>
     )
 }
