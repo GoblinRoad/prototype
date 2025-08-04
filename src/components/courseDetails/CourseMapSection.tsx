@@ -6,7 +6,7 @@ interface CourseMapSectionProps {
 const CourseMapSection: React.FC<CourseMapSectionProps> = ({ location }) => {
   return (
     <div className="relative">
-      <div className="h-48 bg-gray-200 flex items-center justify-center">
+      <div className="h-80 bg-gray-200 flex items-center justify-center">
         <img
           src="https://i.ibb.co/LD87ykZh/map.png"
           alt="코스 지도"
