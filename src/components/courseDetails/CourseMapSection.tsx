@@ -1,6 +1,4 @@
 import type React from "react";
-import { MapPin, Navigation } from "lucide-react";
-
 interface CourseMapSectionProps {
   location: string;
 }
@@ -18,9 +16,6 @@ const CourseMapSection: React.FC<CourseMapSectionProps> = ({ location }) => {
           <p className="text-white text-sm font-medium">{location}</p>
         </div>
       </div>
-      <button className="absolute bottom-4 right-4 bg-white p-3 rounded-full shadow-lg hover:shadow-xl transition-shadow">
-        <Navigation className="w-5 h-5 text-emerald-600" />
-      </button>
     </div>
   );
 };
