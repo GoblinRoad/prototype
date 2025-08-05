@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import { X } from "lucide-react";
 import type { Badge } from "@/types";
 
@@ -13,62 +13,7 @@ const BadgeDetailViewModal: React.FC<BadgeDetailViewModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [rotation, setRotation] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [lastTouch, setLastTouch] = useState({ x: 0, y: 0 });
-  const badgeRef = useRef<HTMLDivElement>(null);
-
   if (!isOpen) return null;
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setIsDragging(true);
-    const touch = e.touches[0];
-    setLastTouch({ x: touch.clientX, y: touch.clientY });
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging) return;
-
-    const touch = e.touches[0];
-    const deltaX = touch.clientX - lastTouch.x;
-
-    setRotation((prev) => ({
-      x: 0, // 상하 회전 고정
-      y: prev.y + deltaX * 0.5,
-    }));
-
-    setLastTouch({ x: touch.clientX, y: touch.clientY });
-  };
-
-  const handleTouchEnd = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    setLastTouch({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-
-    const deltaX = e.clientX - lastTouch.x;
-
-    setRotation((prev) => ({
-      x: 0, // 상하 회전 고정
-      y: prev.y + deltaX * 0.5,
-    }));
-
-    setLastTouch({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const resetRotation = () => {
-    setRotation({ x: 0, y: 0 });
-  };
 
   const getTierName = (tier: string) => {
     switch (tier) {
@@ -80,6 +25,8 @@ const BadgeDetailViewModal: React.FC<BadgeDetailViewModalProps> = ({
         return "골드";
       case "platinum":
         return "플래티넘";
+      case "diamond":
+        return "다이아몬드";
       default:
         return "브론즈";
     }
@@ -101,31 +48,20 @@ const BadgeDetailViewModal: React.FC<BadgeDetailViewModalProps> = ({
         {/* 뱃지 이미지 */}
         <div className="flex justify-center px-6 pb-6">
           <div className="relative">
-            {/* 3D 뱃지 컨테이너 */}
-            <div
-              ref={badgeRef}
-              className="w-48 h-48 perspective-1000"
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseUp}
-              style={{
-                transformStyle: "preserve-3d",
-                transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
-                transition: isDragging ? "none" : "transform 0.3s ease-out",
-              }}
-            >
-              {/* 뱃지 이미지 */}
-              <img
-                src={badge.tier === "gold" ? "/images/gold_goblin.png" : `/images/${badge.tier}.png`}
-                alt={`${getTierName(badge.tier)} 뱃지`}
-                className="w-48 h-48 object-contain cursor-grab active:cursor-grabbing"
-                draggable={false}
-              />
-            </div>
+            {/* 뱃지 이미지 */}
+            <img
+              src={
+                badge.tier === "gold"
+                  ? "/images/gold_goblin.png"
+                  : badge.tier === "platinum"
+                  ? "/images/platinum.png"
+                  : badge.tier === "diamond"
+                  ? "/images/diamond.png"
+                  : `/images/${badge.tier}.png`
+              }
+              alt={`${getTierName(badge.tier)} 뱃지`}
+              className="w-48 h-48 object-contain"
+            />
 
             {/* 등급 표시 */}
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">

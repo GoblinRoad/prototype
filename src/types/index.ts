@@ -71,7 +71,7 @@ export interface Achievement {
 //   imageUrl?: string;
 // }
 
-export type BadgeTier = "bronze" | "silver" | "gold" | "platinum"
+export type BadgeTier = "bronze" | "silver" | "gold" | "platinum" | "diamond";
 
 export interface Badge {
   id: string

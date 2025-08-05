@@ -26,6 +26,8 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       tier: "bronze",
       isObtained: true,
       obtainedDate: "2024-01-15",
+      progress: 3,
+      maxProgress: 5,
     },
     {
       id: "2",
@@ -36,6 +38,8 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       tier: "silver",
       isObtained: true,
       obtainedDate: "2024-01-10",
+      progress: 10,
+      maxProgress: 100,
     },
     {
       id: "3",
@@ -46,6 +50,8 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       tier: "bronze",
       isObtained: true,
       obtainedDate: "2024-01-05",
+      progress: 10,
+      maxProgress: 50,
     },
     {
       id: "4",
@@ -53,9 +59,11 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       description: "총 50개의 쓰레기를 수거했습니다",
       icon: "🌱",
       category: "environment",
-      tier: "gold",
+      tier: "platinum",
       isObtained: true,
       obtainedDate: "2024-01-01",
+      progress: 50,
+      maxProgress: 500,
     },
     {
       id: "5",
@@ -63,9 +71,11 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       description: "7일 연속으로 플로깅을 완료했습니다",
       icon: "🔥",
       category: "achievement",
-      tier: "silver",
+      tier: "diamond",
       isObtained: true,
       obtainedDate: "2023-12-25",
+      progress: 7,
+      maxProgress: 30,
     },
     // 미보유 뱃지들
     {
@@ -76,8 +86,6 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       category: "distance",
       tier: "platinum",
       isObtained: false,
-      progress: 45,
-      maxProgress: 100,
     },
     {
       id: "7",
@@ -87,8 +95,6 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       category: "cleanup",
       tier: "gold",
       isObtained: false,
-      progress: 23,
-      maxProgress: 100,
     },
     {
       id: "8",
@@ -98,8 +104,6 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       category: "achievement",
       tier: "gold",
       isObtained: false,
-      progress: 15,
-      maxProgress: 30,
     },
     {
       id: "9",
@@ -107,17 +111,6 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       description: "총 500개의 쓰레기를 수거하세요",
       icon: "🌿",
       category: "environment",
-      tier: "platinum",
-      isObtained: false,
-      progress: 89,
-      maxProgress: 500,
-    },
-    {
-      id: "10",
-      name: "히든 뱃지",
-      description: "특별한 조건을 만족하면 획득할 수 있습니다",
-      icon: "💎",
-      category: "special",
       tier: "platinum",
       isObtained: false,
     },
@@ -182,6 +175,8 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
         return "골드";
       case "platinum":
         return "플래티넘";
+      case "diamond":
+        return "다이아몬드";
       default:
         return "브론즈";
     }
@@ -236,6 +231,10 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
                         src={
                           badge.tier === "gold"
                             ? "/images/gold_goblin.png"
+                            : badge.tier === "platinum"
+                            ? "/images/platinum.png"
+                            : badge.tier === "diamond"
+                            ? "/images/diamond.png"
                             : `/images/${badge.tier}.png`
                         }
                         alt={`${getTierName(badge.tier)} 뱃지`}
@@ -251,14 +250,23 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
                           {getTierName(badge.tier)}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-600 mb-1 leading-relaxed">
-                        {badge.description}
-                      </p>
-                      {badge.obtainedDate && (
-                        <p className="text-xs text-emerald-600 mb-2">
-                          획득일:{" "}
-                          {new Date(badge.obtainedDate).toLocaleDateString()}
-                        </p>
+                      {badge.progress !== undefined && badge.maxProgress && (
+                        <div className="w-full">
+                          <div className="flex justify-between text-xs text-emerald-600 mb-1">
+                            <span>다음 등급까지</span>
+                            <span>
+                              {badge.progress}/{badge.maxProgress}
+                            </span>
+                          </div>
+                          <div className="w-full bg-emerald-200 rounded-full h-2">
+                            <div
+                              className="bg-emerald-500 h-2 rounded-full transition-all duration-300"
+                              style={{
+                                width: `${getProgressPercentage(badge)}%`,
+                              }}
+                            ></div>
+                          </div>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -292,6 +300,10 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
                         src={
                           badge.tier === "gold"
                             ? "/images/gold_goblin.png"
+                            : badge.tier === "platinum"
+                            ? "/images/platinum.png"
+                            : badge.tier === "diamond"
+                            ? "/images/diamond.png"
                             : `/images/${badge.tier}.png`
                         }
                         alt={`${getTierName(badge.tier)} 뱃지`}
@@ -310,24 +322,6 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
                       <p className="text-sm text-gray-500 mb-2 leading-relaxed">
                         {badge.description}
                       </p>
-                      {badge.progress !== undefined && badge.maxProgress && (
-                        <div className="w-full">
-                          <div className="flex justify-between text-xs text-gray-500 mb-1">
-                            <span>진행률</span>
-                            <span>
-                              {badge.progress}/{badge.maxProgress}
-                            </span>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div
-                              className="bg-emerald-500 h-2 rounded-full transition-all duration-300"
-                              style={{
-                                width: `${getProgressPercentage(badge)}%`,
-                              }}
-                            ></div>
-                          </div>
-                        </div>
-                      )}
                     </div>
                   </div>
                 ))}
