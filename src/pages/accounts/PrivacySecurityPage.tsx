@@ -1,7 +1,14 @@
 import type React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Shield, User, Trash2, AlertTriangle } from "lucide-react";
+import {
+  ArrowLeft,
+  Shield,
+  User,
+  Trash2,
+  AlertTriangle,
+  X,
+} from "lucide-react";
 
 const PrivacySecurityPage: React.FC = () => {
   const navigate = useNavigate();
@@ -147,32 +154,88 @@ const PrivacySecurityPage: React.FC = () => {
 
       {/* 회원탈퇴 확인 모달 */}
       {showWithdrawConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl w-full max-w-sm p-6">
-            <div className="flex items-center justify-center w-12 h-12 bg-red-100 rounded-full mx-auto mb-4">
-              <AlertTriangle className="w-6 h-6 text-red-600" />
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900 text-center mb-2">
-              회원탈퇴 확인
-            </h3>
-            <p className="text-gray-600 text-center mb-6">
-              정말로 회원탈퇴를 하시겠습니까?
-              <br />
-              모든 데이터가 영구적으로 삭제됩니다.
-            </p>
-            <div className="flex space-x-3">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl w-full max-w-sm overflow-hidden">
+            {/* 헤더 */}
+            <div className="flex justify-end p-4">
               <button
                 onClick={() => setShowWithdrawConfirm(false)}
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+                className="p-2 hover:bg-gray-100 rounded-xl transition-colors"
               >
-                취소
+                <X className="w-5 h-5 text-gray-600" />
               </button>
-              <button
-                onClick={handleWithdraw}
-                className="flex-1 px-4 py-3 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition-colors"
-              >
-                탈퇴
-              </button>
+            </div>
+
+            {/* 아이콘 및 제목 */}
+            <div className="px-6 pb-6">
+              <div className="flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mx-auto mb-4">
+                <div className="relative">
+                  <User className="w-8 h-8 text-red-600" />
+                  <X className="w-4 h-4 text-red-600 absolute -top-1 -right-1" />
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 text-center mb-6">
+                회원탈퇴
+              </h3>
+
+              {/* 주의사항 */}
+              <div className="border border-red-200 rounded-xl p-4 mb-6 bg-red-50">
+                <div className="flex items-center mb-3">
+                  <AlertTriangle className="w-5 h-5 text-red-600 mr-2" />
+                  <span className="font-semibold text-red-700">주의사항</span>
+                </div>
+                <ul className="space-y-2">
+                  <li className="flex items-start">
+                    <span className="text-red-600 mr-2">•</span>
+                    <span className="text-red-700 text-sm">
+                      모든 활동 기록이 영구 삭제됩니다
+                    </span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-red-600 mr-2">•</span>
+                    <span className="text-red-700 text-sm">
+                      획득한 뱃지와 업적이 사라집니다
+                    </span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-red-600 mr-2">•</span>
+                    <span className="text-red-700 text-sm">
+                      7일 내에 복구가 가능합니다
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* 동의 체크박스 */}
+              <div className="flex items-start mb-6">
+                <input
+                  type="checkbox"
+                  id="withdraw-agreement"
+                  className="mt-1 mr-3 w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 focus:ring-2"
+                />
+                <label
+                  htmlFor="withdraw-agreement"
+                  className="text-sm text-gray-700 leading-relaxed"
+                >
+                  위 내용을 모두 확인했으며, 회원탈퇴에 동의합니다
+                </label>
+              </div>
+
+              {/* 버튼 */}
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setShowWithdrawConfirm(false)}
+                  className="flex-1 px-4 py-3 border border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+                >
+                  취소
+                </button>
+                <button
+                  onClick={handleWithdraw}
+                  className="flex-1 px-4 py-3 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition-colors"
+                >
+                  회원탈퇴
+                </button>
+              </div>
             </div>
           </div>
         </div>
