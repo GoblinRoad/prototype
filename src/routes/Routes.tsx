@@ -19,6 +19,7 @@ import PrivacySecurityPage from "@/pages/accounts/PrivacySecurityPage";
 import PrivacyPolicyPage from "@/pages/accounts/PrivacyPolicyPage";
 import AppPermissionsPage from "@/pages/accounts/AppPermissionsPage";
 import LoginPage from "@/pages/accounts/LoginPage";
+import ActivityHistoryPage from "@/pages/accounts/ActivityHistoryPage";
 
 const routes: RouteObject[] = [
   {
@@ -101,6 +102,10 @@ const routes: RouteObject[] = [
             onLogin={(provider) => console.log(`${provider} 로그인 처리`)}
           />
         ),
+      },
+      {
+        path: "activity-history",
+        element: <ActivityHistoryPage />,
       },
     ],
   },
