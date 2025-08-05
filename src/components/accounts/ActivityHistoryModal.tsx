@@ -2,27 +2,18 @@
 
 import type React from "react";
 import { useEffect } from "react";
-import {
-  X,
-  Trophy,
-  Star,
-  Calendar,
-  Target,
-  MapPin,
-  Award,
-  Clock,
-  TrendingUp,
-} from "lucide-react";
+import { X, MapPin, Clock, Target, Calendar } from "lucide-react";
 
-interface Activity {
+interface PloggingRecord {
   id: string;
-  type: "plogging" | "badge" | "streak" | "course";
-  title: string;
-  description: string;
-  points: number;
+  courseName: string;
   date: string;
-  location?: string;
-  distance?: number;
+  distance: number;
+  location: string;
+  imageUrl: string;
+  trashCount: number;
+  duration: string;
+  points: number;
 }
 
 interface ActivityHistoryModalProps {
@@ -37,131 +28,71 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({
   // 모달 열릴 때 뒤쪽 스크롤 막기
   useEffect(() => {
     if (isOpen) {
-      // body 스크롤 막기 (더 안전한 방법)
       document.body.style.overflow = "hidden";
-
-      // 모달 닫힐 때 복원
       return () => {
         document.body.style.overflow = "";
       };
     }
   }, [isOpen]);
-  // 활동 내역 데이터 (실제로는 API에서 가져올 데이터)
-  const activities: Activity[] = [
+
+  // 플로깅 기록 데이터 (실제로는 API에서 가져올 데이터)
+  const ploggingRecords: PloggingRecord[] = [
     {
       id: "1",
-      type: "plogging",
-      title: "한강공원 플로깅 완료",
-      description: "한강공원에서 3.2km 플로깅을 완료했습니다",
-      points: 50,
-      date: "2시간 전",
-      location: "한강공원",
+      courseName: "한강공원 플로깅",
+      date: "2024-01-15",
       distance: 3.2,
+      location: "한강공원",
+      imageUrl: "/images/plogging1.jpg",
+      trashCount: 5,
+      duration: "45분",
+      points: 50,
     },
     {
       id: "2",
-      type: "badge",
-      title: '"정리 챔피언" 뱃지 획득',
-      description: "100회 정리 달성으로 뱃지를 획득했습니다",
-      points: 100,
-      date: "1일 전",
+      courseName: "올림픽공원 둘레길",
+      date: "2024-01-12",
+      distance: 5.1,
+      location: "올림픽공원",
+      imageUrl: "/images/plogging2.jpg",
+      trashCount: 8,
+      duration: "1시간 15분",
+      points: 120,
     },
     {
       id: "3",
-      type: "streak",
-      title: "7일 연속 달성!",
-      description: "7일 연속 플로깅을 달성했습니다",
-      points: 75,
-      date: "3일 전",
+      courseName: "청계천 산책로",
+      date: "2024-01-10",
+      distance: 2.8,
+      location: "청계천",
+      imageUrl: "/images/plogging3.jpg",
+      trashCount: 3,
+      duration: "35분",
+      points: 45,
     },
     {
       id: "4",
-      type: "course",
-      title: "올림픽공원 코스 완주",
-      description: "올림픽공원 둘레길을 완주했습니다",
-      points: 120,
-      date: "4일 전",
-      location: "올림픽공원",
-      distance: 5.1,
-    },
-
-    {
-      id: "6",
-      type: "plogging",
-      title: "청계천 산책로 플로깅",
-      description: "청계천에서 2.8km 플로깅을 완료했습니다",
-      points: 45,
-      date: "1주 전",
-      location: "청계천",
-      distance: 2.8,
+      courseName: "남산타워 코스",
+      date: "2024-01-08",
+      distance: 4.5,
+      location: "남산타워",
+      imageUrl: "/images/plogging4.jpg",
+      trashCount: 6,
+      duration: "55분",
+      points: 80,
     },
     {
-      id: "7",
-      type: "badge",
-      title: '"첫 걸음" 뱃지 획득',
-      description: "첫 번째 플로깅을 완료했습니다",
-      points: 25,
-      date: "2주 전",
-    },
-    {
-      id: "8",
-      type: "streak",
-      title: "3일 연속 달성",
-      description: "3일 연속 플로깅을 달성했습니다",
-      points: 30,
-      date: "2주 전",
+      id: "5",
+      courseName: "여의도공원",
+      date: "2024-01-05",
+      distance: 3.8,
+      location: "여의도공원",
+      imageUrl: "/images/plogging5.jpg",
+      trashCount: 4,
+      duration: "50분",
+      points: 65,
     },
   ];
-
-  // 활동 타입별 아이콘과 색상
-  const getActivityIcon = (type: Activity["type"]) => {
-    const iconClass = "w-5 h-5";
-
-    switch (type) {
-      case "plogging":
-        return <Target className={`${iconClass} text-emerald-600`} />;
-      case "badge":
-        return <Trophy className={`${iconClass} text-yellow-500`} />;
-      case "streak":
-        return <TrendingUp className={`${iconClass} text-orange-500`} />;
-      case "course":
-        return <MapPin className={`${iconClass} text-blue-500`} />;
-      default:
-        return <Star className={`${iconClass} text-gray-500`} />;
-    }
-  };
-
-  // 활동 타입별 배경 색상
-  const getActivityBgColor = (type: Activity["type"]) => {
-    switch (type) {
-      case "plogging":
-        return "bg-emerald-100";
-      case "badge":
-        return "bg-yellow-100";
-      case "streak":
-        return "bg-orange-100";
-      case "course":
-        return "bg-blue-100";
-      default:
-        return "bg-gray-100";
-    }
-  };
-
-  // 활동 타입별 라벨
-  const getActivityLabel = (type: Activity["type"]) => {
-    switch (type) {
-      case "plogging":
-        return "플로깅";
-      case "badge":
-        return "뱃지";
-      case "streak":
-        return "연속";
-      case "course":
-        return "코스";
-      default:
-        return "활동";
-    }
-  };
 
   if (!isOpen) return null;
 
@@ -171,9 +102,9 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({
         {/* 헤더 */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <div>
-            <h2 className="text-xl font-bold text-gray-900">활동 내역</h2>
+            <h2 className="text-xl font-bold text-gray-900">최근 활동</h2>
             <p className="text-sm text-gray-500 mt-1">
-              총 {activities.length}개의 활동
+              총 {ploggingRecords.length}개의 활동
             </p>
           </div>
           <button
@@ -184,93 +115,69 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({
           </button>
         </div>
 
-        {/* 활동 목록 */}
+        {/* 최근 활동 목록 */}
         <div className="overflow-y-auto max-h-[calc(90vh-140px)]">
           <div className="p-4 space-y-4">
-            {activities.map((activity) => (
+            {ploggingRecords.map((record) => (
               <div
-                key={activity.id}
+                key={record.id}
                 className="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors"
               >
-                <div className="flex items-start space-x-3">
-                  {/* 활동 아이콘 */}
-                  <div
-                    className={`w-10 h-10 ${getActivityBgColor(
-                      activity.type
-                    )} rounded-lg flex items-center justify-center flex-shrink-0`}
-                  >
-                    {getActivityIcon(activity.type)}
+                {/* 이미지와 기본 정보 */}
+                <div className="flex gap-4">
+                  <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                    <img
+                      src={record.imageUrl}
+                      alt={`${record.courseName} 플로깅`}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src =
+                          "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%239ca3af' font-size='12'%3E플로깅%3C/text%3E%3C/svg%3E";
+                      }}
+                    />
                   </div>
-
-                  {/* 활동 내용 */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-1">
-                      <h3 className="font-semibold text-gray-900 text-sm">
-                        {activity.title}
-                      </h3>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-xs text-emerald-600 font-medium">
-                          +{activity.points}점
-                        </span>
-                        <div className="flex items-center text-xs text-gray-500">
-                          <Clock className="w-3 h-3 mr-1" />
-                          {activity.date}
-                        </div>
-                      </div>
+                    <h3 className="font-semibold text-gray-900 mb-1">
+                      {record.courseName}
+                    </h3>
+                    <div className="flex items-center text-sm text-gray-500 mb-2">
+                      <Calendar className="w-4 h-4 mr-1" />
+                      {record.date}
                     </div>
-
-                    <p className="text-xs text-gray-600 mb-2">
-                      {activity.description}
-                    </p>
-
-                    {/* 추가 정보 */}
-                    <div className="flex items-center space-x-4">
-                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-white border border-gray-200">
-                        {getActivityLabel(activity.type)}
-                      </span>
-
-                      {activity.location && (
-                        <span className="inline-flex items-center text-xs text-gray-500">
-                          <MapPin className="w-3 h-3 mr-1" />
-                          {activity.location}
-                        </span>
-                      )}
-
-                      {activity.distance && (
-                        <span className="inline-flex items-center text-xs text-gray-500">
-                          <Target className="w-3 h-3 mr-1" />
-                          {activity.distance}km
-                        </span>
-                      )}
+                    <div className="flex items-center text-sm text-gray-500 mb-2">
+                      <MapPin className="w-4 h-4 mr-1" />
+                      {record.location}
                     </div>
+                    <div className="flex items-center text-sm text-gray-500">
+                      <Clock className="w-4 h-4 mr-1" />
+                      {record.duration}
+                    </div>
+                  </div>
+                </div>
+
+                {/* 상세 정보 */}
+                <div className="mt-4 grid grid-cols-3 gap-3 text-center">
+                  <div className="bg-white rounded-lg p-2">
+                    <div className="text-lg font-bold text-emerald-600">
+                      {record.distance}km
+                    </div>
+                    <div className="text-xs text-gray-500">거리</div>
+                  </div>
+                  <div className="bg-white rounded-lg p-2">
+                    <div className="text-lg font-bold text-orange-600">
+                      {record.trashCount}개
+                    </div>
+                    <div className="text-xs text-gray-500">정리</div>
+                  </div>
+                  <div className="bg-white rounded-lg p-2">
+                    <div className="text-lg font-bold text-blue-600">
+                      {record.points}P
+                    </div>
+                    <div className="text-xs text-gray-500">포인트</div>
                   </div>
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* 하단 통계 */}
-        <div className="p-4 border-t border-gray-100 bg-gray-50">
-          <div className="grid grid-cols-3 gap-4 text-center">
-            <div>
-              <div className="text-lg font-bold text-gray-900">
-                {activities.reduce((sum, activity) => sum + activity.points, 0)}
-              </div>
-              <div className="text-xs text-gray-600">총 획득 점수</div>
-            </div>
-            <div>
-              <div className="text-lg font-bold text-gray-900">
-                {activities.filter((a) => a.type === "plogging").length}
-              </div>
-              <div className="text-xs text-gray-600">플로깅 횟수</div>
-            </div>
-            <div>
-              <div className="text-lg font-bold text-gray-900">
-                {activities.filter((a) => a.type === "badge").length}
-              </div>
-              <div className="text-xs text-gray-600">획득 뱃지</div>
-            </div>
           </div>
         </div>
       </div>

@@ -184,38 +184,68 @@ const MyPage: React.FC = () => {
 
           <div className="space-y-3">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Trophy className="w-4 h-4 text-emerald-600" />
+              <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                <img
+                  src="/images/plogging1.jpg"
+                  alt="한강공원 플로깅"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src =
+                      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%239ca3af' font-size='10'%3E플로깅%3C/text%3E%3C/svg%3E";
+                  }}
+                />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900">
-                  한강공원 플로깅 완료
+                  한강공원 플로깅
                 </p>
-                <p className="text-xs text-gray-500">2시간 전 • +50점</p>
+                <p className="text-xs text-gray-500">
+                  2024-01-15 • 3.2km • 5개 정리
+                </p>
               </div>
             </div>
 
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-sky-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Star className="w-4 h-4 text-sky-600" />
+              <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                <img
+                  src="/images/plogging2.jpg"
+                  alt="올림픽공원 둘레길"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src =
+                      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%239ca3af' font-size='10'%3E플로깅%3C/text%3E%3C/svg%3E";
+                  }}
+                />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900">
-                  "정리 챔피언" 뱃지 획득
+                  올림픽공원 둘레길
                 </p>
-                <p className="text-xs text-gray-500">1일 전 • +100점</p>
+                <p className="text-xs text-gray-500">
+                  2024-01-12 • 5.1km • 8개 정리
+                </p>
               </div>
             </div>
 
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Calendar className="w-4 h-4 text-orange-600" />
+              <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                <img
+                  src="/images/plogging3.jpg"
+                  alt="청계천 산책로"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src =
+                      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%239ca3af' font-size='10'%3E플로깅%3C/text%3E%3C/svg%3E";
+                  }}
+                />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900">
-                  7일 연속 달성!
+                  청계천 산책로
                 </p>
-                <p className="text-xs text-gray-500">3일 전 • +75점</p>
+                <p className="text-xs text-gray-500">
+                  2024-01-10 • 2.8km • 3개 정리
+                </p>
               </div>
             </div>
           </div>
