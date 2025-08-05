@@ -49,9 +49,9 @@ const MyPage: React.FC = () => {
     totalPoints: 2340,
     rank: 8,
     badges: [
-      { name: "첫 걸음", tier: "bronze" },
-      { name: "거리 달성자", tier: "silver" },
-      { name: "정리 챔피언", tier: "gold" },
+      { name: "정리 챔피언", tier: "bronze" },
+      { name: "환경 지킴이", tier: "platinum" },
+      { name: "연속 달성자", tier: "diamond" },
     ],
   });
 
@@ -300,6 +300,8 @@ const MyPage: React.FC = () => {
                         ? "/images/gold_goblin.png"
                         : badge.tier === "platinum"
                         ? "/images/platinum.png"
+                        : badge.tier === "diamond"
+                        ? "/images/diamond.png"
                         : `/images/${badge.tier}.png`
                     }
                     alt={`${badge.name} 뱃지`}

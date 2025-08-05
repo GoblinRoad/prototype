@@ -80,6 +80,8 @@ const BadgeDetailViewModal: React.FC<BadgeDetailViewModalProps> = ({
         return "골드";
       case "platinum":
         return "플래티넘";
+      case "diamond":
+        return "다이아몬드";
       default:
         return "브론즈";
     }
@@ -125,6 +127,8 @@ const BadgeDetailViewModal: React.FC<BadgeDetailViewModalProps> = ({
                     ? "/images/gold_goblin.png"
                     : badge.tier === "platinum"
                     ? "/images/platinum.png"
+                    : badge.tier === "diamond"
+                    ? "/images/diamond.png"
                     : `/images/${badge.tier}.png`
                 }
                 alt={`${getTierName(badge.tier)} 뱃지`}

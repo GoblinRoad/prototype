@@ -53,7 +53,7 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       description: "총 50개의 쓰레기를 수거했습니다",
       icon: "🌱",
       category: "environment",
-      tier: "gold",
+      tier: "platinum",
       isObtained: true,
       obtainedDate: "2024-01-01",
     },
@@ -63,7 +63,7 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       description: "7일 연속으로 플로깅을 완료했습니다",
       icon: "🔥",
       category: "achievement",
-      tier: "silver",
+      tier: "diamond",
       isObtained: true,
       obtainedDate: "2023-12-25",
     },
@@ -182,6 +182,8 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
         return "골드";
       case "platinum":
         return "플래티넘";
+      case "diamond":
+        return "다이아몬드";
       default:
         return "브론즈";
     }
@@ -238,6 +240,8 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
                             ? "/images/gold_goblin.png"
                             : badge.tier === "platinum"
                             ? "/images/platinum.png"
+                            : badge.tier === "diamond"
+                            ? "/images/diamond.png"
                             : `/images/${badge.tier}.png`
                         }
                         alt={`${getTierName(badge.tier)} 뱃지`}
@@ -296,6 +300,8 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
                             ? "/images/gold_goblin.png"
                             : badge.tier === "platinum"
                             ? "/images/platinum.png"
+                            : badge.tier === "diamond"
+                            ? "/images/diamond.png"
                             : `/images/${badge.tier}.png`
                         }
                         alt={`${getTierName(badge.tier)} 뱃지`}
