@@ -15,6 +15,9 @@ import PreferencesOnboardingPage from "@/pages/onboarding/PreferencesOnboardingP
 import EnvironmentalNewsPage from "@/pages/news/EnvironmentalNewsPage";
 import NewsDetailPage from "@/pages/news/NewsDetailPage.tsx";
 import HelpSupportPage from "@/pages/help/HelpSupportPage";
+import PrivacySecurityPage from "@/pages/accounts/PrivacySecurityPage";
+import PrivacyPolicyPage from "@/pages/accounts/PrivacyPolicyPage";
+import AppPermissionsPage from "@/pages/accounts/AppPermissionsPage";
 
 const routes: RouteObject[] = [
   {
@@ -78,10 +81,22 @@ const routes: RouteObject[] = [
         path: "help-support",
         element: <HelpSupportPage />,
       },
+      {
+        path: "privacy-security",
+        element: <PrivacySecurityPage />,
+      },
+      {
+        path: "privacy-policy",
+        element: <PrivacyPolicyPage />,
+      },
+      {
+        path: "app-permissions",
+        element: <AppPermissionsPage />,
+      },
     ],
   },
 ];
 
-const router = createBrowserRouter(routes)
+const router = createBrowserRouter(routes);
 
-export default router
+export default router;

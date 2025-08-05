@@ -21,7 +21,6 @@ import {
 import type { UserProfile } from "@/types";
 import ProfileEditModal from "@/components/accounts/ProfileEditModal";
 import ActivityHistoryModal from "@/components/accounts/ActivityHistoryModal";
-import AccountSettingsModal from "@/components/accounts/AccountSettingsModal";
 import LoginModal from "@/components/accounts/LoginModal";
 import LogoutConfirmModal from "@/components/accounts/LogoutConfirmModal";
 import BubbleAnimation from "@/components/accounts/BubbleAnimation";
@@ -33,7 +32,6 @@ const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showActivityHistory, setShowActivityHistory] = useState(false);
-  const [showAccountSettings, setShowAccountSettings] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showBadgeDetail, setShowBadgeDetail] = useState(false);
@@ -81,14 +79,6 @@ const MyPage: React.FC = () => {
     setShowLogoutConfirm(false);
   };
 
-  // 회원탈퇴 핸들러
-  const handleWithdraw = () => {
-    // 실제로는 회원탈퇴 API 호출
-    console.log("회원탈퇴 처리");
-    setIsLoggedIn(false);
-    setShowAccountSettings(false);
-  };
-
   // 소셜 로그인 핸들러
   const handleSocialLogin = (provider: "kakao" | "google") => {
     // 실제로는 소셜 로그인 API 호출
@@ -102,7 +92,6 @@ const MyPage: React.FC = () => {
   };
 
   const menuItems = [
-    { icon: Settings, label: "계정 설정", hasChevron: true },
     { icon: Shield, label: "개인정보 및 보안", hasChevron: true },
     { icon: HelpCircle, label: "도움말 및 지원", hasChevron: true },
     { icon: LogOut, label: "로그아웃", hasChevron: false, isDestructive: true },
@@ -380,8 +369,8 @@ const MyPage: React.FC = () => {
             <button
               key={index}
               onClick={() => {
-                if (item.label === "계정 설정") {
-                  setShowAccountSettings(true);
+                if (item.label === "개인정보 및 보안") {
+                  navigate("/privacy-security");
                 } else if (item.label === "도움말 및 지원") {
                   navigate("/help-support");
                 } else if (item.label === "로그아웃") {
@@ -435,13 +424,6 @@ const MyPage: React.FC = () => {
       <ActivityHistoryModal
         isOpen={showActivityHistory}
         onClose={() => setShowActivityHistory(false)}
-      />
-
-      {/* 계정 설정 모달 */}
-      <AccountSettingsModal
-        isOpen={showAccountSettings}
-        onClose={() => setShowAccountSettings(false)}
-        onWithdraw={handleWithdraw}
       />
 
       {/* 로그인 모달 */}

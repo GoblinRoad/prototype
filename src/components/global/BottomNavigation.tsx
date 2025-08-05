@@ -26,7 +26,13 @@ const BottomNavigation: React.FC<BottomNavigationProps> = () => {
     if (path.startsWith("/courses")) return "courses";
     if (path.startsWith("/rankings")) return "rankings";
     if (path.startsWith("/certification")) return "certification";
-    if (path.startsWith("/profile") || path.startsWith("/help-support"))
+    if (
+      path.startsWith("/profile") ||
+      path.startsWith("/help-support") ||
+      path.startsWith("/privacy-security") ||
+      path.startsWith("/privacy-policy") ||
+      path.startsWith("/app-permissions")
+    )
       return "profile";
     return "home"; // 기본값
   };
