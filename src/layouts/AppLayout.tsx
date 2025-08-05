@@ -7,6 +7,7 @@ const AppLayout: React.FC = () => {
   const location = useLocation();
   const mainRef = useRef<HTMLElement>(null);
   const isCertificationPage = location.pathname === "/certification";
+  const isLoginPage = location.pathname === "/login";
 
   // 라우트 변경 시 스크롤 초기화
   useEffect(() => {
@@ -20,7 +21,9 @@ const AppLayout: React.FC = () => {
       <main
         ref={mainRef}
         className={`flex-1 max-w-md mx-auto w-full ${
-          isCertificationPage ? "overflow-hidden" : "overflow-y-auto pb-20"
+          isCertificationPage || isLoginPage
+            ? "overflow-hidden"
+            : "overflow-y-auto pb-20"
         }`}
       >
         <Outlet />

@@ -31,7 +31,8 @@ const BottomNavigation: React.FC<BottomNavigationProps> = () => {
       path.startsWith("/help-support") ||
       path.startsWith("/privacy-security") ||
       path.startsWith("/privacy-policy") ||
-      path.startsWith("/app-permissions")
+      path.startsWith("/app-permissions") ||
+      path.startsWith("/login")
     )
       return "profile";
     return "home"; // 기본값

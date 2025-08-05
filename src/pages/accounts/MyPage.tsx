@@ -21,7 +21,6 @@ import {
 import type { UserProfile } from "@/types";
 import ProfileEditModal from "@/components/accounts/ProfileEditModal";
 import ActivityHistoryModal from "@/components/accounts/ActivityHistoryModal";
-import LoginModal from "@/components/accounts/LoginModal";
 import LogoutConfirmModal from "@/components/accounts/LogoutConfirmModal";
 import BubbleAnimation from "@/components/accounts/BubbleAnimation";
 import BadgeDetailModal from "@/components/accounts/BadgeDetailModal";
@@ -32,7 +31,6 @@ const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showActivityHistory, setShowActivityHistory] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showBadgeDetail, setShowBadgeDetail] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true); // 실제로는 로컬스토리지나 쿠키에서 확인
@@ -79,14 +77,6 @@ const MyPage: React.FC = () => {
     setShowLogoutConfirm(false);
   };
 
-  // 소셜 로그인 핸들러
-  const handleSocialLogin = (provider: "kakao" | "google") => {
-    // 실제로는 소셜 로그인 API 호출
-    console.log(`${provider} 로그인 처리`);
-    setIsLoggedIn(true);
-    setShowLoginModal(false);
-  };
-
   const handleEditPreferences = () => {
     navigate("/preferences/setup");
   };
@@ -97,60 +87,10 @@ const MyPage: React.FC = () => {
     { icon: LogOut, label: "로그아웃", hasChevron: false, isDestructive: true },
   ];
 
-  // 로그인되지 않은 경우 로그인 화면 표시
+  // 로그인되지 않은 경우 로그인 페이지로 이동
   if (!isLoggedIn) {
-    return (
-      <div className="fixed inset-0 bg-gray-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl w-full max-w-sm p-8 text-center">
-          <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <User className="w-10 h-10 text-emerald-600" />
-          </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            로그인이 필요합니다
-          </h1>
-          <p className="text-gray-600 mb-8">
-            소셜 계정으로 간편하게 로그인하세요
-          </p>
-
-          <div className="space-y-4">
-            {/* 카카오 로그인 */}
-            <button
-              onClick={() => handleSocialLogin("kakao")}
-              className="w-full flex items-center justify-center px-6 py-4 bg-[#FEE500] hover:bg-[#FDD800] text-black font-medium rounded-xl transition-colors shadow-sm"
-            >
-              <div className="flex items-center justify-center w-full max-w-xs">
-                <img
-                  src="/images/kakaotalk_logo_icon.png"
-                  alt="카카오 로고"
-                  className="w-8 h-8 object-contain"
-                />
-                <span className="ml-3 text-center">카카오로 로그인</span>
-              </div>
-            </button>
-
-            {/* 구글 로그인 */}
-            <button
-              onClick={() => handleSocialLogin("google")}
-              className="w-full flex items-center justify-center px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-xl transition-colors shadow-sm border border-gray-300"
-            >
-              <div className="flex items-center justify-center w-full max-w-xs">
-                <img
-                  src="/images/google_logo_icon.png"
-                  alt="구글 로고"
-                  className="w-8 h-8 object-contain"
-                />
-                <span className="ml-3 text-center">구글로 로그인</span>
-              </div>
-            </button>
-          </div>
-
-          <p className="text-xs text-gray-500 mt-6">
-            로그인 시 개인정보 처리방침과 이용약관에 <br /> 동의하는 것으로
-            간주됩니다
-          </p>
-        </div>
-      </div>
-    );
+    navigate("/login");
+    return null;
   }
 
   return (
@@ -424,13 +364,6 @@ const MyPage: React.FC = () => {
       <ActivityHistoryModal
         isOpen={showActivityHistory}
         onClose={() => setShowActivityHistory(false)}
-      />
-
-      {/* 로그인 모달 */}
-      <LoginModal
-        isOpen={showLoginModal}
-        onClose={() => setShowLoginModal(false)}
-        onLogin={handleSocialLogin}
       />
 
       {/* 로그아웃 확인 모달 */}

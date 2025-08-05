@@ -18,6 +18,7 @@ import HelpSupportPage from "@/pages/help/HelpSupportPage";
 import PrivacySecurityPage from "@/pages/accounts/PrivacySecurityPage";
 import PrivacyPolicyPage from "@/pages/accounts/PrivacyPolicyPage";
 import AppPermissionsPage from "@/pages/accounts/AppPermissionsPage";
+import LoginPage from "@/pages/accounts/LoginPage";
 
 const routes: RouteObject[] = [
   {
@@ -92,6 +93,14 @@ const routes: RouteObject[] = [
       {
         path: "app-permissions",
         element: <AppPermissionsPage />,
+      },
+      {
+        path: "login",
+        element: (
+          <LoginPage
+            onLogin={(provider) => console.log(`${provider} 로그인 처리`)}
+          />
+        ),
       },
     ],
   },
