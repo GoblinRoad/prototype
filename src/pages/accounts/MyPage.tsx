@@ -88,8 +88,13 @@ const MyPage: React.FC = () => {
   ];
 
   // 로그인되지 않은 경우 로그인 페이지로 이동
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+  }, [isLoggedIn, navigate]);
+
   if (!isLoggedIn) {
-    navigate("/login");
     return null;
   }
 
