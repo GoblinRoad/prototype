@@ -2,15 +2,7 @@
 
 import type React from "react";
 import { useState, useRef, useEffect } from "react";
-import {
-  X,
-  Camera,
-  Trash2,
-  User,
-  Check,
-  AlertCircle,
-  Loader2,
-} from "lucide-react";
+import { X, RefreshCw, User, Check, AlertCircle, Loader2 } from "lucide-react";
 import type { UserProfile } from "@/types";
 
 interface ProfileEditModalProps {
@@ -48,8 +40,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
   const [isCheckingName, setIsCheckingName] = useState(false);
   const [nameAvailable, setNameAvailable] = useState<boolean | null>(null);
   const [imageError, setImageError] = useState("");
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [showImageSelector, setShowImageSelector] = useState(false);
 
   // 닉네임 중복 검사
   const checkNameAvailability = async (name: string) => {
@@ -91,70 +82,24 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
     }
   };
 
-  // 이미지 업로드 핸들러
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    // 파일 크기 검증 (5MB 제한)
-    const maxSize = 5 * 1024 * 1024; // 5MB
-    if (file.size > maxSize) {
-      setImageError("파일 크기는 5MB 이하여야 합니다.");
-      return;
-    }
-
-    // 파일 확장자 검증
-    const allowedTypes = [
-      "image/jpeg",
-      "image/jpg",
-      "image/png",
-      "image/webp",
-      "image/gif",
-    ];
-
-    if (!allowedTypes.includes(file.type)) {
-      setImageError("JPG, PNG, WebP, GIF 형식만 지원됩니다.");
-      return;
-    }
-
-    // 파일명에서 확장자 확인 (추가 검증)
-    const fileName = file.name.toLowerCase();
-    const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp", ".gif"];
-    const hasValidExtension = allowedExtensions.some((ext) =>
-      fileName.endsWith(ext)
-    );
-
-    if (!hasValidExtension) {
-      setImageError("JPG, PNG, WebP, GIF 형식만 지원됩니다.");
-      return;
-    }
-
-    setImageError(""); // 에러 초기화
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const result = e.target?.result as string;
-      setFormData((prev) => ({ ...prev, avatar: result }));
-    };
-    reader.readAsDataURL(file);
+  // 깨비 이미지 선택 핸들러
+  const handleImageSelect = (imagePath: string) => {
+    setFormData((prev) => ({ ...prev, avatar: imagePath }));
+    setImageError("");
   };
+
+  // 사용 가능한 깨비 이미지 목록
+  const goblinImages = [
+    "/images/blue-goblin.png",
+    "/images/red-goblin.png",
+    "/images/green-goblin.png",
+    "/images/purple-goblin.png",
+  ];
 
   // 기본 이미지인지 확인하는 함수
   const isDefaultImage = (avatar: string) => {
     // 기본 이미지 URL 패턴이나 기본값 확인
     return !avatar || avatar === "" || avatar === userProfile.avatar;
-  };
-
-  // 사용자가 업로드한 이미지인지 확인하는 함수
-  const isUserUploadedImage = (avatar: string) => {
-    // base64 데이터 URL인지 확인 (사용자가 업로드한 이미지)
-    return avatar && avatar.startsWith("data:image/");
-  };
-
-  // 이미지 삭제 핸들러
-  const handleImageDelete = () => {
-    setFormData((prev) => ({ ...prev, avatar: "" }));
-    setImageError(""); // 에러 초기화
   };
 
   // 저장 핸들러
@@ -221,35 +166,19 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                 )}
               </div>
 
-              {/* 이미지 편집 버튼들 */}
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
+              {/* 이미지 편집 버튼 */}
+              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
                 <button
-                  onClick={() => fileInputRef.current?.click()}
+                  onClick={() => setShowImageSelector(true)}
                   className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg hover:bg-emerald-600 transition-colors"
                 >
-                  <Camera className="w-4 h-4 text-white" />
+                  <RefreshCw className="w-4 h-4 text-white" />
                 </button>
-                {formData.avatar && isUserUploadedImage(formData.avatar) && (
-                  <button
-                    onClick={handleImageDelete}
-                    className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 transition-colors"
-                  >
-                    <Trash2 className="w-4 h-4 text-white" />
-                  </button>
-                )}
               </div>
             </div>
 
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".jpg,.jpeg,.png,.webp,.gif"
-              onChange={handleImageUpload}
-              className="hidden"
-            />
-
             <p className="text-sm text-gray-500">
-              프로필 이미지를 변경하거나 삭제할 수 있습니다
+              깨비 이미지 중에서 선택할 수 있습니다
             </p>
 
             {/* 이미지 에러 메시지 */}
@@ -356,6 +285,52 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
           </div>
         </div>
       </div>
+
+      {/* 이미지 선택기 모달 */}
+      {showImageSelector && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm overflow-hidden">
+            {/* 헤더 */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-100">
+              <h3 className="text-lg font-semibold text-gray-900">
+                깨비 이미지 선택
+              </h3>
+              <button
+                onClick={() => setShowImageSelector(false)}
+                className="p-2 hover:bg-gray-100 rounded-xl transition-colors"
+              >
+                <X className="w-5 h-5 text-gray-600" />
+              </button>
+            </div>
+
+            {/* 이미지 선택 그리드 */}
+            <div className="p-6">
+              <div className="grid grid-cols-2 gap-4">
+                {goblinImages.map((imagePath, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      handleImageSelect(imagePath);
+                      setShowImageSelector(false);
+                    }}
+                    className={`p-4 rounded-xl border-2 transition-all ${
+                      formData.avatar === imagePath
+                        ? "border-emerald-500 bg-emerald-50"
+                        : "border-gray-200 hover:border-emerald-300 hover:bg-emerald-50"
+                    }`}
+                  >
+                    <img
+                      src={imagePath}
+                      alt={`깨비 ${index + 1}`}
+                      className="w-full h-24 object-contain"
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

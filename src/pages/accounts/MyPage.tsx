@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import type { UserProfile } from "@/types";
 import ProfileEditModal from "@/components/accounts/ProfileEditModal";
-import ActivityHistoryModal from "@/components/accounts/ActivityHistoryModal";
+
 import LogoutConfirmModal from "@/components/accounts/LogoutConfirmModal";
 import BubbleAnimation from "@/components/accounts/BubbleAnimation";
 import BadgeDetailModal from "@/components/accounts/BadgeDetailModal";
@@ -30,7 +30,7 @@ import type { UserPreferences } from "@/types";
 const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const [showEditProfile, setShowEditProfile] = useState(false);
-  const [showActivityHistory, setShowActivityHistory] = useState(false);
+
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showBadgeDetail, setShowBadgeDetail] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true); // 실제로는 로컬스토리지나 쿠키에서 확인
@@ -88,8 +88,13 @@ const MyPage: React.FC = () => {
   ];
 
   // 로그인되지 않은 경우 로그인 페이지로 이동
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+  }, [isLoggedIn, navigate]);
+
   if (!isLoggedIn) {
-    navigate("/login");
     return null;
   }
 
@@ -175,7 +180,7 @@ const MyPage: React.FC = () => {
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-semibold text-gray-900">최근 활동</h3>
             <button
-              onClick={() => setShowActivityHistory(true)}
+              onClick={() => navigate("/activity-history")}
               className="text-emerald-600 text-sm font-medium hover:text-emerald-700 transition-colors"
             >
               전체보기
@@ -388,12 +393,6 @@ const MyPage: React.FC = () => {
         isOpen={showEditProfile}
         onClose={() => setShowEditProfile(false)}
         onSave={handleSaveProfile}
-      />
-
-      {/* 활동 내역 모달 */}
-      <ActivityHistoryModal
-        isOpen={showActivityHistory}
-        onClose={() => setShowActivityHistory(false)}
       />
 
       {/* 로그아웃 확인 모달 */}

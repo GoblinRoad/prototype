@@ -194,7 +194,7 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-hidden">
+      <div className="bg-white rounded-2xl w-full max-w-sm max-h-[85vh] overflow-hidden">
         {/* 헤더 */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <div>
@@ -212,7 +212,7 @@ const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
         </div>
 
         {/* 뱃지 목록 */}
-        <div className="overflow-y-auto max-h-[calc(90vh-140px)]">
+        <div className="overflow-y-auto max-h-[calc(85vh-140px)]">
           {/* 보유 뱃지 섹션 */}
           {obtainedBadges.length > 0 && (
             <div className="p-6">
