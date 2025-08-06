@@ -30,6 +30,11 @@ export const TopThreeRanking: React.FC<RankingListProps> = ({ users, onUserClick
                                 alt="2등"
                                 className="w-16 h-16 rounded-full object-cover ring-4 ring-gray-400 cursor-pointer"
                             />
+                            <img
+                                src="/images/rank_silver.png"
+                                alt="silver medal"
+                                className="absolute top-[30px] left-1/2 -translate-x-1/2 w-24 h-auto z-10 pointer-events-none"
+                            />
                             <div className="absolute -top-1 -right-1 w-6 h-6 bg-gray-500 rounded-full flex items-center justify-center">
                                 <span className="text-white text-xs font-bold">2</span>
                             </div>
@@ -54,6 +59,11 @@ export const TopThreeRanking: React.FC<RankingListProps> = ({ users, onUserClick
                                 alt="1등"
                                 className="w-20 h-20 rounded-full object-cover ring-4 ring-yellow-400 cursor-pointer"
                             />
+                            <img
+                                src="/images/rank_gold.png"
+                                alt="silver medal"
+                                className="absolute top-[40px] left-1/2 -translate-x-1/2 w-24 h-auto z-10 pointer-events-none"
+                            />
                             <div className="absolute -top-1 -right-1 w-7 h-7 bg-yellow-500 rounded-full flex items-center justify-center">
                                 <span className="text-white text-sm font-bold">1</span>
                             </div>
@@ -77,6 +87,11 @@ export const TopThreeRanking: React.FC<RankingListProps> = ({ users, onUserClick
                                 src={third.avatar}
                                 alt="3등"
                                 className="w-16 h-16 rounded-full object-cover ring-4 ring-orange-400 cursor-pointer"
+                            />
+                            <img
+                                src="/images/rank_bronze.png"
+                                alt="silver medal"
+                                className="absolute top-[30px] left-1/2 -translate-x-1/2 w-24 h-auto z-10 pointer-events-none"
                             />
                             <div className="absolute -top-1 -right-1 w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
                                 <span className="text-white text-xs font-bold">3</span>
