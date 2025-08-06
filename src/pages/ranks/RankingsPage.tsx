@@ -15,70 +15,70 @@ const RankingsPage: React.FC = () => {
     {
       id: '1',
       name: '김김김',
-      avatar: 'src/assets/rank_first.png',
+      avatar: '/images/red-goblin.png',
       stats: { distance: 89.2, cleanups: 156, points: 245 },
       rank: 1
     },
     {
       id: '2',
       name: '민민민',
-      avatar: 'src/assets/rank_second.png',
+      avatar: '/images/blue-goblin.png',
       stats: { distance: 76.8, cleanups: 142, points: 256 },
       rank: 2
     },
     {
       id: '3',
       name: '우우우',
-      avatar: 'src/assets/rank_third.png',
+      avatar: '/images/green-goblin.png',
       stats: { distance: 72.1, cleanups: 128, points: 236 },
       rank: 3
     },
     {
       id: '4',
       name: '귀귀귀',
-      avatar: 'src/assets/blue.png',
+      avatar: '/images/blue-goblin.png',
       stats: { distance: 68.5, cleanups: 134, points: 230 },
       rank: 4
     },
     {
       id: '5',
       name: '태태태',
-      avatar: 'src/assets/red.png',
+      avatar: '/images/red-goblin.png',
       stats: { distance: 64.3, cleanups: 119, points: 183 },
       rank: 5
     },
     {
       id: '6',
       name: '초코',
-      avatar: 'src/assets/green.png',
+      avatar: '/images/green-goblin.png',
       stats: { distance: 62.1, cleanups: 115, points: 177 },
       rank: 6
     },
     {
       id: '7',
       name: '윤성호',
-      avatar: 'src/assets/red.png',
+      avatar: '/images/red-goblin.png',
       stats: { distance: 59.8, cleanups: 108, points: 165 },
       rank: 7
     },
     {
       id: '8',
       name: '한지원',
-      avatar: 'src/assets/green.png',
+      avatar: '/images/green-goblin.png',
       stats: { distance: 57.2, cleanups: 102, points: 155 },
       rank: 8
     },
     {
       id: '9',
       name: '조민석',
-      avatar: 'src/assets/purple.png',
+      avatar: '/images/purple-goblin.png',
       stats: { distance: 54.6, cleanups: 98, points: 150 },
       rank: 9
     },
     {
       id: '10',
       name: '강예은',
-      avatar: 'src/assets/blue.png',
+      avatar: '/images/blue-goblin.png',
       stats: { distance: 52.3, cleanups: 94, points: 145 },
       rank: 10
     },
@@ -86,7 +86,7 @@ const RankingsPage: React.FC = () => {
     {
       id: '11',
       name: '김철수',
-      avatar: 'src/assets/purple.png',
+      avatar: '/images/purple-goblin.png',
       stats: { distance: 48.9, cleanups: 87, points: 124 },
       rank: 124
     }
