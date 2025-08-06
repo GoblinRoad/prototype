@@ -13,6 +13,7 @@ import {
 const PrivacySecurityPage: React.FC = () => {
   const navigate = useNavigate();
   const [showWithdrawConfirm, setShowWithdrawConfirm] = useState(false);
+  const [isAgreed, setIsAgreed] = useState(false);
 
   const handleWithdraw = () => {
     // 실제로는 회원탈퇴 API 호출
@@ -159,7 +160,10 @@ const PrivacySecurityPage: React.FC = () => {
             {/* 헤더 */}
             <div className="flex justify-end p-4">
               <button
-                onClick={() => setShowWithdrawConfirm(false)}
+                onClick={() => {
+                  setShowWithdrawConfirm(false);
+                  setIsAgreed(false);
+                }}
                 className="p-2 hover:bg-gray-100 rounded-xl transition-colors"
               >
                 <X className="w-5 h-5 text-gray-600" />
@@ -211,6 +215,8 @@ const PrivacySecurityPage: React.FC = () => {
                 <input
                   type="checkbox"
                   id="withdraw-agreement"
+                  checked={isAgreed}
+                  onChange={(e) => setIsAgreed(e.target.checked)}
                   className="mt-1 mr-3 w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 focus:ring-2"
                 />
                 <label
@@ -224,14 +230,22 @@ const PrivacySecurityPage: React.FC = () => {
               {/* 버튼 */}
               <div className="flex space-x-3">
                 <button
-                  onClick={() => setShowWithdrawConfirm(false)}
+                  onClick={() => {
+                    setShowWithdrawConfirm(false);
+                    setIsAgreed(false);
+                  }}
                   className="flex-1 px-4 py-3 border border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-colors"
                 >
                   취소
                 </button>
                 <button
                   onClick={handleWithdraw}
-                  className="flex-1 px-4 py-3 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition-colors"
+                  disabled={!isAgreed}
+                  className={`flex-1 px-4 py-3 rounded-xl font-medium transition-colors ${
+                    isAgreed
+                      ? "bg-red-600 text-white hover:bg-red-700"
+                      : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  }`}
                 >
                   회원탈퇴
                 </button>
