@@ -218,7 +218,7 @@ const BadgeCollectionPage: React.FC = () => {
                     <img
                       src={
                         badge.tier === "gold"
-                          ? "/images/gold_goblin.png"
+                          ? "/images/gold.png"
                           : badge.tier === "platinum"
                           ? "/images/platinum.png"
                           : badge.tier === "diamond"
@@ -287,7 +287,7 @@ const BadgeCollectionPage: React.FC = () => {
                     <img
                       src={
                         badge.tier === "gold"
-                          ? "/images/gold_goblin.png"
+                          ? "/images/gold.png"
                           : badge.tier === "platinum"
                           ? "/images/platinum.png"
                           : badge.tier === "diamond"

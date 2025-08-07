@@ -52,7 +52,7 @@ const BadgeDetailViewModal: React.FC<BadgeDetailViewModalProps> = ({
             <img
               src={
                 badge.tier === "gold"
-                  ? "/images/gold_goblin.png"
+                  ? "/images/gold.png"
                   : badge.tier === "platinum"
                   ? "/images/platinum.png"
                   : badge.tier === "diamond"
