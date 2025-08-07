@@ -20,6 +20,7 @@ import PrivacyPolicyPage from "@/pages/accounts/PrivacyPolicyPage";
 import AppPermissionsPage from "@/pages/accounts/AppPermissionsPage";
 import LoginPage from "@/pages/accounts/LoginPage";
 import ActivityHistoryPage from "@/pages/accounts/ActivityHistoryPage";
+import LocationDetailPage from "@/pages/location/LocationDetailPage";
 
 const routes: RouteObject[] = [
   {
@@ -40,7 +41,7 @@ const routes: RouteObject[] = [
       },
       {
         path: "location/:locationId",
-        element: <CourseDetailPage />, // 임시로 같은 페이지 사용
+        element: <LocationDetailPage />,
       },
       {
         path: "rankings",
