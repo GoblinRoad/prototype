@@ -20,6 +20,7 @@ import PrivacyPolicyPage from "@/pages/accounts/PrivacyPolicyPage";
 import AppPermissionsPage from "@/pages/accounts/AppPermissionsPage";
 import LoginPage from "@/pages/accounts/LoginPage";
 import ActivityHistoryPage from "@/pages/accounts/ActivityHistoryPage";
+import LocationDetailPage from "@/pages/location/LocationDetailPage";
 
 const routes: RouteObject[] = [
   {
@@ -37,6 +38,10 @@ const routes: RouteObject[] = [
       {
         path: "courses/:courseId",
         element: <CourseDetailPage />,
+      },
+      {
+        path: "location/:locationId",
+        element: <LocationDetailPage />,
       },
       {
         path: "rankings",
