@@ -23,7 +23,7 @@ import ProfileEditModal from "@/components/accounts/ProfileEditModal";
 
 import LogoutConfirmModal from "@/components/accounts/LogoutConfirmModal";
 import BubbleAnimation from "@/components/accounts/BubbleAnimation";
-import BadgeDetailModal from "@/components/accounts/BadgeDetailModal";
+
 import PreferencesSummary from "@/components/preferences/PreferencesSummary";
 import type { UserPreferences } from "@/types";
 
@@ -32,7 +32,6 @@ const MyPage: React.FC = () => {
   const [showEditProfile, setShowEditProfile] = useState(false);
 
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
-  const [showBadgeDetail, setShowBadgeDetail] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true); // 실제로는 로컬스토리지나 쿠키에서 확인
   const [userProfile, setUserProfile] = useState<UserProfile>({
     id: "1",
@@ -324,7 +323,7 @@ const MyPage: React.FC = () => {
               {/* 버튼 - 뱃지와 동일한 크기 */}
               <button
                 className="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center mb-2 border-2 border-dashed border-gray-400 hover:border-gray-500 hover:bg-gray-300 transition-colors"
-                onClick={() => setShowBadgeDetail(true)}
+                onClick={() => navigate("/badge-collection")}
               >
                 <Plus className="w-6 h-6 text-gray-600" />
               </button>
@@ -400,12 +399,6 @@ const MyPage: React.FC = () => {
         isOpen={showLogoutConfirm}
         onClose={() => setShowLogoutConfirm(false)}
         onConfirm={handleLogout}
-      />
-
-      {/* 뱃지 상세 모달 */}
-      <BadgeDetailModal
-        isOpen={showBadgeDetail}
-        onClose={() => setShowBadgeDetail(false)}
       />
     </div>
   );
