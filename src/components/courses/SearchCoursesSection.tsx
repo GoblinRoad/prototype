@@ -2,7 +2,7 @@
 
 import type React from "react";
 import { useState } from "react";
-import { Search, Filter, Mountain, Waves, Building } from "lucide-react";
+import { Search } from "lucide-react";
 import type { Course } from "../../types";
 import CourseCard from "./CourseCard";
 
@@ -17,9 +17,7 @@ const SearchCoursesSection: React.FC<SearchCoursesSectionProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("전체");
-  const [selectedTheme, setSelectedTheme] = useState("전체");
   const [selectedDifficulty, setSelectedDifficulty] = useState("전체");
-  const [selectedTimes, setSelectedTimes] = useState("전체");
 
   // 지역 옵션
   const regions = [
@@ -43,33 +41,8 @@ const SearchCoursesSection: React.FC<SearchCoursesSectionProps> = ({
     "제주",
   ];
 
-  // 테마 옵션
-  const themes = [
-    { value: "전체", label: "전체", icon: null },
-    { value: "산", label: "산/숲", icon: Mountain },
-    { value: "바다", label: "바다", icon: Waves },
-    { value: "도시", label: "도시", icon: Building },
-  ];
-
-  // 시간간 옵션
-  const times = [
-    { value: "전체", label: "전체", icon: null },
-    { value: "3시간 이내", label: "3", icon: Mountain },
-    { value: "5시간", label: "5", icon: Waves },
-    { value: "7시간 이상", label: "7", icon: Building },
-  ];
-
   // 난이도 옵션
   const difficulties = ["전체", "쉬움", "보통", "어려움"];
-
-  const getThemeIcon = (theme: string) => {
-    const themeObj = themes.find((t) => t.value === theme);
-    if (themeObj?.icon) {
-      const IconComponent = themeObj.icon;
-      return <IconComponent className="w-4 h-4" />;
-    }
-    return null;
-  };
 
   const filteredCourses = allCourses.filter((course) => {
     const matchesSearch =
@@ -79,10 +52,6 @@ const SearchCoursesSection: React.FC<SearchCoursesSectionProps> = ({
       selectedRegion === "전체" || course.location.includes(selectedRegion);
     const matchesDifficulty =
       selectedDifficulty === "전체" || course.difficulty === selectedDifficulty;
-    // TODO: 테마 필터링 로직 추가 (현재 Course 타입에 테마 정보 없음)
-    // const matchesTheme = selectedTheme === '전체' || course.theme === selectedTheme;
-    // const matchesTimes = selectedTimes === "전체" || course.times === selectedTimes;
-
     return matchesSearch && matchesRegion && matchesDifficulty; // && matchesTheme && matchesTimes;
   });
 
@@ -106,29 +75,6 @@ const SearchCoursesSection: React.FC<SearchCoursesSectionProps> = ({
               </option>
             ))}
           </select>
-        </div>
-
-        {/* 테마 선택 */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            테마
-          </label>
-          <div className="flex space-x-2">
-            {themes.map((theme) => (
-              <button
-                key={theme.value}
-                onClick={() => setSelectedTheme(theme.value)}
-                className={`flex-1 py-2 px-3 text-sm font-medium rounded-lg transition-colors flex items-center justify-center space-x-1 ${
-                  selectedTheme === theme.value
-                    ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                {getThemeIcon(theme.value)}
-                <span className="text-sm font-medium">{theme.label}</span>
-              </button>
-            ))}
-          </div>
         </div>
 
         {/* 난이도 선택 */}
