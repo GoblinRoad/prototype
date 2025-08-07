@@ -20,6 +20,7 @@ import PrivacyPolicyPage from "@/pages/accounts/PrivacyPolicyPage";
 import AppPermissionsPage from "@/pages/accounts/AppPermissionsPage";
 import LoginPage from "@/pages/accounts/LoginPage";
 import ActivityHistoryPage from "@/pages/accounts/ActivityHistoryPage";
+import BadgeCollectionPage from "@/pages/accounts/BadgeCollectionPage";
 import LocationDetailPage from "@/pages/location/LocationDetailPage";
 
 const routes: RouteObject[] = [
@@ -111,6 +112,10 @@ const routes: RouteObject[] = [
       {
         path: "activity-history",
         element: <ActivityHistoryPage />,
+      },
+      {
+        path: "badge-collection",
+        element: <BadgeCollectionPage />,
       },
     ],
   },
