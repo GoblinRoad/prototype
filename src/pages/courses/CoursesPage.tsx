@@ -1,22 +1,63 @@
-"use client"
-
-import type React from "react"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import type {Course, GroupEvent} from "@/types"
-import CoursesHeader from "@/components/courses/CoursesHeader"
-import CoursesTabNavigation from "@/components/courses/CoursesTabNavigation"
-import NearbyCoursesSection from "@/components/courses/NearbyCoursesSection"
-import SearchCoursesSection from "@/components/courses/SearchCoursesSection"
-import AiRecommendedCoursesSection from "@/components/courses/AiRecommendedCoursesSection"
-import GroupPloggingSection from "@/components/courses/GroupPloggingSection" // 새로운 컴포넌트 임포트
+import type React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import type { Course, GroupEvent, PloggingLocation } from "@/types";
+import CoursesHeader from "@/components/courses/CoursesHeader";
+import CoursesTabNavigation from "@/components/courses/CoursesTabNavigation";
+import NearbyPloggingLocationsSection from "@/components/courses/NearbyPloggingLocationsSection";
+import SearchCoursesSection from "@/components/courses/SearchCoursesSection";
+import AiRecommendedCoursesSection from "@/components/courses/AiRecommendedCoursesSection";
+import GroupPloggingSection from "@/components/courses/GroupPloggingSection";
 
 const CoursesPage: React.FC = () => {
-  const navigate = useNavigate()
-  const [activeTab, setActiveTab] = useState<"nearby" | "search" | "ai" | "group">("nearby") // 'group' 탭 추가
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<
+    "nearby" | "search" | "ai" | "group"
+  >("nearby");
 
-  // 현재 위치 기반 코스 (데이터는 CoursesPage에서 관리)
-  const nearbyCourses: Course[] = [
+  // 현재 위치 기반 플로깅 장소 (간소화된 데이터)
+  const nearbyPloggingLocations: PloggingLocation[] = [
+    {
+      id: "1",
+      name: "한강공원 여의도지구",
+      address: "서울특별시 영등포구 여의도동",
+      category: "공원",
+      rating: 4.8,
+      reviewCount: 324,
+      imageUrl: "https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg",
+      latitude: 37.5219,
+      longitude: 126.9338,
+      description: "한강이 한눈에 보이는 넓은 공원에서 여유로운 플로깅을 즐겨보세요.",
+    },
+    {
+      id: "2",
+      name: "청계천 광화문 구간",
+      address: "서울특별시 중구 세종대로",
+      category: "하천",
+      rating: 4.6,
+      reviewCount: 198,
+      imageUrl: "https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg",
+      latitude: 37.5696,
+      longitude: 126.9783,
+      description: "도심 속 맑은 하천을 따라 걸으며 환경을 생각하는 시간을 가져보세요.",
+    },
+    {
+      id: "3",
+      name: "올림픽공원",
+      address: "서울특별시 송파구 올림픽로",
+      category: "공원",
+      rating: 4.7,
+      reviewCount: 256,
+      imageUrl: "https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg",
+      latitude: 37.5215,
+      longitude: 127.1248,
+      description: "넓은 공원에서 다양한 활동과 함께 플로깅을 즐길 수 있습니다.",
+    },
+  ];
+
+  // 검색/필터링을 위한 전체 코스 (데이터는 CoursesPage에서 관리)
+  const allCourses: Course[] = [
+    // 기존 nearby 코스들을 Course 형태로 유지
     {
       id: "1",
       name: "한강공원 플로깅 코스",
@@ -47,11 +88,6 @@ const CoursesPage: React.FC = () => {
       cleanupSpots: 6,
       rating: 4.5,
     },
-  ]
-
-  // 검색/필터링을 위한 전체 코스 (데이터는 CoursesPage에서 관리)
-  const allCourses: Course[] = [
-    ...nearbyCourses,
     {
       id: "4",
       name: "남산 순환로",
@@ -82,7 +118,7 @@ const CoursesPage: React.FC = () => {
       cleanupSpots: 20,
       rating: 4.8,
     },
-  ]
+  ];
 
   // AI 추천 코스 (데이터는 CoursesPage에서 관리)
   const aiRecommendedCourses: Course[] = [
@@ -106,7 +142,7 @@ const CoursesPage: React.FC = () => {
       cleanupSpots: 11,
       rating: 4.8,
     },
-  ]
+  ];
 
   // 그룹 플로깅 이벤트 (임시 데이터)
   const groupEvents: GroupEvent[] = [
@@ -130,30 +166,48 @@ const CoursesPage: React.FC = () => {
       participants: 8,
       maxParticipants: 20,
       difficulty: "보통", // 이제 타입이 명확해짐
-      imageUrl: "https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=400",
+      imageUrl:
+        "https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=400",
     },
-  ]
+  ];
 
   const handleCourseClick = (courseId: string) => {
-    navigate(`/courses/${courseId}`)
-  }
+    navigate(`/courses/${courseId}`);
+  };
+
+  const handleLocationClick = (locationId: string) => {
+    navigate(`/location/${locationId}`);
+  };
 
   return (
-      <div className="min-h-screen bg-gray-50">
-        <CoursesHeader title="코스 찾기" />
-        <CoursesTabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
+    <div className="min-h-screen bg-gray-50">
+      <CoursesHeader title="코스 찾기" />
+      <CoursesTabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        <div className="pb-20">
-          {activeTab === "nearby" && <NearbyCoursesSection courses={nearbyCourses} onCourseClick={handleCourseClick} />}
-          {activeTab === "search" && <SearchCoursesSection allCourses={allCourses} onCourseClick={handleCourseClick} />}
-          {activeTab === "ai" && (
-              <AiRecommendedCoursesSection courses={aiRecommendedCourses} onCourseClick={handleCourseClick} />
-          )}
-          {/* '그룹 플로깅' 탭이 활성화될 때 렌더링될 새로운 섹션 */}
-          {activeTab === "group" && <GroupPloggingSection events={groupEvents} />}
-        </div>
+      <div className="pb-20">
+        {activeTab === "nearby" && (
+          <NearbyPloggingLocationsSection
+            locations={nearbyPloggingLocations}
+            onLocationClick={handleLocationClick}
+          />
+        )}
+        {activeTab === "search" && (
+          <SearchCoursesSection
+            allCourses={allCourses}
+            onCourseClick={handleCourseClick}
+          />
+        )}
+        {activeTab === "ai" && (
+          <AiRecommendedCoursesSection
+            courses={aiRecommendedCourses}
+            onCourseClick={handleCourseClick}
+          />
+        )}
+        {/* '그룹 플로깅' 탭이 활성화될 때 렌더링될 새로운 섹션 */}
+        {activeTab === "group" && <GroupPloggingSection events={groupEvents} />}
       </div>
-  )
-}
+    </div>
+  );
+};
 
-export default CoursesPage
+export default CoursesPage;

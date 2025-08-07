@@ -39,6 +39,10 @@ const routes: RouteObject[] = [
         element: <CourseDetailPage />,
       },
       {
+        path: "location/:locationId",
+        element: <CourseDetailPage />, // 임시로 같은 페이지 사용
+      },
+      {
         path: "rankings",
         element: <RankingsPage />,
       },
