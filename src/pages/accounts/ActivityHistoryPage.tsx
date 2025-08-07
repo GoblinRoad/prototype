@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
@@ -38,18 +38,11 @@ const ImageCarouselModal: React.FC<{
   onClose: () => void;
 }> = ({ images, onClose }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const nextImage = () => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  };
-
-  const prevImage = () => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const thumbnailRef = useRef<HTMLDivElement>(null);
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "ArrowLeft") prevImage();
-    if (e.key === "ArrowRight") nextImage();
     if (e.key === "Escape") onClose();
   };
 
@@ -57,6 +50,45 @@ const ImageCarouselModal: React.FC<{
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  // 터치 이벤트 핸들러
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe && currentIndex < images.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
+    if (isRightSwipe && currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
+  // 썸네일 스크롤 동기화
+  useEffect(() => {
+    if (thumbnailRef.current) {
+      const thumbnailWidth = 80; // 썸네일 너비 + gap
+      const scrollPosition = currentIndex * thumbnailWidth - thumbnailWidth * 2; // 중앙에 오도록
+      thumbnailRef.current.scrollTo({
+        left: Math.max(0, scrollPosition),
+        behavior: "smooth",
+      });
+    }
+  }, [currentIndex]);
 
   return (
     <div
@@ -89,17 +121,12 @@ const ImageCarouselModal: React.FC<{
 
         {/* 캐러셀 */}
         <div className="relative flex items-center justify-center p-8 flex-1 min-h-0">
-          <button
-            className={`absolute left-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors z-10 ${
-              images.length <= 1 ? "opacity-30 cursor-not-allowed" : ""
-            }`}
-            onClick={prevImage}
-            disabled={images.length <= 1}
+          <div
+            className="flex-1 flex justify-center items-center"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-
-          <div className="flex-1 flex justify-center items-center">
             <img
               src={images[currentIndex].imageUrl}
               alt={`쓰레기 ${currentIndex + 1}`}
@@ -110,16 +137,6 @@ const ImageCarouselModal: React.FC<{
               }}
             />
           </div>
-
-          <button
-            className={`absolute right-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors z-10 ${
-              images.length <= 1 ? "opacity-30 cursor-not-allowed" : ""
-            }`}
-            onClick={nextImage}
-            disabled={images.length <= 1}
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
         </div>
 
         {/* 인디케이터 */}
@@ -133,6 +150,7 @@ const ImageCarouselModal: React.FC<{
         {images.length > 1 && (
           <div className="p-4 border-t border-gray-200 flex-shrink-0">
             <div
+              ref={thumbnailRef}
               className="flex gap-2 overflow-x-auto pb-1 thumbnail-scroll"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
