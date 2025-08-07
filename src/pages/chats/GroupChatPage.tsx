@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import { ArrowLeft, Send, Paperclip, X } from "lucide-react"
-import profileImage from "#/defaultProfile.webp";
+// import profileImage from "#/defaultProfile.webp";
 
 interface Message {
     id: string

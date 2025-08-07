@@ -13,7 +13,7 @@ export const TrackingMenu: React.FC<TrackingMenuProps> = ({
   onStopPlogging
 }) => {
   return (
-    <div className="absolute left-1/2 transform -translate-x-1/2 z-40 text-center mobile-secondary-button-container">
+    <div className="absolute left-1/2 transform -translate-x-1/2 z-40 text-center bottom-52 sm:bottom-12 md:bottom-16 lg:bottom-12">
       <div className="space-y-3 mb-4">
         <button
           onClick={onTakePhoto}

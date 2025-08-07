@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { ArrowLeft, MapPin, Calendar, Users, Info, MessageSquare, CheckCircle, XCircle, Play } from "lucide-react"
 import type { GroupEvent, KakaoMapInstance } from "@/types"
-import profileImage from "#/defaultProfile.webp"
+// import profileImage from "#/defaultProfile.webp"
 
 const GroupEventDetailPage: React.FC = () => {
     const { eventId } = useParams<{ eventId: string }>()

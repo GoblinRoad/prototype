@@ -27,7 +27,7 @@ export const PloggingButton: React.FC<PloggingButtonProps> = ({
                     isTracking ? 'animate-pulse opacity-60' : 'opacity-0 group-hover:opacity-40'
                 }`} />
 
-                <div className={`absolute -inset-2 rounded-full border border-emerald-300 transition-all duration-700 ${
+                <div className={`absolute -inset-2 rounded-full border border-emerald-300 transition-all duration-2000 ${
                     isTracking ? 'animate-ping opacity-40' : 'opacity-0 group-hover:opacity-30'
                 }`} />
 

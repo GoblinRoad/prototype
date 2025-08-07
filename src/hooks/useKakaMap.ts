@@ -1,13 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
-
 export const useKakaoMap = () => {
   const [mapLoaded, setMapLoaded] = useState(false)
+  const [mapInitialized, setMapInitialized] = useState(false)
   const mapRef = useRef<HTMLDivElement>(null)
   const kakaoMapRef = useRef<any>(null)
   const customOverlayRef = useRef<any>(null)
@@ -103,31 +98,33 @@ export const useKakaoMap = () => {
 
       kakaoMapRef.current = new window.kakao.maps.Map(mapRef.current, options)
       updateLocationOverlay(position.lat, position.lng)
+      setMapInitialized(true)
     }
   }
 
   const moveToCurrentLocation = () => {
     if (navigator.geolocation && kakaoMapRef.current) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const newPosition = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          }
+          (position) => {
+            const newPosition = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            }
 
-          const moveLatLng = new window.kakao.maps.LatLng(newPosition.lat, newPosition.lng)
-          kakaoMapRef.current.setCenter(moveLatLng)
-          updateLocationOverlay(newPosition.lat, newPosition.lng)
-        },
-        (error) => {
-          console.log("위치 정보를 가져올 수 없습니다:", error)
-        },
+            const moveLatLng = new window.kakao.maps.LatLng(newPosition.lat, newPosition.lng)
+            kakaoMapRef.current.setCenter(moveLatLng)
+            updateLocationOverlay(newPosition.lat, newPosition.lng)
+          },
+          (error) => {
+            console.log("위치 정보를 가져올 수 없습니다:", error)
+          },
       )
     }
   }
 
   return {
     mapLoaded,
+    mapInitialized,
     mapRef,
     kakaoMapRef,
     initializeMap,
