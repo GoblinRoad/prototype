@@ -244,13 +244,14 @@ export interface KakaoMarkerInstance {
 }
 
 export interface KakaoMarker {
-  new (options: { position: KakaoLatLngInstance }): KakaoMarkerInstance
+  new (options: { position: KakaoLatLngInstance, map: KakaoMapInstance }): KakaoMarkerInstance
 }
 
 
 export interface KakaoMapInstance {
   setCenter: (latlng: KakaoLatLngInstance) => void
   setLevel: (level: number) => void
+  setBounds: (bounds: KakaoLatLngBoundsInstance) => void
   // 필요시 더 추가 가능
 }
 
@@ -264,6 +265,27 @@ export interface KakaoMap {
   ): KakaoMapInstance
 }
 
+export interface KakaoCustomOverlayInstance {
+  setMap: (map: KakaoMapInstance | null) => void
+  setPosition: (position: KakaoLatLngInstance) => void
+  getPosition: () => KakaoLatLngInstance
+  setContent: (content: string) => void
+  getContent: () => string
+  setVisible: (visible: boolean) => void
+  getVisible: () => boolean
+}
+
+export interface KakaoCustomOverlay {
+  new (options: {
+    map?: KakaoMapInstance
+    position: KakaoLatLngInstance
+    content: string
+    xAnchor?: number
+    yAnchor?: number
+    zIndex?: number
+  }): KakaoCustomOverlayInstance
+}
+
 
 export interface KakaoMaps {
   load: (callback: () => void) => void
@@ -271,6 +293,31 @@ export interface KakaoMaps {
   LatLng: KakaoLatLng
   Map: KakaoMap
   Marker: KakaoMarker
+  Polyline: KakaoPolyline
+  LatLngBounds: KakaoLatLngBounds
+  CustomOverlay: KakaoCustomOverlay
+}
+
+export interface KakaoPolylineInstance {
+  setMap: (map: KakaoMapInstance | null) => void
+}
+
+export interface KakaoPolyline {
+  new (options: {
+    path: KakaoLatLngInstance[]
+    strokeWeight?: number
+    strokeColor?: string
+    strokeOpacity?: number
+    strokeStyle?: string
+  }): KakaoPolylineInstance
+}
+
+export interface KakaoLatLngBoundsInstance {
+  extend: (latlng: KakaoLatLngInstance) => void
+}
+
+export interface KakaoLatLngBounds {
+  new (): KakaoLatLngBoundsInstance
 }
 
 declare global {
